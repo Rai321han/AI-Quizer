@@ -236,7 +236,9 @@ export const Quiz = memo(({ id }: { id: number }) => {
   return (
     <div
       key={quizData.no}
-      className="rounded-md bg-[#dcf8ff] p-5 flex flex-col gap-3"
+      className={`rounded-md ${
+        isEditing ? "bg-[#b3e5f1] border-1 border-zinc-400" : "bg-[#dcf8ff]"
+      }  p-5 flex flex-col gap-3`}
     >
       <div className="flex flex-row justify-between gap-2">
         <div className="flex flex-row grow gap-2">

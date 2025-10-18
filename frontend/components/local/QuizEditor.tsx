@@ -26,6 +26,13 @@ import {
 import { Quiz } from "./Quiz";
 import { set } from "date-fns";
 
+type QuizAPIType = {
+  title: string;
+  quiz: QuizType[];
+  scheduledAt: Date | null;
+  status: "scheduled" | "active" | "completed";
+};
+
 export default function QuizEditor({
   quiz,
   title,
@@ -34,7 +41,7 @@ export default function QuizEditor({
   title: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState<string>("10:30:00");
 
   const link = "http://quizzer.com/21378syda";
@@ -53,18 +60,17 @@ export default function QuizEditor({
         })
       : null;
 
-    const quizData = {
+    const quizData: QuizAPIType = {
       title: title,
       quiz: quiz,
       scheduledAt: scheduledDateTime,
+      status: "scheduled",
     };
-
-    console.log(quizData);
   }
 
   return (
     <>
-      <div className="flex flex-row flex-wrap gap-4 mb-3 items-end justify-between">
+      <div className="flex flex-row flex-wrap gap-4 mb-3 items-end justify-between ">
         <Dialog>
           <DialogTrigger asChild>
             <Button className="rounded-full" variant={"outline"}>
@@ -88,23 +94,57 @@ export default function QuizEditor({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="mb-3">Save and Share</DialogTitle>
-              <div className="flex flex-col gap-2 text-sm text-zinc-500 bg-gray-100 p-3 rounded-md">
+              <div className="flex flex-col gap-2 text-sm text-zinc-500 bg-[#f9f9f9] p-3 rounded-md">
                 <div className="font-semibold">Quiz: {title}</div>
-                <div className="border-t-1 border-zinc-400/70"></div>
+                <div className="border-t-1 border-zinc-300/70"></div>
                 <div className="flex flex-col">
-                  <div className="font-semibold">Total Questions</div>
-                  <div>{quiz.length}</div>
+                  <div className="flex flex-row gap-2 items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="fill-none stroke-zinc-500"
+                    >
+                      <path d="M13 5h8" />
+                      <path d="M13 12h8" />
+                      <path d="M13 19h8" />
+                      <path d="m3 17 2 2 4-4" />
+                      <rect x="3" y="4" width="6" height="6" rx="1" />
+                    </svg>
+                    <p>{quiz.length} Questions</p>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <div className="font-semibold">Schedule</div>
+                <div className="flex flex-row items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="fill-none stroke-zinc-500"
+                  >
+                    <path d="M8 2v4" />
+                    <path d="M16 2v4" />
+                    <rect width="18" height="18" x="3" y="4" rx="2" />
+                    <path d="M3 10h18" />
+                  </svg>
+
                   <div>{date?.toDateString()}</div>
                   <div>{time}</div>
                 </div>
               </div>
-              <DialogDescription>
-                Anyone who has this link will be able to join this quiz.
+              <DialogDescription className="mt-3 text-left">
+                Anyone with this link can perform this quiz.
               </DialogDescription>
-              <div className="p-2 rounded-md bg-gray-100 border-1 border-zinc-200 text-zinc-500 flex flex-row justify-between gap-1">
+              <div className="p-2 text-sm rounded-md  bg-[#f9f9f9]  border-1 border-zinc-200 text-zinc-500 flex flex-row justify-between gap-1">
                 <div>{link}</div>
                 <div
                   className="cursor-pointer p-1 bg-zinc-200 rounded"
@@ -192,18 +232,6 @@ export default function QuizEditor({
           <div className="flex flex-col gap-3">
             {quiz.map((q, i) => {
               return <Quiz key={q.no} id={i} />;
-              // return (
-              //   <QuizContainer key={q.no} id={i}>
-              //     <QuizQuestion>{q.question}</QuizQuestion>
-              //     <QuizOption>
-              //       {q.options.map((option, idx) => (
-              //         <Option key={option} id={idx}>
-              //           {option}
-              //         </Option>
-              //       ))}
-              //     </QuizOption>
-              //   </QuizContainer>
-              // );
             })}
           </div>
         </div>
