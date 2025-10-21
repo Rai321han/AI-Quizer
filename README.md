@@ -30,13 +30,10 @@
 
 ## 🛠 Tech Stack
 
-| Frontend       | NextJS, Tailwind CSS, Zustand                |
+| Layers         | Techs                                        |
 | -------------- | -------------------------------------------- |
+| Frontend       | NextJS, Tailwind CSS, Zustand                |
 | Backend        | Node.js (Express), TypeScript, Langchain.js  |
-| --             | --                                           |
 | Database       | PostgreSQL                                   |
-| --             | --                                           |
 | AI Model       | Google Gemini 2.5 Flash for quiz generation. |
-| --             | --                                           |
 | Authentication | Better-auth                                  |
-| --             | --                                           |
