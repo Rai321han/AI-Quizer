@@ -236,13 +236,17 @@ export const Quiz = memo(({ id }: { id: number }) => {
   return (
     <div
       key={quizData.no}
-      className="rounded-md bg-[#dcf8ff] p-5 flex flex-col gap-3"
+      className={`rounded-md ${
+        isEditing
+          ? "bg-accent-foreground border-1 border-border"
+          : "bg-background"
+      }  p-5 flex flex-col gap-3`}
     >
       <div className="flex flex-row justify-between gap-2">
         <div className="flex flex-row grow gap-2">
           <p>{quizData.no}.</p>
           <p
-            className={`font-bold text-zinc-700 select-none  ${
+            className={`font-bold  select-none  ${
               isEditing ? "hidden" : "block"
             }`}
           >
@@ -250,7 +254,7 @@ export const Quiz = memo(({ id }: { id: number }) => {
           </p>
           <textarea
             // type="text"
-            className={`w-full font-bold text-zinc-700 text-wrap border-b-1 border-gray-400 outline-none ${
+            className={`w-full font-bold  text-wrap border-b-1 border-border outline-none ${
               isEditing ? "block" : "hidden"
             }`}
             value={quizData.question}
@@ -260,7 +264,7 @@ export const Quiz = memo(({ id }: { id: number }) => {
         <div
           onClick={handleEditToggle}
           className={`rounded-full w-[40px] h-[40px] aspect-square ${
-            isEditing ? "bg-green-700 animate-pulse" : "bg-[#c0e9f3]"
+            isEditing ? "bg-sidebar-foreground animate-pulse" : "bg-accent"
           }  flex flex-row items-center justify-center cursor-pointer`}
         >
           <svg
@@ -285,7 +289,7 @@ export const Quiz = memo(({ id }: { id: number }) => {
             viewBox="0 0 24 24"
             className={`${
               isEditing ? "block" : "hidden"
-            }   stroke-white fill-none`}
+            }   stroke-accent fill-none`}
             stroke="currentColor"
             strokeWidth="1.5"
             strokeLinecap="round"

@@ -10,10 +10,15 @@ import Counter from "@/components/local/Counter";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useQuiz } from "@/app/stores/quiz";
+import { authClient } from "@/lib/auth-client";
+import useUser from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 export default function QuizGenerate() {
   const setQuizes = useQuiz((state) => state.setQuizes);
   const quizes = useQuiz((state) => state.quizes);
+  const { data: session } = useUser();
+  const router = useRouter();
 
   const [formData, setFormData] = useState<QuizData>({
     enableMultiple: false,
@@ -35,6 +40,11 @@ export default function QuizGenerate() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!session?.user) {
+      router.push("/auth");
+      return;
+    }
+
     const data = await generateQuiz(formData);
 
     if (data?.error) {
@@ -47,10 +57,10 @@ export default function QuizGenerate() {
   }
 
   return (
-    <main className="min-h-screen w-full  bg-[#f7f7f7] p-5">
+    <main className="min-h-screen w-full  bg-background p-5">
       <div className="flex flex-col items-center justify-center w-full">
         <div className="pb-5 text-center  w-full max-w-[800px] p-5">
-          <div className="w-full  mx-auto border-1 p-10 border-zinc-300 bg-white rounded-md">
+          <div className="w-full  mx-auto border-1 p-10 border-accent bg-card rounded-md">
             <form
               className="flex flex-col items-start gap-4 w-full mx-auto max-w-[500px]"
               onSubmit={handleSubmit}
@@ -62,7 +72,7 @@ export default function QuizGenerate() {
                   value={formData.title}
                   type="text"
                   placeholder="Title"
-                  className="border-b-1 outline-none text-zinc-900 border-[#d9dbdd] p-4 pb-2 font-semibold pl-0 w-full max-w-[500px]"
+                  className="border-b-1 outline-none  border-[#d9dbdd] p-4 pb-2 font-semibold pl-0 w-full max-w-[500px]"
                 />
               </div>
               <div className="flex flex-row items-center gap-3">
