@@ -94,9 +94,9 @@ export default function QuizEditor({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="mb-3">Save and Share</DialogTitle>
-              <div className="flex flex-col gap-2 text-sm text-zinc-500 bg-[#f9f9f9] p-3 rounded-md">
+              <div className="flex flex-col gap-2 text-sm  bg-card p-3 rounded-md">
                 <div className="font-semibold">Quiz: {title}</div>
-                <div className="border-t-1 border-zinc-300/70"></div>
+                <div className="border-t-1 border-zinc-300/50"></div>
                 <div className="flex flex-col">
                   <div className="flex flex-row gap-2 items-center">
                     <svg
@@ -144,10 +144,10 @@ export default function QuizEditor({
               <DialogDescription className="mt-3 text-left">
                 Anyone with this link can perform this quiz.
               </DialogDescription>
-              <div className="p-2 text-sm rounded-md  bg-[#f9f9f9]  border-1 border-zinc-200 text-zinc-500 flex flex-row justify-between gap-1">
+              <div className="p-2 text-sm rounded-md  bg-card  border-1 border-input   flex flex-row justify-between gap-1">
                 <div>{link}</div>
                 <div
-                  className="cursor-pointer p-1 bg-zinc-200 rounded"
+                  className="cursor-pointer p-1 bg-accent rounded"
                   onClick={() => navigator.clipboard.writeText(link)}
                 >
                   <svg
@@ -176,8 +176,8 @@ export default function QuizEditor({
             </DialogFooter>
           </DialogContent>
         </Dialog>
-        <div className="flex flex-row items-stretch justify-between border-1 w-full sm:w-auto  border-zinc-300 rounded-md  bg-[#eaeaea]">
-          <div className=" text-gray-600 rounded-l-md font-bold p-3 pr-0 flex flex-col items-center justify-center">
+        <div className="flex flex-row items-stretch justify-between border-1 w-full sm:w-auto  rounded-md  bg-card">
+          <div className="  rounded-l-md font-bold p-3 pr-0 flex flex-col items-center justify-center">
             <p>Schedule</p>
           </div>
           <div className="flex gap-2 sm:gap-4 rounded-r-md p-2 md:p-3 ">
@@ -223,11 +223,9 @@ export default function QuizEditor({
         </div>
       </div>
 
-      <div className="border-1 border-zinc-300 rounded-lg p-10 bg-white mx-auto flex flex-col gap-5">
-        <p className="text-xl font-bold text-zinc-700 ">
-          {title || "Untitled"}
-        </p>
-        <div className="w-full border-1 border-zinc-200"></div>
+      <div className="border-1 border-border rounded-lg p-10 bg-card mx-auto flex flex-col gap-5">
+        <p className="text-xl font-bold ">{title || "Untitled"}</p>
+        <div className="w-full border-1 border-accent"></div>
         <div>
           <div className="flex flex-col gap-3">
             {quiz.map((q, i) => {
