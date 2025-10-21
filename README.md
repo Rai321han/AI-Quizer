@@ -10,7 +10,7 @@
 **Quiz Generation**
 
 - Uses AI to generate high-quality quiz questions from prompts with proper settings.
-- Save, share, or schedule quizzes for future participation.
+- Save, share, or schedule quizzes for future participation. (ongoing)
 
 ## Upcoming
 
