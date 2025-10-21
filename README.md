@@ -16,12 +16,12 @@
 
 # Upcoming
 
-## Participation
+**Participation**
 
 - Users can join quizzes created by others.
 - Submit answers and have scores calculated automatically.
 
-## Leaderboard
+**Leaderboard**
 
 - Each quiz has a real-time leaderboard showing top participants.
 - Leaderboards update automatically after each quiz attempt.
