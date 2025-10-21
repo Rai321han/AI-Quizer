@@ -1,20 +1,18 @@
-## AI Quizer
-
 ### AI Quizer is an intelligent quiz platform where users can generate quizzes via AI prompts, schedule or share them, and compete with others. The platform tracks scores, maintains leaderboards, and provides detailed user dashboards.
 
-# 🌟 Features
+## 🌟 Features
 
-## User Management
+**User Management**
 
 - Register, login, and manage profiles.
 - View personal dashboard with quiz history and statistics.
 
-## Quiz Generation
+**Quiz Generation**
 
 - Uses AI to generate high-quality quiz questions from prompts with proper settings.
 - Save, share, or schedule quizzes for future participation.
 
-# Upcoming
+## Upcoming
 
 **Participation**
 
@@ -26,11 +24,11 @@
 - Each quiz has a real-time leaderboard showing top participants.
 - Leaderboards update automatically after each quiz attempt.
 
-## History & Analytics
+**History & Analytics**
 
 - Users can view past quizzes, scores, and performance trends.
 
-# 🛠 Tech Stack
+## 🛠 Tech Stack
 
 | Frontend | NextJS, Tailwind CSS, Zustand |
 | Backend | Node.js (Express), TypeScript, Langchain.js |
