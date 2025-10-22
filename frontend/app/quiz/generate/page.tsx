@@ -63,8 +63,8 @@ export default function QuizGenerate() {
   return (
     <main className="min-h-screen w-full  bg-background p-5">
       <div className="flex flex-col items-center justify-center w-full">
-        <div className="pb-5 text-center  w-full max-w-[800px] p-5">
-          <div className="w-full  mx-auto border-1 p-10 border-border bg-card rounded-md">
+        <div className="pb-5 text-center  w-full max-w-[800px] p-2 md:p-5">
+          <div className="w-full  mx-auto border-1 p-6 md:p-10 border-border bg-card rounded-md">
             <form
               className="flex flex-col items-start gap-4 w-full mx-auto max-w-[500px]"
               onSubmit={handleSubmit}
@@ -121,7 +121,7 @@ export default function QuizGenerate() {
 
               <Button
                 type="submit"
-                className="w-full max-w-[300px] p-5  rounded-full flex flex-row items-center gap-3"
+                className="w-full max-w-[300px] p-5 mx-auto sm:mx-0 rounded-full flex flex-row items-center gap-3"
               >
                 {isLoading ? (
                   <svg

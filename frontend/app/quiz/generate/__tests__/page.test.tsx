@@ -34,4 +34,8 @@ describe("Quiz Generation Page render", () => {
     expect(screen.getByText("Single Answer")).toBeInTheDocument();
     expect(screen.getByText("Generate Quiz")).toBeInTheDocument();
   });
+
+  // calls generate quiz to generate quiz
+
+  // redirect to signin if there is no user session
 });
