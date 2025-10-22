@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
-    "migrate": "node-pg-migrate -m /src/db/migrations -d $DATABASE_URL"
+    "migrate": "dotenv -e .env -- node-pg-migrate up -m src/db/migrations",
+    "migrate:down": "dotenv -e .env -- node-pg-migrate down -m src/db/migrations"
   },
   "dependencies": {
     "@langchain/core": "^0.3.78",
@@ -30,6 +31,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.7.2",
     "@types/pg": "^8.15.5",
+    "dotenv-cli": "^10.0.0",
     "node-pg-migrate": "^8.0.3",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
