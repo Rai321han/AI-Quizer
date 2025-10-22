@@ -1,6 +1,6 @@
 "use client";
 
-import { QuizData, QuizType } from "@/app/types/quiz";
+import { QuizData } from "@/app/types/quiz";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { FormEvent, useState } from "react";
@@ -10,10 +10,9 @@ import Counter from "@/components/local/Counter";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useQuiz } from "@/app/stores/quiz";
-import { authClient } from "@/lib/auth-client";
+
 import useUser from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
-import { set } from "zod";
 
 export default function QuizGenerate() {
   const setQuizes = useQuiz((state) => state.setQuizes);
