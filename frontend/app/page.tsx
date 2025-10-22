@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen bg-[#f2f2f2] tracking-tighter">
+    <main className="w-full min-h-screen bg-background tracking-tighter">
       <section className="min-h-screen flex flex-col gap-5 items-center justify-center relative">
         <div className="flex flex-col gap-5 z-1">
           <h1 className="text-6xl md:text-8xl font-bold text-center ">
@@ -18,7 +18,7 @@ export default function Home() {
             href={"/quiz/generate"}
             className="mx-auto max-w-[300px] w-full relative z-10 "
           >
-            <Button className="shadow-xl w-full max-w-[300px] cursor-pointer bg-radial border-2 border-white from-[#a083f7] to-[#150349] rounded-full h-12 ">
+            <Button className="shadow-xl w-full max-w-[300px] cursor-pointer bg-radial border-2 border-border from-[#a083f7] to-[#150349] rounded-full h-12 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -36,7 +36,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="p-2  rounded-lg mt-5 flex flex-row gap-3">
-          <div className="w-[150px] -rotate-12 shadow-md translate-x-5 flex flex-col gap-4 bg-white p-2  h-full rounded-md">
+          <div className="w-[150px] -rotate-12 shadow-md translate-x-5 flex flex-col gap-4 bg-card border-1 border-border p-2  h-full rounded-md">
             <div>
               <p className="font-semibold text-sm text-gray-400 tracking-wider">
                 SCORE
@@ -51,7 +51,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[150px] flex -mt-5 shadow-md flex-col gap-4 bg-white p-2  h-full rounded-md">
+          <div className="w-[150px] flex -mt-5 shadow-md flex-col gap-4 bg-card border-1 border-border p-2  h-full rounded-md">
             <div>
               <p className="font-semibold text-sm text-gray-400 tracking-wider">
                 ATTENDED
@@ -66,7 +66,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[150px] rotate-12 -translate-x-5 shadow-md flex flex-col gap-4 bg-white p-2  h-full rounded-md">
+          <div className="w-[150px] rotate-12 -translate-x-5 shadow-md flex flex-col gap-4 bg-card border-1 border-border p-2  h-full rounded-md">
             <div>
               <p className="font-semibold text-sm text-gray-400 tracking-wider">
                 GENERATED
