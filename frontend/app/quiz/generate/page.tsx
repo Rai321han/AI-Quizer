@@ -20,6 +20,7 @@ export default function QuizGenerate() {
   const { data: session } = useUser();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [quizId, setQuizId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<QuizData>({
     enableMultiple: false,
@@ -51,10 +52,12 @@ export default function QuizGenerate() {
 
     if (data?.error) {
       console.error(data.message);
+      return;
     }
 
     if (data?.success) {
-      setQuizes(data.quiz.data);
+      setQuizes(data.quizData.quiz);
+      setQuizId(data.quizData.quiz_id);
     }
 
     setIsLoading(false);
@@ -158,7 +161,7 @@ export default function QuizGenerate() {
         </div>
         <div className="w-full flex-col max-w-[800px] p-5">
           {quizes.length > 0 && (
-            <QuizEditor quiz={quizes} title={formData.title} />
+            <QuizEditor title={formData.title} quiz_id={quizId || ""} />
           )}
         </div>
       </div>
