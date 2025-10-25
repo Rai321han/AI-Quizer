@@ -1,6 +1,6 @@
 "use client";
 
-import { QuizData, QuizType } from "@/app/types/quiz";
+import { QuizData } from "@/app/types/quiz";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { FormEvent, useState } from "react";
@@ -10,10 +10,9 @@ import Counter from "@/components/local/Counter";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useQuiz } from "@/app/stores/quiz";
-import { authClient } from "@/lib/auth-client";
+
 import useUser from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
-import { set } from "zod";
 
 export default function QuizGenerate() {
   const setQuizes = useQuiz((state) => state.setQuizes);
@@ -21,6 +20,7 @@ export default function QuizGenerate() {
   const { data: session } = useUser();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [quizId, setQuizId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<QuizData>({
     enableMultiple: false,
@@ -52,10 +52,12 @@ export default function QuizGenerate() {
 
     if (data?.error) {
       console.error(data.message);
+      return;
     }
 
     if (data?.success) {
-      setQuizes(data.quiz.data);
+      setQuizes(data.quizData.quiz);
+      setQuizId(data.quizData.quiz_id);
     }
 
     setIsLoading(false);
@@ -64,8 +66,8 @@ export default function QuizGenerate() {
   return (
     <main className="min-h-screen w-full  bg-background p-5">
       <div className="flex flex-col items-center justify-center w-full">
-        <div className="pb-5 text-center  w-full max-w-[800px] p-5">
-          <div className="w-full  mx-auto border-1 p-10 border-border bg-card rounded-md">
+        <div className="pb-5 text-center  w-full max-w-[800px] p-2 md:p-5">
+          <div className="w-full  mx-auto border-1 p-6 md:p-10 border-border bg-card rounded-md">
             <form
               className="flex flex-col items-start gap-4 w-full mx-auto max-w-[500px]"
               onSubmit={handleSubmit}
@@ -122,7 +124,7 @@ export default function QuizGenerate() {
 
               <Button
                 type="submit"
-                className="w-full max-w-[300px] p-5  rounded-full flex flex-row items-center gap-3"
+                className="w-full max-w-[300px] p-5 mx-auto sm:mx-0 rounded-full flex flex-row items-center gap-3"
               >
                 {isLoading ? (
                   <svg
@@ -159,7 +161,7 @@ export default function QuizGenerate() {
         </div>
         <div className="w-full flex-col max-w-[800px] p-5">
           {quizes.length > 0 && (
-            <QuizEditor quiz={quizes} title={formData.title} />
+            <QuizEditor title={formData.title} quiz_id={quizId || ""} />
           )}
         </div>
       </div>

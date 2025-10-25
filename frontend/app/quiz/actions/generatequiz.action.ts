@@ -1,7 +1,8 @@
-import { QuizType, QuizData } from "@/app/types/quiz";
-import { randomUUID } from "crypto";
+import { QuizType, QuizData, QuizAPIType } from "@/app/types/quiz";
+import { error } from "console";
+
 export async function generateQuiz(quizData: QuizData) {
-  const api = `${process.env.NEXT_PUBLIC_BASE_API}/quiz/generate`;
+  const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/generate`;
 
   try {
     const res = await fetch(api, {
@@ -20,16 +21,43 @@ export async function generateQuiz(quizData: QuizData) {
     }
 
     const data = await res.json();
-    const quiz: QuizType[] = data.quiz;
+    // const quiz: QuizType[] = data.quiz;
 
     return {
       success: true,
-      quiz: {
-        id: crypto.randomUUID(),
-        data: quiz,
-      },
+      quizData: data.data,
     };
   } catch (error) {
     console.error("Error generating quiz: ", error);
   }
 }
+
+export const saveQuizToDB = async (quizData: QuizAPIType) => {
+  const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/save`;
+
+  try {
+    const res = await fetch(api, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(quizData),
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      return {
+        error: true,
+        message: data.message || "failed to save quiz",
+      };
+    }
+
+    return {
+      error: false,
+      data: data.data,
+    };
+  } catch (error) {
+    console.error("Error saving quiz: ", error);
+  }
+};

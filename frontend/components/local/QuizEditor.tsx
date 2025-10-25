@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { QuizType } from "@/app/types/quiz";
+import { QuizAPIType, QuizType } from "@/app/types/quiz";
 
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
@@ -25,33 +25,36 @@ import {
 } from "@/components/ui/popover";
 import { Quiz } from "./Quiz";
 import { set } from "date-fns";
+import { UUID } from "crypto";
+import { saveQuizToDB } from "@/app/quiz/actions/generatequiz.action";
+import useUser from "@/hooks/useUser";
+import { useQuiz } from "@/app/stores/quiz";
 
-type QuizAPIType = {
-  title: string;
-  quiz: QuizType[];
-  scheduledAt: Date | null;
-  status: "scheduled" | "active" | "completed";
-};
+// `jomkalo/api/sds`
+//`jomkalo/api/sds`
 
 export default function QuizEditor({
-  quiz,
   title,
+  quiz_id,
 }: {
-  quiz: QuizType[];
   title: string;
+  quiz_id: string;
 }) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState<string>("10:30:00");
+  const { data: session } = useUser();
+  const quizes = useQuiz((s) => s.quizes);
 
-  const link = "http://quizzer.com/21378syda";
+  const link = `${process.env.NEXT_PUBLIC_URL}/${quiz_id}`;
 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTime(e.target.value);
   }
 
-  function saveQuiz() {
+  async function saveQuiz() {
     // make the object to be sent to the backend
+    if (!session) return;
     const scheduledDateTime = date
       ? set(date, {
           hours: parseInt(time.split(":")[0]),
@@ -61,11 +64,25 @@ export default function QuizEditor({
       : null;
 
     const quizData: QuizAPIType = {
-      title: title,
-      quiz: quiz,
-      scheduledAt: scheduledDateTime,
+      scheduled_at: scheduledDateTime,
+      no_of_questions: quizes.length,
+      created_by: session.user.id,
+      duration: null,
       status: "scheduled",
+      title: title,
+      total_marks: null,
+      meta: null,
+      quiz_id,
+      // quize questions
+      data: quizes,
     };
+
+    // save the quiz
+    const result = await saveQuizToDB(quizData);
+
+    if (result && !result.error) {
+      console.log(result.data);
+    }
   }
 
   return (
@@ -91,8 +108,8 @@ export default function QuizEditor({
               <p>Save & Share</p>
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
+          <DialogContent className="sm:max-w-md bg-card">
+            <DialogHeader className="w-full">
               <DialogTitle className="mb-3">Save and Share</DialogTitle>
               <div className="flex flex-col gap-2 text-sm  bg-card p-3 rounded-md">
                 <div className="font-semibold">Quiz: {title}</div>
@@ -116,7 +133,7 @@ export default function QuizEditor({
                       <path d="m3 17 2 2 4-4" />
                       <rect x="3" y="4" width="6" height="6" rx="1" />
                     </svg>
-                    <p>{quiz.length} Questions</p>
+                    <p>{quizes.length} Questions</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center gap-2">
@@ -144,26 +161,30 @@ export default function QuizEditor({
               <DialogDescription className="mt-3 text-left">
                 Anyone with this link can perform this quiz.
               </DialogDescription>
-              <div className="p-2 text-sm rounded-md  bg-card  border-1 border-input   flex flex-row justify-between gap-1">
-                <div>{link}</div>
-                <div
-                  className="cursor-pointer p-1 bg-accent rounded"
-                  onClick={() => navigator.clipboard.writeText(link)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="stroke-zinc-500 fill-none"
+              <div className="text-sm flex  flex-row justify-between items-stretch">
+                <div className="overflow-x-auto p-2  rounded-l-md bg-card  border-1 border-r-0 border-input ">
+                  <p>{link}</p>
+                </div>
+                <div className="rounded-r-md bg-card p-2 border-1 border-l-0 border-border flex flex-col items-center justify-center">
+                  <div
+                    className="cursor-pointer "
+                    onClick={() => navigator.clipboard.writeText(link)}
                   >
-                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="stroke-zinc-500 fill-none"
+                    >
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </DialogHeader>
@@ -228,7 +249,7 @@ export default function QuizEditor({
         <div className="w-full border-1 border-accent"></div>
         <div>
           <div className="flex flex-col gap-3">
-            {quiz.map((q, i) => {
+            {quizes.map((q, i) => {
               return <Quiz key={q.no} id={i} />;
             })}
           </div>

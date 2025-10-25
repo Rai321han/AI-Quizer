@@ -3,7 +3,7 @@ import { memo, useState } from "react";
 type OptionProps = {
   no: number;
   option: string;
-  answers: string[];
+  answers: number[];
   editMode: boolean;
   editOption: (value: string) => void;
 };
@@ -33,7 +33,7 @@ export const QuizOption = memo(
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             className={`${
-              answers.includes(option) ? "fill-green-300" : "fill-gray-400"
+              answers.includes(no) ? "fill-green-300" : "fill-gray-400"
             } size-6`}
           >
             <path

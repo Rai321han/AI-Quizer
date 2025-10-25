@@ -6,13 +6,7 @@ import Nav from "@/components/local/Nav";
 const inter = Inter_Tight({
   variable: "--font-inter",
   weight: ["600", "400", "300"],
-  // subsets: ["latin"],
 });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 export const metadata: Metadata = {
   title: "AI Quizer",

@@ -2,7 +2,7 @@ export type QuizType = {
   no: number;
   question: string;
   options: string[];
-  answers: string[];
+  answers: number[];
 };
 
 export type QuizData = {
@@ -11,4 +11,17 @@ export type QuizData = {
   noOfOptions: number;
   prompt: string;
   title: string;
+};
+
+export type QuizAPIType = {
+  created_by: string;
+  scheduled_at: Date | null;
+  no_of_questions: number;
+  duration: number | null;
+  status: "scheduled" | "active" | "completed" | "draft";
+  title: string;
+  total_marks: number | null;
+  meta: JSON | null;
+  quiz_id: string;
+  data: QuizType[];
 };
