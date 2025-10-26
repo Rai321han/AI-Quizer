@@ -18,7 +18,7 @@ app.use(
 app.use("/api/auth", express.json(), authValidate);
 app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use(express.json());
-app.use("/quiz", quizRouter);
+app.use("/api/quiz", quizRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is running");

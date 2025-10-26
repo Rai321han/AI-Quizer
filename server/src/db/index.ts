@@ -9,3 +9,8 @@ const pool = new Pool({
 });
 
 export default pool;
+
+export const dbQuery = async (query: string, value: any[]) => {
+  const result = await pool.query(query, value);
+  return result;
+};

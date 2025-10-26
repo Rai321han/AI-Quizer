@@ -28,7 +28,7 @@ export const AIGenerator = async function (prompt: string) {
             Each object must have:
             - "question": a string
             - "options": an array of unique strings (the number will be defined by the user)
-            - "answers": an array of the correct answers. (1 or more defined by the user)
+            - "answers": an array of the correct answers which are the indices of the options (1 based index). (1 or more defined by the user)
             
             Do NOT include explanations or text outside JSON.
         
@@ -38,7 +38,7 @@ export const AIGenerator = async function (prompt: string) {
                 {{
                   "question": "...",
                   "options": ["A", "B", ...],
-                  "answers": ["A", ...]
+                  "answers": [1, ...]
                 }}
               ]
             }}
@@ -63,12 +63,12 @@ export const AIGenerator = async function (prompt: string) {
                 "Adds new ES6 features",
                 "Disables global scope",
               ],
-              answers: ["Enforces stricter parsing and error handling"],
+              answers: [1],
             },
             {
               question: "Which keyword declares a constant in JavaScript?",
               options: ["const", "let", "var", "constant"],
-              answers: ["const"],
+              answers: [1],
             },
           ],
         },
@@ -82,13 +82,13 @@ export const AIGenerator = async function (prompt: string) {
               question:
                 "Which statement is used to stop a loop early in Python?",
               options: ["stop", "exit", "break"],
-              answers: ["break"],
+              answers: [3],
             },
             {
               question:
                 "Which loop is used for iterating over a sequence in Python?",
               options: ["for", "while", "do-while"],
-              answers: ["for"],
+              answers: [1],
             },
           ],
         },
@@ -103,12 +103,12 @@ export const AIGenerator = async function (prompt: string) {
               question:
                 "Which of the following are valid HTML5 semantic elements?",
               options: ["<section>", "<div>", "<article>", "<footer>"],
-              answers: ["<section>", "<article>", "<footer>"],
+              answers: [1, 3, 4],
             },
             {
               question: "Which tags are used for creating lists in HTML?",
               options: ["<ol>", "<ul>", "<li>", "<span>"],
-              answers: ["<ol>", "<ul>", "<li>"],
+              answers: [1, 2, 3],
             },
           ],
         },
@@ -127,12 +127,12 @@ export const AIGenerator = async function (prompt: string) {
                 "align-items: center;",
                 "display: flex;",
               ],
-              answers: ["margin: 0 auto;", "text-align: center;"],
+              answers: [1, 2],
             },
             {
               question: "Which of the following are valid CSS units?",
               options: ["px", "em", "rem", "pt"],
-              answers: ["px", "em", "rem", "pt"],
+              answers: [1,2,3,4],
             },
           ],
         },

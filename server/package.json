@@ -10,20 +10,25 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
-    "migrate": "dotenv -e .env -- node-pg-migrate up -m src/db/migrations",
+    "migrate:create": "dotenv -e .env -- npx node-pg-migrate create -m src/db/migrations",
+    "worker": "tsx watch src/workers/quizWorker.ts",
+    "migrate:up": "dotenv -e .env -- node-pg-migrate up -m src/db/migrations",
     "migrate:down": "dotenv -e .env -- node-pg-migrate down -m src/db/migrations"
   },
   "dependencies": {
     "@langchain/core": "^0.3.78",
     "@langchain/google-genai": "^0.2.18",
     "better-auth": "^1.3.28",
+    "bullmq": "^5.61.2",
     "cors": "^2.8.5",
     "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "ioredis": "^5.8.2",
     "langchain": "^0.3.35",
     "nodemon": "^3.1.10",
     "pg": "^8.16.3",
+    "socket.io": "^4.8.1",
     "zod": "^4.1.12"
   },
   "devDependencies": {
