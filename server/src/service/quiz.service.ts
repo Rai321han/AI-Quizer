@@ -110,6 +110,121 @@ export class QuizService {
       client.release();
     }
   }
-  static async getQuizesMeta() {}
-  static async getQuizById() {}
+
+  static async getQuizInfoById(quiz_id: string) {
+    const query = `SELECT * FROM quizes WHERE quiz_id=$1`;
+    const result = await dbQuery(query, [quiz_id]);
+    return result.rows[0];
+  }
+
+  static async quizJoin(quiz_id: string, user_id: string) {
+    const client = await pool.connect();
+
+    try {
+      await client.query("BEGIN");
+
+      const quizInfoQuery = `
+      SELECT duration, status, title
+      FROM quizes
+      WHERE quiz_id = $1
+    `;
+      const quizInfoResult = await client.query(quizInfoQuery, [quiz_id]);
+      const quizInfo = quizInfoResult.rows[0];
+
+      if (!quizInfo) {
+        throw new Error("Quiz not found");
+      }
+
+      // If quiz not active, rollback early and return status only
+      if (quizInfo.status !== "ongoing") {
+        await client.query("ROLLBACK");
+        return {
+          status: quizInfo.status,
+          message: `Quiz is currently ${quizInfo.status}`,
+        };
+      }
+
+      // 2️⃣ Check if attempt exists
+      const attemptCheckQuery = `
+      SELECT attempt_id, started_at 
+      FROM attempts 
+      WHERE user_id = $1 AND quiz_id = $2
+    `;
+      const existingAttempt = await client.query(attemptCheckQuery, [
+        user_id,
+        quiz_id,
+      ]);
+
+      let attempt_id: string;
+      let started_at: Date;
+      let attemptStatus: "existing" | "new";
+
+      if (existingAttempt.rowCount && existingAttempt.rowCount > 0) {
+        // Attempt exists
+        attemptStatus = "existing";
+        attempt_id = existingAttempt.rows[0].attempt_id;
+        started_at = existingAttempt.rows[0].started_at;
+      } else {
+        // 3️⃣ Create new attempt
+        attempt_id = crypto.randomUUID();
+        started_at = new Date();
+
+        const insertAttemptQuery = `
+        INSERT INTO attempts (attempt_id, user_id, quiz_id, score, started_at)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING attempt_id, started_at
+      `;
+        await client.query(insertAttemptQuery, [
+          attempt_id,
+          user_id,
+          quiz_id,
+          0,
+          started_at,
+        ]);
+
+        attemptStatus = "new";
+      }
+
+      // 4️⃣ Get quiz questions (still inside transaction)
+      const questionQuery = `
+      SELECT question_id, question_no, question, options, answers
+      FROM questions
+      WHERE quiz_id = $1
+      ORDER BY question_no ASC
+    `;
+      const questionResult = await client.query(questionQuery, [quiz_id]);
+
+      if (questionResult.rowCount === 0) {
+        throw new Error("No questions found for this quiz");
+      }
+
+      const questions = questionResult.rows.map((row) => ({
+        question_id: row.question_id,
+        no: row.question_no,
+        question: row.question,
+        type: row.answers.length > 1 ? "multiple" : "single",
+        options: row.options,
+        answers: row.answers,
+      }));
+
+      // ✅ If everything succeeded
+      await client.query("COMMIT");
+
+      return {
+        status: "ongoing",
+        title: quizInfo.title,
+        duration: quizInfo.duration,
+        attempt_id,
+        attemptStatus,
+        started_at,
+        data: questions,
+      };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      console.error("quizJoin failed:", error);
+      throw new Error("Failed to join quiz");
+    } finally {
+      client.release();
+    }
+  }
 }

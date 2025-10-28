@@ -9,16 +9,17 @@ export const shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 export const up = (pgm) => {
-  pgm.sql(`
-        CREATE TABLE questions (
-            question_id UUID PRIMARY KEY,
-            quiz_id UUID REFERENCES quizes(quiz_id) ON DELETE CASCADE,
-            question_no INT NOT NULL,
-            question TEXT NOT NULL,
-            options TEXT[] NOT NULL,
-            answers INT[] NOT NULL
-        )
-        `);
+  pgm.sql(
+    `CREATE TABLE attempts (
+        attempt_id UUID PRIMARY KEY,
+        user_id TEXT NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+        quiz_id UUID NOT NULL REFERENCES quizes(quiz_id) ON DELETE CASCADE,
+        score INT,
+        started_at TIMESTAMPTZ,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );`
+  );
 };
 
 /**
@@ -27,5 +28,5 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
-  pgm.sql(`DROP TABLE questions`);
+  pgm.sql(`DROP TABLE attempts;`);
 };

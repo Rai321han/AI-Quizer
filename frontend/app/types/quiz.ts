@@ -18,7 +18,7 @@ export type QuizAPIType = {
   scheduled_at: Date | null;
   no_of_questions: number;
   duration: number | null;
-  status: "scheduled" | "active" | "completed" | "draft";
+  status: "scheduled" | "ongoing" | "completed" | "draft";
   title: string;
   total_marks: number | null;
   meta: JSON | null;

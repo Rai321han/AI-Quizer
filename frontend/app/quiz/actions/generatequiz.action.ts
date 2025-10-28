@@ -1,5 +1,4 @@
 import { QuizType, QuizData, QuizAPIType } from "@/app/types/quiz";
-import { error } from "console";
 
 export async function generateQuiz(quizData: QuizData) {
   const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/generate`;
@@ -7,6 +6,7 @@ export async function generateQuiz(quizData: QuizData) {
   try {
     const res = await fetch(api, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -38,6 +38,7 @@ export const saveQuizToDB = async (quizData: QuizAPIType) => {
   try {
     const res = await fetch(api, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

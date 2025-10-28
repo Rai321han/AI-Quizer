@@ -36,6 +36,6 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
-  pgm.sql(`DROP TABLE quzies;
+  pgm.sql(`DROP TABLE quizes;
     DROP TYPE quiz_status;`);
 };

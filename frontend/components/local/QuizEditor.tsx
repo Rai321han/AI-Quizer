@@ -46,7 +46,7 @@ export default function QuizEditor({
   const { data: session } = useUser();
   const quizes = useQuiz((s) => s.quizes);
 
-  const link = `${process.env.NEXT_PUBLIC_URL}/${quiz_id}`;
+  const link = `${process.env.NEXT_PUBLIC_URL}/quiz/join/${quiz_id}`;
 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTime(e.target.value);

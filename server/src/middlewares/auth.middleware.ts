@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { signupSchema } from "../validations/schema";
+import { APIResponse } from "../lib/AppError";
+import { auth } from "../lib/auth";
+import { fromNodeHeaders } from "better-auth/node";
 
 export const authValidate = (
   req: Request,
@@ -19,3 +22,26 @@ export const authValidate = (
   }
   next();
 };
+
+export async function authMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+
+    if (!session) {
+      return APIResponse.error(res, "unauthorized", 401, "UNAUTHORIZED");
+    }
+
+    req.user = session.user;
+
+    next();
+  } catch (err) {
+    console.error(err);
+    return APIResponse.error(res, "Auth failed", 401, "Auth Failed");
+  }
+}
