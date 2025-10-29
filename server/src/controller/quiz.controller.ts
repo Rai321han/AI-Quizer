@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { QuizService } from "../service/quiz.service";
 import { APIResponse } from "../lib/AppError";
+import { QuizAttemptDataType, QuizDataReponse } from "../types/quiz";
 
 export const quizGenerateController = async function (
   req: Request,
@@ -106,6 +107,39 @@ export const quizJoinController = async function (req: Request, res: Response) {
 
     const data = await QuizService.quizJoin(quiz_id, user_id);
     return APIResponse.success(res, "Quiz data fetched", data, 200);
+  } catch (error) {
+    return APIResponse.error(
+      res,
+      "Something went wrong",
+      401,
+      "SOMETHING_WENT_WRONG"
+    );
+  }
+};
+
+export const quizAttemptDataController = async function (
+  req: Request,
+  res: Response
+) {
+  try {
+    const quiz_id = req.params.quizId;
+    const user_id: string = req.user.id;
+    const quizAttemptData: QuizAttemptDataType[] = req.body;
+
+    if (!quiz_id)
+      return APIResponse.error(
+        res,
+        "quiz id not found",
+        401,
+        "QUIZ_ID_NOT_FOUND"
+      );
+
+    const data = await QuizService.quizAttemptSave(
+      quiz_id,
+      user_id,
+      quizAttemptData
+    );
+    return APIResponse.success(res, "Quiz attempt answers saved", data, 200);
   } catch (error) {
     return APIResponse.error(
       res,

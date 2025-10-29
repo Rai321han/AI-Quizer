@@ -1,5 +1,5 @@
 import { UUID } from "node:crypto";
-import { Quiz, QuizData } from "../types/quiz";
+import { Quiz, QuizAttemptDataType, QuizData } from "../types/quiz";
 import { AIGenerator } from "./GeminiAICall";
 import pool, { dbQuery } from "../db";
 import { scheduledQuizJob } from "../lib/schdeduledQuizJob";
@@ -204,7 +204,6 @@ export class QuizService {
         question: row.question,
         type: row.answers.length > 1 ? "multiple" : "single",
         options: row.options,
-        answers: row.answers,
       }));
 
       // ✅ If everything succeeded
@@ -226,5 +225,56 @@ export class QuizService {
     } finally {
       client.release();
     }
+  }
+
+  static async quizAttemptSave(
+    quiz_id: string,
+    user_id: string,
+    quizData: QuizAttemptDataType[]
+  ) {
+    try {
+      const questionQuery = `
+      SELECT question_no AS no, answers
+      FROM questions
+      WHERE quiz_id = $1
+      ORDER BY question_no ASC
+    `;
+
+      const correctAnswers = await dbQuery(questionQuery, [quiz_id]);
+
+      // calculate score
+      let score = 0;
+
+      const correctAnswersMap = new Map<number, number[]>();
+
+      correctAnswers.rows.forEach((q: QuizAttemptDataType) => {
+        correctAnswersMap.set(q.no, q.answers);
+      });
+
+      for (const userAnswer of quizData) {
+        const correctAnswers = correctAnswersMap.get(userAnswer.no)!;
+        const correctAnswersSet = new Set(correctAnswers);
+
+        if (userAnswer.answers.length === correctAnswers.length) {
+          let allRight = true;
+          for (const no of userAnswer.answers) {
+            if (!correctAnswersSet.has(no)) {
+              allRight = false;
+              break;
+            }
+          }
+          if (allRight) score++;
+        }
+      }
+
+      const scoreSaveQuery = `UPDATE attempts SET score=$1 WHERE quiz_id=$2 AND user_id=$3 RETURNING score`;
+
+      const result = await dbQuery(scoreSaveQuery, [score, quiz_id, user_id]);
+      // Return the score
+
+      return {
+        score: result.rows[0].score ?? score,
+      };
+    } catch (error) {}
   }
 }
