@@ -8,41 +8,12 @@ type TempQuizData = {
   options: string[];
 }[];
 
-// const quizData: TempQuizData = [
-//   {
-//     no: 1,
-//     question: "What is the capital of Bangladesh?",
-//     type: "single",
-//     options: ["dhaka", "chittagong", "khulna"],
-//   },
-
-//   {
-//     no: 2,
-//     question: "What is the capital of Japan?",
-//     type: "single",
-//     options: ["Tokyo", "Hamatasu", "Ghoul"],
-//   },
-//   {
-//     no: 3,
-//     question: "What is the capital of France?",
-//     type: "single",
-//     options: ["dhaka", "Delhi", "Paris"],
-//   },
-//   {
-//     no: 4,
-//     question: "1 + 1 = ?",
-//     type: "multiple",
-//     options: ["3 - 1", "2", "3"],
-//   },
-// ];
-
 type QuizDataReponse = {
   question_id: string;
   no: number;
   question: string;
   type: "multiple" | "single";
   options: string[];
-  answers: number[];
 };
 
 export default async function QuizAttemptPage({
@@ -54,7 +25,7 @@ export default async function QuizAttemptPage({
   // ------------------
   // check status
   // redirect to join page if status of the quiz is not 'ongoing'
-  // redirect if user is invalid
+  // redirect if user is invalid - TODO
   // get quiz data
   // get time in the server
   // if remaining is 0 or less render that user has submitted the quiz
@@ -82,16 +53,33 @@ export default async function QuizAttemptPage({
 
   // make data for quiz perform
   const quizData: QuizDataReponse[] = res.data.data;
-  // const data: QuizDataReponse[] = res.data;
+  let remaining = true;
 
-  console.log(res);
+  if (res.data.duration > 0) {
+    const diff = Date.now() - new Date(res.data.started_at).getTime();
+    remaining = diff < res.data.duration * 1000;
+  }
 
+  if (!remaining) {
+    return (
+      <div className="w-full h-screen flex items-center flex-col justify-center gap-2 ">
+        <p>You've already participated in this quiz.</p>
+        <p>
+          Go to{" "}
+          <a className="underline underline-offset-3" href="/">
+            Home
+          </a>
+        </p>
+      </div>
+    );
+  }
   return (
     <ClientQuizAttemptPage
       quizData={quizData}
       duration={res.data.duration || -1}
       startedAt={new Date(res.data.started_at).toISOString()}
       serverNow={new Date().toISOString()}
+      quiz_id={quizID}
     />
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import getQuizInfoById from "@/actions/quiz";
+import { getQuizInfoById } from "@/actions/quiz";
 import { QuizAPIType } from "@/app/types/quiz";
 import { Badge } from "@/components/ui/badge";
 import { Hexagon } from "lucide-react";

@@ -3,7 +3,7 @@ import { immer } from "zustand/middleware/immer";
 import { enableMapSet } from "immer";
 enableMapSet();
 
-type QuizAttemptType = {
+export type QuizAttemptType = {
   no: number;
   answers: number[];
 };

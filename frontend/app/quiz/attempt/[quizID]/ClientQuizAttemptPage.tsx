@@ -1,12 +1,15 @@
 "use client";
+import { saveQuizAttempt } from "@/actions/quiz";
 import { useQuizAttempt } from "@/app/stores/quizAttempt";
 import QuizOptionAttempt from "@/components/local/QuizOptionAttempt";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useQuizTimer } from "@/hooks/useQuizTimer";
 import { formatTime } from "@/lib/utils";
-import { Check, Timer } from "lucide-react";
+import { Check, Hexagon, Timer } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type QuizDataReponse = {
   question_id: string;
@@ -14,7 +17,6 @@ type QuizDataReponse = {
   question: string;
   type: "multiple" | "single";
   options: string[];
-  answers: number[];
 };
 
 export default function ClientQuizAttemptPage({
@@ -23,24 +25,27 @@ export default function ClientQuizAttemptPage({
   startedAt,
   serverNow,
   error,
+  quiz_id,
 }: {
   quizData: QuizDataReponse[];
   duration: number;
   startedAt: string;
   serverNow: string;
   error?: string;
+  quiz_id: string;
 }) {
   const [quizNo, setQuizNo] = useState(0);
   const quizes = useQuizAttempt((s) => s.quizes);
   const answered = useQuizAttempt((s) => s.answered.size);
   const setAnswered = useQuizAttempt((s) => s.setAnswers);
   const [quiz, setQuiz] = useState(quizData[0]);
-  const remaining = useQuizTimer(startedAt, duration, serverNow);
+  const [isLoading, setIsloading] = useState(false);
+  const [score, setScore] = useState<null | number>(null);
 
   // Optional: auto-submit when time ends
+  const remaining = useQuizTimer(startedAt, duration, serverNow);
   useEffect(() => {
-    if (remaining === 0) {
-      console.log("Time expired — submitting quiz...");
+    if (remaining === 0 && duration !== -1) {
       handleSubmit();
     }
   }, [remaining]);
@@ -63,11 +68,59 @@ export default function ClientQuizAttemptPage({
     setAnswered(answers, quizNo + 1);
   }
 
-  function handleSubmit() {
-    console.log(quizes);
+  async function handleSubmit() {
+    setIsloading(true);
+    setScore(null);
+    const res = await saveQuizAttempt(quiz_id, quizes);
+    if (!res.success) {
+      alert("failed to load the score");
+    }
+
+    if (res.success) setScore(res.data.score || 0);
+    setIsloading(false);
   }
 
   if (error) return <div>error</div>;
+
+  if (isLoading) {
+    return (
+      <div className="w-full min-h-[95vh] flex items-center justify-center">
+        <Hexagon
+          className="animate-spin stroke-accent-foreground stroke-2"
+          height={70}
+          width={70}
+        />
+      </div>
+    );
+  }
+
+  if (score) {
+    const scorePercentage = (score * 100) / quizData.length;
+    const badScore = scorePercentage <= 50;
+    const goodScore = scorePercentage > 50 && scorePercentage <= 80;
+    const excellentScore = scorePercentage > 80 && scorePercentage <= 100;
+
+    let text = "";
+
+    if (badScore) text = "Try harder! You can do better";
+    else if (goodScore) text = "You did great!";
+    else if (excellentScore) text = "Excellent job!";
+
+    return (
+      <div className="w-full min-h-[95vh] flex items-center justify-center ">
+        <div className="bg-card rounded-md border-1 border-border p-5 flex flex-col gap-3">
+          <p className="text-green-500 font-semibold">{text}</p>
+          <div className="flex flex-col text-2xl">
+            <p>Your score:</p>
+            <p>
+              <span className="font-bold">{score}</span>/
+              <span className="font-bold">{quizData.length}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-row justify-center p-5 h-full">
