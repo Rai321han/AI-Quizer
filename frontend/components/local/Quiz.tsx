@@ -1,4 +1,4 @@
-import { QuizType } from "@/app/types/quiz";
+import type { QuizType } from "@/app/types/quiz";
 import { memo, useCallback, useState } from "react";
 import { useQuiz } from "@/app/stores/quiz";
 import { QuizOption } from "./QuizOption";
@@ -23,7 +23,7 @@ export const Quiz = memo(({ id }: { id: number }) => {
         [name]: value,
       }));
     },
-    [],
+    [quiz],
   );
 
   function editOption(no: number, value: string) {

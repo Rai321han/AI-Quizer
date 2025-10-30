@@ -33,7 +33,7 @@ export async function getQuizInfoById(quizId: string) {
 
 type QuizAttemptType = {
   no: number;
-  answers: number[]; 
+  answers: number[];
 };
 
 export async function saveQuizAttempt(

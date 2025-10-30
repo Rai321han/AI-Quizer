@@ -16,7 +16,7 @@ export default function Counter({
 }) {
   //   const [value, setValue] = useState(1);
 
-  const handeChange = function (newValue: number) {
+  const handeChange = (newValue: number) => {
     if (newValue < min) onChange(min);
     else if (newValue > max) onChange(max);
     else onChange(newValue);

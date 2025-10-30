@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import {
-  SignUpType,
-  SigninType,
+  type SignUpType,
+  type SigninType,
   signinSchema,
   signupSchema,
 } from "@/app/auth/validation";
@@ -150,49 +150,4 @@ export const SignInForm = () => {
       </Button>
     </form>
   );
-  {
-    /* <Card className="w-full sm:max-w-md">
-        <CardHeader>
-          <CardTitle>Sign In</CardTitle>
-          <CardDescription>Sign in to your account.</CardDescription>
-        </CardHeader>
-        <CardContent> */
-  }
-  //   <form
-  //     className="flex flex-col gap-2"
-  //     onSubmit={handleSubmit(onSubmit)}
-  //   >
-  //     <Input
-  //       type="email"
-  //       {...register("email")}
-  //       placeholder="ex: raihan@gmail.com"
-  //     />
-  //     {errors.email && (
-  //       <p className="text-red-700 text-sm">{errors.email.message}</p>
-  //     )}
-  //     <Input
-  //       type="password"
-  //       {...register("password")}
-  //       placeholder="********"
-  //     />
-  //     {errors.password && (
-  //       <p className="text-red-700 text-sm">{errors.password.message}</p>
-  //     )}
-  //     {errors.root && (
-  //       <FieldError className="text-red-700 text-sm">
-  //         {errors.root.message}
-  //       </FieldError>
-  //     )}
-  //     <Button
-  //       disabled={isSubmitting}
-  //       className={`${isSubmitting && "opacity-50 cursor-not-allowed"}`}
-  //       type="submit"
-  //     >
-  //       Sign in
-  //     </Button>
-  //   </form>
-  {
-    /* </CardContent>
-      </Card> */
-  }
 };

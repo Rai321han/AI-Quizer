@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { useQuizTimer } from "@/hooks/useQuizTimer";
 import { formatTime } from "@/lib/utils";
 import { Check, Hexagon, Timer } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type QuizDataReponse = {
   question_id: string;
@@ -42,11 +42,24 @@ export default function ClientQuizAttemptPage({
 
   // Optional: auto-submit when time ends
   const remaining = useQuizTimer(startedAt, duration, serverNow);
+
+  const handleSubmit = useCallback(async () => {
+    setIsloading(true);
+    setScore(null);
+    const res = await saveQuizAttempt(quiz_id, quizes);
+    if (!res.success) {
+      alert("failed to load the score");
+    }
+
+    if (res.success) setScore(res.data.score || 0);
+    setIsloading(false);
+  }, [quiz_id, quizes]);
+
   useEffect(() => {
     if (remaining === 0 && duration !== -1) {
       handleSubmit();
     }
-  }, [remaining, duration]);
+  }, [remaining, duration, handleSubmit]);
 
   function handleNavigation(action: "prev" | "next") {
     if (action === "prev" && quizNo === 0) {
@@ -64,18 +77,6 @@ export default function ClientQuizAttemptPage({
 
   function handleAnswer(answers: number[]) {
     setAnswered(answers, quizNo + 1);
-  }
-
-  async function handleSubmit() {
-    setIsloading(true);
-    setScore(null);
-    const res = await saveQuizAttempt(quiz_id, quizes);
-    if (!res.success) {
-      alert("failed to load the score");
-    }
-
-    if (res.success) setScore(res.data.score || 0);
-    setIsloading(false);
   }
 
   if (error) return <div>error</div>;

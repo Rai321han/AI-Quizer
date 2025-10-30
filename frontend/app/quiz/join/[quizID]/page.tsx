@@ -1,7 +1,7 @@
 "use client";
 
 import { getQuizInfoById } from "@/actions/quiz";
-import { QuizAPIType } from "@/app/types/quiz";
+import type { QuizAPIType } from "@/app/types/quiz";
 import { Badge } from "@/components/ui/badge";
 import { Hexagon } from "lucide-react";
 import Link from "next/link";
@@ -33,6 +33,7 @@ export default function QuizAttemptPage({
   const [error, setError] = useState<string | null>(null); // Add error state
   const { quizID } = use(params);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: router.push is stable in Next.js
   useEffect(() => {
     const fetch = async () => {
       try {

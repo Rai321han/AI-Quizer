@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { QuizAPIType, QuizType } from "@/app/types/quiz";
+import { type QuizAPIType, QuizType } from "@/app/types/quiz";
 
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
