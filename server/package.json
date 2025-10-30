@@ -4,14 +4,15 @@
   "description": "An AI Quiz generator",
   "license": "ISC",
   "author": "Raihan Uddin",
-  "type": "module",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production node src/index.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "build": "npx tsc",
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "migrate:create": "dotenv -e .env -- npx node-pg-migrate create -m src/db/migrations",
-    "worker": "tsx watch src/workers/quizWorker.ts",
+    "worker": "tsx watch dist/workers/quizWorker.js",
     "migrate:up": "dotenv -e .env -- node-pg-migrate up -m src/db/migrations",
     "migrate:down": "dotenv -e .env -- node-pg-migrate down -m src/db/migrations"
   },
