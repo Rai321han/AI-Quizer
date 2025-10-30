@@ -37,6 +37,8 @@
 
     // Recommended Options
 
+    "resolveJsonModule": true,
+
     "strict": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": false,
@@ -48,6 +50,7 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+
   "exclude": ["node_modules"]
 }
