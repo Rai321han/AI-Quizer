@@ -3,6 +3,7 @@
 import { getQuizInfoById } from "@/actions/quiz";
 import type { QuizAPIType } from "@/app/types/quiz";
 import { Badge } from "@/components/ui/badge";
+import { formatTime } from "@/lib/utils";
 import { Hexagon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -85,12 +86,12 @@ export default function QuizAttemptPage({
   }
 
   return (
-    <div className="w-full p-4 min-h-screen flex items-center justify-center bg-border">
+    <div className="w-full p-2 sm:p-4 min-h-screen flex items-center justify-center bg-border">
       <div className="bg-card p-4 rounded-md border-1 border-border flex flex-col w-full max-w-[600px] gap-4">
         <div className="flex flex-col gap-3">
-          <div>
+          {/* <div>
             <p className="text-sm">Star Coder Program 2025</p>
-          </div>
+          </div> */}
           <p className="text-xl font-semibold">{quizInfo.title}</p>
 
           <div className="flex flex-row gap-2 items-center">
@@ -99,7 +100,7 @@ export default function QuizAttemptPage({
             </Badge>
             <Badge variant="outline">
               Time:{" "}
-              {quizInfo.duration > 0 ? `${quizInfo.duration} minutes` : "∞"}
+              {quizInfo.duration > 0 ? `${formatTime(quizInfo.duration)}` : "∞"}
             </Badge>
           </div>
           <div className="text-foreground/70 text-sm">
@@ -119,7 +120,7 @@ export default function QuizAttemptPage({
               Click to start
             </Link>
           ) : (
-            <Badge className="bg-border">
+            <Badge className="bg-border ">
               This quiz has not started yet. Please wait!
             </Badge>
           )}

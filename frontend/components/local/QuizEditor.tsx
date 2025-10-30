@@ -29,6 +29,7 @@ import { UUID } from "crypto";
 import { saveQuizToDB } from "@/app/quiz/actions/generatequiz.action";
 import useUser from "@/hooks/useUser";
 import { useQuiz } from "@/app/stores/quiz";
+import DurationPicker from "./DurationPicker";
 
 // `jomkalo/api/sds`
 //`jomkalo/api/sds`
@@ -44,6 +45,7 @@ export default function QuizEditor({
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState<string>("10:30:00");
   const { data: session } = useUser();
+  const [duration, setDuration] = useState<number>(0);
   const quizes = useQuiz((s) => s.quizes);
 
   const link = `${process.env.NEXT_PUBLIC_URL}/quiz/join/${quiz_id}`;
@@ -67,7 +69,7 @@ export default function QuizEditor({
       scheduled_at: scheduledDateTime,
       no_of_questions: quizes.length,
       created_by: session.user.id,
-      duration: null,
+      duration: duration === 0 ? null : duration,
       status: "scheduled",
       title: title,
       total_marks: null,
@@ -87,7 +89,7 @@ export default function QuizEditor({
 
   return (
     <>
-      <div className="flex flex-row flex-wrap gap-4 mb-3 items-end justify-between ">
+      <div className=" mb-3 flex flex-col gap-3">
         <Dialog>
           <DialogTrigger asChild>
             <Button className="rounded-full" variant={"outline"}>
@@ -198,11 +200,9 @@ export default function QuizEditor({
           </DialogContent>
         </Dialog>
         <div className="flex flex-row items-stretch justify-between border-1 w-full sm:w-auto  rounded-md  bg-card">
-          <div className="  rounded-l-md font-bold p-3 pr-0 flex flex-col items-center justify-center">
-            <p>Schedule</p>
-          </div>
-          <div className="flex gap-2 sm:gap-4 rounded-r-md p-2 md:p-3 ">
-            <div className="flex flex-col gap-3">
+          <div className="flex gap-2 sm:gap-2 rounded-r-md p-3 sm:p-5 md:p-3 flex-row flex-wrap">
+            <div className="flex flex-col gap-2 items-start">
+              <Label>Date:</Label>
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
@@ -230,7 +230,8 @@ export default function QuizEditor({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="time-picker">Time:</Label>
               <Input
                 onChange={handleTimeChange}
                 value={time}
@@ -240,11 +241,18 @@ export default function QuizEditor({
                 className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
               />
             </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="duration">Duration:</Label>
+              <DurationPicker
+                onChange={(value: number) => setDuration(value)}
+                value={1}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="border-1 border-border rounded-lg p-10 bg-card mx-auto flex flex-col gap-5">
+      <div className="border-1 border-border rounded-lg p-3 sm:p-10 bg-card mx-auto flex flex-col gap-5">
         <p className="text-xl font-bold ">{title || "Untitled"}</p>
         <div className="w-full border-1 border-accent"></div>
         <div>

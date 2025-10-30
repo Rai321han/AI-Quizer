@@ -26,6 +26,7 @@ export default function QuizGenerate() {
     enableMultiple: false,
     noOfQuestions: 1,
     noOfOptions: 2,
+    duration: -1,
     prompt: "",
     title: "",
   });
@@ -64,10 +65,10 @@ export default function QuizGenerate() {
   }
 
   return (
-    <main className="min-h-screen w-full  bg-background p-5">
+    <main className="min-h-screen w-full  bg-background p-2 sm:p-5">
       <div className="flex flex-col items-center justify-center w-full">
         <div className="pb-5 text-center  w-full max-w-[800px] p-2 md:p-5">
-          <div className="w-full  mx-auto border-1 p-6 md:p-10 border-border bg-card rounded-md">
+          <div className="w-full  mx-auto border-1 p-4 sm:p-6 md:p-10 border-border bg-card rounded-md">
             <form
               className="flex flex-col items-start gap-4 w-full mx-auto max-w-[500px]"
               onSubmit={handleSubmit}
@@ -163,7 +164,7 @@ export default function QuizGenerate() {
             </form>
           </div>
         </div>
-        <div className="w-full flex-col max-w-[800px] p-5">
+        <div className="w-full flex-col max-w-[800px] p-2 sm:p-5">
           {quizes.length > 0 && (
             <QuizEditor title={formData.title} quiz_id={quizId || ""} />
           )}

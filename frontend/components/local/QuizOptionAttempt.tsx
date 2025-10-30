@@ -53,7 +53,7 @@ export default function QuizOptionAttempt({
         {options.map((option, i) => (
           <Label
             key={i}
-            className="hover:bg-accent-foreground/50 flex items-start gap-3 rounded border p-4 bg-sidebar-border has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-accent-foreground"
+            className="hover:bg-accent-foreground/50 flex items-start gap-3 rounded border p-2 sm:p-4 bg-sidebar-border has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-accent-foreground"
           >
             <Checkbox
               id="toggle-2"
@@ -75,7 +75,7 @@ export default function QuizOptionAttempt({
         <div
           key={i}
           onClick={() => handleSelection("single", i + 1)}
-          className={`flex flex-row gap-2 p-3 rounded  ${
+          className={`flex flex-row gap-2 p-2 sm:p-4 rounded  ${
             currentAnswersSet.has(i + 1)
               ? "bg-accent-foreground"
               : "bg-sidebar-border"

@@ -9,6 +9,7 @@ export type QuizData = {
   enableMultiple: boolean;
   noOfQuestions: number;
   noOfOptions: number;
+  duration: number;
   prompt: string;
   title: string;
 };
