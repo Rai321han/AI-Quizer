@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -23,6 +23,8 @@ export default function Home() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
+                role="img"
+                aria-label="svg of generating quiz"
               >
                 <path
                   fillRule="evenodd"

@@ -43,7 +43,7 @@ export const SignUpForm = () => {
               });
             }
           },
-        }
+        },
       );
     } catch (error: any) {
       console.error("Signup error:", error);
@@ -115,7 +115,7 @@ export const SignInForm = () => {
               });
             }
           },
-        }
+        },
       );
     } catch (error: any) {
       console.error("Signin error:", error);

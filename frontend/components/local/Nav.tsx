@@ -1,11 +1,10 @@
 "use client";
 
-import useUser from "@/hooks/useUser";
-import React from "react";
-import { Button } from "../ui/button";
 import Link from "next/link";
-import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import useUser from "@/hooks/useUser";
+import { authClient } from "@/lib/auth-client";
+import { Button } from "../ui/button";
 
 export default function Nav() {
   const { data, isPending, refetch, error } = useUser();

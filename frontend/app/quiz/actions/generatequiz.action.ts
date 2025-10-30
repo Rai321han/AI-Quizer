@@ -1,4 +1,4 @@
-import { QuizType, QuizData, QuizAPIType } from "@/app/types/quiz";
+import type { QuizAPIType, QuizData } from "@/app/types/quiz";
 
 export async function generateQuiz(quizData: QuizData) {
   const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/generate`;

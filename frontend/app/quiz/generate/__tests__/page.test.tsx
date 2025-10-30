@@ -1,4 +1,4 @@
-import { describe, expect, it, test, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import QuizGenerate from "../page";
 
@@ -29,7 +29,7 @@ describe("Quiz Generation Page render", () => {
     render(<QuizGenerate />);
     expect(screen.getByPlaceholderText("Title")).toBeInTheDocument();
     expect(
-      screen.getByPlaceholderText("which topic do you want to test?")
+      screen.getByPlaceholderText("which topic do you want to test?"),
     ).toBeInTheDocument();
     expect(screen.getByText("Single Answer")).toBeInTheDocument();
     expect(screen.getByText("Generate Quiz")).toBeInTheDocument();

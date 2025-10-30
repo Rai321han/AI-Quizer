@@ -1,9 +1,9 @@
 "use client";
 
-import { QuizData } from "@/app/types/quiz";
+import type { QuizData } from "@/app/types/quiz";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { generateQuiz } from "../actions/generatequiz.action";
 import QuizEditor from "@/components/local/QuizEditor";
 import Counter from "@/components/local/Counter";
@@ -32,7 +32,7 @@ export default function QuizGenerate() {
 
   function handleFormChange<T extends keyof QuizData>(
     name: T,
-    value: QuizData[T]
+    value: QuizData[T],
   ) {
     setFormData((prev) => ({
       ...prev,
@@ -128,6 +128,7 @@ export default function QuizGenerate() {
               >
                 {isLoading ? (
                   <svg
+                    aria-label="svg-quiz-before-generate"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -136,15 +137,18 @@ export default function QuizGenerate() {
                     strokeWidth="1.75"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    role="img"
                     className="animate-spin stroke-white fill-none"
                   >
                     <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                   </svg>
                 ) : (
                   <svg
+                    aria-label="svg-quiz-while-generating"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
+                    role="img"
                   >
                     <path
                       fillRule="evenodd"

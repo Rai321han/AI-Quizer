@@ -18,7 +18,7 @@ export default function QuizOptionAttempt({
   quizNo,
 }: Options) {
   const currentAnswers = useQuizAttempt((s) =>
-    s.quizes.find((q) => q.no === quizNo)
+    s.quizes.find((q) => q.no === quizNo),
   );
 
   const currentAnswersSet = currentAnswers

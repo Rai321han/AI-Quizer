@@ -1,13 +1,6 @@
 import { getQuizJoinData } from "@/actions/quiz-server-actions";
 import ClientQuizAttemptPage from "@/app/quiz/attempt/[quizID]/ClientQuizAttemptPage";
 
-type TempQuizData = {
-  no: number;
-  question: string;
-  type: "multiple" | "single";
-  options: string[];
-}[];
-
 type QuizDataReponse = {
   question_id: string;
   no: number;

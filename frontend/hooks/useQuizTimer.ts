@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 export function useQuizTimer(
   startedAt: string,
   durationSec: number,
-  serverNow: string
+  serverNow: string,
 ) {
   // Calculate offset between server time and local time
   if (durationSec < 0) return -1;

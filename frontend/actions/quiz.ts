@@ -31,23 +31,14 @@ export async function getQuizInfoById(quizId: string) {
   }
 }
 
-type QuizDataReponse = {
-  question_id: string;
-  no: number;
-  question: string;
-  type: "multiple" | "single";
-  options: string[];
-  answers: number[];
-};
-
 type QuizAttemptType = {
   no: number;
-  answers: number[];
+  answers: number[]; 
 };
 
 export async function saveQuizAttempt(
   quizId: string,
-  quizData: QuizAttemptType[]
+  quizData: QuizAttemptType[],
 ) {
   try {
     const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/save/${quizId}`;

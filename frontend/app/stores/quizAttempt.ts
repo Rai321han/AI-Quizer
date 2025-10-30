@@ -37,5 +37,5 @@ export const useQuizAttempt = create<QuizAttemptState>()(
           state.quizes = [...state.quizes, { no: quiz_no, answers }];
         }
       }),
-  }))
+  })),
 );

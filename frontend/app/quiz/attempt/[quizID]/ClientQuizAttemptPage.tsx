@@ -7,9 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { useQuizTimer } from "@/hooks/useQuizTimer";
 import { formatTime } from "@/lib/utils";
 import { Check, Hexagon, Timer } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 type QuizDataReponse = {
   question_id: string;
@@ -48,7 +46,7 @@ export default function ClientQuizAttemptPage({
     if (remaining === 0 && duration !== -1) {
       handleSubmit();
     }
-  }, [remaining]);
+  }, [remaining, duration]);
 
   function handleNavigation(action: "prev" | "next") {
     if (action === "prev" && quizNo === 0) {

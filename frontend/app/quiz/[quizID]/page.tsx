@@ -1,4 +1,4 @@
-import { QuizType } from "@/app/types/quiz";
+import type { QuizType } from "@/app/types/quiz";
 
 export default async function QuizDetails({
   params,

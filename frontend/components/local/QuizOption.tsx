@@ -45,5 +45,5 @@ export const QuizOption = memo(
         </div>
       </div>
     );
-  }
+  },
 );

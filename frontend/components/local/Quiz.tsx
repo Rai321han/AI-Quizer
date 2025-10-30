@@ -23,13 +23,13 @@ export const Quiz = memo(({ id }: { id: number }) => {
         [name]: value,
       }));
     },
-    []
+    [],
   );
 
   function editOption(no: number, value: string) {
     if (!quizData) return;
     const updatedOptions = quizData.options.map((o, i) =>
-      i === no ? value : o
+      i === no ? value : o,
     );
     handleQuizChange("options", updatedOptions);
   }

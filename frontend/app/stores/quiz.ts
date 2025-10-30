@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { QuizType } from "../types/quiz";
+import type { QuizType } from "../types/quiz";
 
 interface QuizState {
   quizes: QuizType[];
@@ -39,5 +39,5 @@ export const useQuiz = create<QuizState>()(
       set((state) => {
         state.quizes = state.quizes.filter((q: QuizType) => q.no !== id);
       }),
-  }))
+  })),
 );
