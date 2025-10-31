@@ -2,9 +2,10 @@ import { Pool } from "pg";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  max: 12,
+  max: 8,
   min: 4,
   idleTimeoutMillis: 60000,
+  allowExitOnIdle: true,
   keepAlive: true,
 });
 
