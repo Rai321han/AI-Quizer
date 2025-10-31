@@ -40,7 +40,9 @@ export default function Nav() {
             >
               Dashboard
             </Link>
-            <Button onClick={signout}>Logout</Button>
+            <Button onClick={signout} className="text-foreground">
+              Logout
+            </Button>
           </>
         )}
       </div>
