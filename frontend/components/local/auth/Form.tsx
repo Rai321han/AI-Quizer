@@ -74,7 +74,9 @@ export const SignUpForm = () => {
       )}
       <Button
         disabled={isSubmitting}
-        className={`${isSubmitting && "opacity-50 cursor-not-allowed"}`}
+        className={`${
+          isSubmitting && "opacity-50 cursor-not-allowed"
+        } text-foreground`}
         type="submit"
       >
         Sign Up
@@ -143,7 +145,9 @@ export const SignInForm = () => {
       )}
       <Button
         disabled={isSubmitting}
-        className={`${isSubmitting && "opacity-50 cursor-not-allowed"}`}
+        className={`${
+          isSubmitting && "opacity-50 cursor-not-allowed"
+        } text-foreground`}
         type="submit"
       >
         Sign in
