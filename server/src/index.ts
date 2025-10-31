@@ -9,7 +9,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://ai-quizer-uwge.onrender.com", "http://localhost:3000"],
+    origin: [
+      "https://frontend-mq56v0on3-rai321hans-projects.vercel.app",
+      "http://localhost:3000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

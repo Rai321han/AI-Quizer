@@ -68,4 +68,4 @@ jobs:
         run: npm i -g vercel
 
       - name: Deploy Frontend to Vercel
-        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --yes
+        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --yes --scope ${{secrets.ORG_ID}} --project ${{secrets.PROJECT_ID}}
