@@ -5,10 +5,7 @@ import pool from "../db";
 export const auth = betterAuth({
   database: pool,
 
-  trustedOrigins: [
-    "http://localhost:3000",
-    "https://frontend-five-iota-65.vercel.app",
-  ],
+  trustedOrigins: ["http://localhost:3000", "https://ai-quizer.vercel.app"],
   emailAndPassword: {
     enabled: true,
   },
