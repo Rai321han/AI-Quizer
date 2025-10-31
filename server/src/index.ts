@@ -9,10 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "https://frontend-five-iota-65.vercel.app",
-      "http://localhost:3000",
-    ],
+    origin: ["https://ai-quizer.vercel.app", "http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
