@@ -23,9 +23,7 @@ export default function Nav() {
   return (
     <nav className="flex flex-row justify-between p-3">
       <div className="flex flex-row items-center gap-4">
-        <h1 className="text-sm sm:text-lg font-anton text-zinc-500">
-          AI Quizer
-        </h1>
+        <h1 className="text-sm sm:text-lg font-anton text-zinc-500">AQ</h1>
       </div>
       <div className="flex flex-row items-center gap-2">
         <Link
