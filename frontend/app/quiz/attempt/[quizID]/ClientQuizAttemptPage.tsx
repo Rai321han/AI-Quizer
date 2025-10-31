@@ -107,7 +107,7 @@ export default function ClientQuizAttemptPage({
 
     return (
       <div className="w-full min-h-[95vh] flex items-center justify-center ">
-        <div className="bg-card rounded-md border-1 border-border p-5 flex flex-col gap-3">
+        <div className="bg-card rounded-md border-1 border-border/20 p-5 flex flex-col gap-3">
           <p className="text-green-500 font-semibold">{text}</p>
           <div className="flex flex-col text-2xl">
             <p>Your score:</p>
@@ -149,7 +149,7 @@ export default function ClientQuizAttemptPage({
             </p>
           </div>
         </div>
-        <div className="bg-card border-1 border-border p-4 sm:p-7 md:p-10 rounded flex flex-col items-center h-full overflow-y-auto">
+        <div className="bg-card border-1 border-border/20 p-4 sm:p-7 md:p-10 rounded flex flex-col items-center h-full overflow-y-auto">
           <div className=" max-w-[600px] w-full flex flex-col gap-5">
             <div>
               <span className="text-muted-foreground">{quiz.no}. </span>

@@ -22,21 +22,27 @@ export default function Nav() {
 
   return (
     <nav className="flex flex-row justify-between p-3">
-      <div className="flex flex-row items-center gap-2">
-        <h1 className="text-sm sm:text-lg font-bold text-zinc-500">
+      <div className="flex flex-row items-center gap-4">
+        <h1 className="text-sm sm:text-lg font-anton text-zinc-500">
           AI Quizer
         </h1>
       </div>
       <div className="flex flex-row items-center gap-2">
+        <Link
+          href="/quiz/generate"
+          className="font-mono whitespace-nowrap text-sm hover:text-foreground text-foreground/70 underline-offset-2 border-b-3 border-border/20"
+        >
+          Generate Quiz
+        </Link>
         {data?.user && (
           <>
-            <Button onClick={signout}>Logout</Button>
             <Link
               href="/dashboard"
-              className="border-1 border-border px-3  py-2 text-sm rounded-md hover:bg-card"
+              className="font-mono hover:text-foreground text-sm text-foreground/70 underline-offset-2 border-b-3 border-border/20 mx-5"
             >
               Dashboard
             </Link>
+            <Button onClick={signout}>Logout</Button>
           </>
         )}
       </div>

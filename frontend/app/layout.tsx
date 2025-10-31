@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter_Tight } from "next/font/google";
+import { Inter_Tight, Anton } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/local/Nav";
 import { Toaster } from "@/components/ui/sonner";
@@ -9,9 +9,14 @@ const inter = Inter_Tight({
   weight: ["600", "400", "300"],
 });
 
+const anton = Anton({
+  variable: "--font-anton",
+  weight: ["400"],
+});
+
 export const metadata: Metadata = {
   title: "AI Quizer",
-  description: "Your go to app for generating instant quiz with AI.",
+  description: "AI-powered quiz app",
 };
 
 export default function RootLayout({
@@ -21,7 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable}  antialiased dark bg-background`}>
+      <body
+        className={`${inter.variable} ${anton.variable} antialiased bg-background`}
+      >
         <Nav />
         {children}
         <Toaster />

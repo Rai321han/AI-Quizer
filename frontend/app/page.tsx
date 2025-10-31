@@ -6,10 +6,10 @@ export default function Home() {
     <main className="w-full min-h-screen bg-background tracking-tighter">
       <section className="min-h-screen flex flex-col gap-5 items-center justify-center relative">
         <div className="flex flex-col gap-5 z-1">
-          <h1 className="text-6xl md:text-8xl font-bold text-center ">
+          <h1 className="text-6xl md:text-8xl  text-center heading-bold tracking-wide">
             AI QUIZER
           </h1>
-          <p className="text-center  text-[22px] leading-7 max-w-[700px]">
+          <p className="text-center  text-[22px] leading-7 max-w-[700px] font-mono">
             Create AI-powered quizzes in seconds. <br /> Challenge. Compete.
             Conquer.
           </p>
@@ -18,7 +18,7 @@ export default function Home() {
             href={"/quiz/generate"}
             className="mx-auto max-w-[300px] w-full relative z-10 "
           >
-            <Button className="shadow-xl w-full max-w-[300px] cursor-pointer bg-radial border-2 border-border from-[#a083f7] to-[#150349] rounded-full h-12 ">
+            <Button className="shadow-xl w-full max-w-[300px] font-mono font-semibold cursor-pointer bg-radial border-2 border-border/20 bg-[#2eff9b] hover:bg-[#2eff9b]/80 text-black rounded-full h-12 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -34,50 +34,49 @@ export default function Home() {
               </svg>
               <p className="tracking-wider">Generate Quiz</p>
             </Button>
-            <div className="bg-[#8c6cee] absolute max-w-[200px] animate-pulse blur-3xl -z-10 h-13 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"></div>
           </Link>
         </div>
-        <div className="p-2  rounded-lg mt-5 flex flex-row gap-3">
-          <div className="w-[150px] -rotate-12 shadow-md translate-x-5 flex flex-col gap-4 bg-card border-1 border-border p-2  h-full rounded-md">
+        <div className="rounded-lg mt-5 flex flex-row gap-3 flex-wrap sm:flex-nowrap justify-center sm:justify-start">
+          <div className="w-[150px] -rotate-12 shadow-md translate-x-5 flex flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
             <div>
-              <p className="font-semibold text-sm text-gray-400 tracking-wider">
+              <p className="font-semibold text-sm text-gray-400 tracking-wider font-mono">
                 SCORE
               </p>
               <div className="flex flex-row gap-2 items-end">
-                <p className="text-3xl font-bold text-green-600/60">30</p>
+                <p className="text-3xl font-bold text-[#878784]">30</p>
                 <p className="text-gray-400">/ 30</p>
               </div>
             </div>
-            <div className="text-sm rounded-md p-2 text-zinc-400  ">
+            <div className="text-sm rounded-md p-2 px-0 text-zinc-400  ">
               You've done outstanding!
             </div>
           </div>
 
-          <div className="w-[150px] flex -mt-5 shadow-md flex-col gap-4 bg-card border-1 border-border p-2  h-full rounded-md">
+          <div className="w-[150px] flex sm:-mt-5 rotate-12 sm:rotate-none shadow-md flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
             <div>
-              <p className="font-semibold text-sm text-gray-400 tracking-wider">
+              <p className="font-semibold text-sm text-gray-400 tracking-wider font-mono">
                 ATTENDED
               </p>
               <div className="flex flex-row gap-2 items-end">
-                <p className="text-3xl font-bold text-green-600/60">19</p>
+                <p className="text-3xl font-bold text-[#878784]">19</p>
                 {/* <p className="text-gray-400">/ 30</p> */}
               </div>
             </div>
-            <div className="text-sm rounded-md p-2 text-zinc-400  ">
+            <div className="text-sm rounded-md p-2 px-0 text-zinc-400  ">
               So many more to gooo!
             </div>
           </div>
 
-          <div className="w-[150px] rotate-12 -translate-x-5 shadow-md flex flex-col gap-4 bg-card border-1 border-border p-2  h-full rounded-md">
+          <div className="w-[150px] sm:rotate-12 sm:-translate-x-5 -translate-y-5 sm:translate-y-0 shadow-md flex flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
             <div>
-              <p className="font-semibold text-sm text-gray-400 tracking-wider">
+              <p className="font-semibold text-sm text-gray-400 tracking-wider font-mono">
                 GENERATED
               </p>
               <div className="flex flex-row gap-2 items-end">
-                <p className="text-3xl font-bold text-green-600/60">16</p>
+                <p className="text-3xl font-bold text-[#878784]">16</p>
               </div>
             </div>
-            <div className="text-sm rounded-md p-2 text-zinc-400  ">
+            <div className="text-sm rounded-md p-2 px-0 text-zinc-400  ">
               Never stop quizzing!
             </div>
           </div>

@@ -167,7 +167,7 @@ export default function QuizEditor({
                 <div className="overflow-x-auto p-2  rounded-l-md bg-card  border-1 border-r-0 border-input ">
                   <p>{link}</p>
                 </div>
-                <div className="rounded-r-md bg-card p-2 border-1 border-l-0 border-border flex flex-col items-center justify-center">
+                <div className="rounded-r-md bg-card p-2 border-1 border-l-0 border-border/20 flex flex-col items-center justify-center">
                   <div
                     className="cursor-pointer "
                     onClick={() => navigator.clipboard.writeText(link)}
@@ -252,7 +252,7 @@ export default function QuizEditor({
         </div>
       </div>
 
-      <div className="border-1 border-border rounded-lg p-3 sm:p-10 bg-card mx-auto flex flex-col gap-5">
+      <div className="border-1 border-border/20 rounded-lg p-3 sm:p-10 bg-card mx-auto flex flex-col gap-5">
         <p className="text-xl font-bold ">{title || "Untitled"}</p>
         <div className="w-full border-1 border-accent"></div>
         <div>

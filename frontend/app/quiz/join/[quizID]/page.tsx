@@ -86,8 +86,8 @@ export default function QuizAttemptPage({
   }
 
   return (
-    <div className="w-full p-2 sm:p-4 min-h-screen flex items-center justify-center bg-border">
-      <div className="bg-card p-4 rounded-md border-1 border-border flex flex-col w-full max-w-[600px] gap-4">
+    <div className="w-full p-2 sm:p-4 min-h-screen flex items-center justify-center bg-background">
+      <div className="bg-card p-4 rounded-md border-1 border-border/20 flex flex-col w-full max-w-[600px] gap-4">
         <div className="flex flex-col gap-3">
           {/* <div>
             <p className="text-sm">Star Coder Program 2025</p>
@@ -120,7 +120,7 @@ export default function QuizAttemptPage({
               Click to start
             </Link>
           ) : (
-            <Badge className="bg-border ">
+            <Badge className="bg-[var(--highlight)] text-black">
               This quiz has not started yet. Please wait!
             </Badge>
           )}

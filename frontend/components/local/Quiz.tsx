@@ -40,7 +40,7 @@ export const Quiz = memo(({ id }: { id: number }) => {
       key={quizData.no}
       className={`rounded-md ${
         isEditing
-          ? "bg-accent-foreground border-1 border-border"
+          ? "bg-accent-foreground border-1 border-border/20"
           : "bg-background"
       }  p-5 flex flex-col gap-3`}
     >
@@ -56,7 +56,7 @@ export const Quiz = memo(({ id }: { id: number }) => {
           </p>
           <textarea
             // type="text"
-            className={`w-full font-bold  text-wrap border-b-1 border-border outline-none ${
+            className={`w-full font-bold  text-wrap border-b-1 border-border/20 outline-none ${
               isEditing ? "block" : "hidden"
             }`}
             value={quizData.question}

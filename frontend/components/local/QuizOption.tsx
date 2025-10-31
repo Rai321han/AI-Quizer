@@ -11,7 +11,7 @@ type OptionProps = {
 export const QuizOption = memo(
   ({ no, option, answers, editMode, editOption }: OptionProps) => {
     return (
-      <div className="p-3 bg-card rounded-sm flex flex-row justify-between gap-2 border-1 border-border">
+      <div className="p-3 bg-card rounded-sm flex flex-row justify-between gap-2 border-1 border-border/20">
         <div className="flex flex-row grow gap-2">
           <div className="rounded-full w-[30px] h-[30px] bg-input p-2 flex flex-row items-center justify-center">
             <p>{no}</p>
@@ -23,7 +23,7 @@ export const QuizOption = memo(
             type="text"
             className={`w-full ${
               editMode ? "block" : "hidden"
-            }  border-b-1 border-border outline-none `}
+            }  border-b-1 border-border/20 outline-none `}
             value={option}
             onChange={(e) => editOption(e.target.value)}
           />
