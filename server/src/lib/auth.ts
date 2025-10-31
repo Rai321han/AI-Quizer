@@ -4,7 +4,7 @@ import pool from "../db";
 
 export const auth = betterAuth({
   database: pool,
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: ["http://localhost:3000", `${process.env.FRONTEND}`],
   emailAndPassword: {
     enabled: true,
   },
