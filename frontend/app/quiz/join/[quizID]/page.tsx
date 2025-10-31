@@ -114,7 +114,7 @@ export default function QuizAttemptPage({
         <div>
           {quizInfo.status === "ongoing" ? (
             <Link
-              href={`${process.env.NEXT_PUBLIC_URL}/quiz/attempt/${quizID}`}
+              href={`/quiz/attempt/${quizID}`}
               className="bg-accent-foreground rounded-sm text-sm p-2"
             >
               Click to start
