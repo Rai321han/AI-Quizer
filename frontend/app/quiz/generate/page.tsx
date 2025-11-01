@@ -34,7 +34,7 @@ export default function QuizGenerate() {
 
   function handleFormChange<T extends keyof QuizData>(
     name: T,
-    value: QuizData[T],
+    value: QuizData[T]
   ) {
     setFormData((prev) => ({
       ...prev,
@@ -120,7 +120,7 @@ export default function QuizGenerate() {
                 required
                 onChange={(e) => handleFormChange("prompt", e.target.value)}
                 value={formData.prompt}
-                placeholder="which topic do you want to test?"
+                placeholder="Generate quiz on database."
                 className="mt-4 max-h-[200px]"
               />
 
