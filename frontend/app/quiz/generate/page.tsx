@@ -13,6 +13,7 @@ import { useQuiz } from "@/app/stores/quiz";
 
 import useUser from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
+import Buttonx from "@/components/local/Buttonx";
 
 export default function QuizGenerate() {
   const setQuizes = useQuiz((state) => state.setQuizes);
@@ -123,9 +124,9 @@ export default function QuizGenerate() {
                 className="mt-4 max-h-[200px]"
               />
 
-              <Button
+              <Buttonx
                 type="submit"
-                className="w-full max-w-[300px] p-5 mx-auto sm:mx-0 rounded-full flex flex-row items-center gap-3 text-black font-mono"
+                className="w-full max-w-[300px] border-border/30 border-b-4 hover:border-b-1 p-5 mx-auto sm:mx-0 rounded-full flex flex-row items-center gap-3 text-black font-mono"
               >
                 {isLoading ? (
                   <svg
@@ -160,7 +161,7 @@ export default function QuizGenerate() {
                 )}
 
                 <p>{isLoading ? "Generating..." : "Generate Quiz"}</p>
-              </Button>
+              </Buttonx>
             </form>
           </div>
         </div>

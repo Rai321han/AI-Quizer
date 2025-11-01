@@ -5,6 +5,7 @@ import { redirect, useRouter } from "next/navigation";
 import useUser from "@/hooks/useUser";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "../ui/button";
+import Buttonx from "./Buttonx";
 
 export default function Nav() {
   const { data, isPending, refetch, error } = useUser();
@@ -40,14 +41,12 @@ export default function Nav() {
             >
               Dashboard
             </Link>
-            <Button onClick={signout} className="text-foreground">
+            <Buttonx onClick={signout} className="text-foreground">
               Logout
-            </Button>
+            </Buttonx>
           </>
         ) : (
-          <Button onClick={() => redirect("/auth")} className="text-foreground">
-            Login
-          </Button>
+          <Buttonx onClick={() => redirect("/auth")}>Login</Buttonx>
         )}
       </div>
     </nav>

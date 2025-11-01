@@ -18,7 +18,10 @@ export default function Home() {
             href={"/quiz/generate"}
             className="mx-auto max-w-[300px] w-full relative z-10 "
           >
-            <Button className="shadow-xl w-full max-w-[300px] font-mono font-semibold cursor-pointer bg-radial border-2 border-border/20 bg-[#2eff9b] hover:bg-[#2eff9b]/80 text-black rounded-full h-12 ">
+            <Button
+              className="shadow-xl w-full max-w-[300px] font-mono font-semibold cursor-pointer bg-radial transition-all duration-75 hover:border-b-1 border-b-4 border-border/20 bg-[#2eff9b] hover:bg-[#2eff9b]/80 text-black rounded-full h-12 
+            "
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

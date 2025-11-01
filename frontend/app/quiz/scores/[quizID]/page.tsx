@@ -1,4 +1,5 @@
 "use client";
+import ScoreDisplay from "@/components/local/ScoreDisplay";
 import { setDate } from "date-fns";
 import { Hexagon } from "lucide-react";
 import { use, useEffect, useState } from "react";
@@ -80,14 +81,13 @@ export default function page({
   return (
     <div className="w-full min-h-[90vh] bg-background p-4">
       <div className="mx-auto max-w-[500px] flex flex-col gap-2">
-        {scores.map((s) => (
-          <div
-            key={s.user_id}
-            className="w-full flex flex-row justify-between p-2 bg-primary/30 text-foreground/70 font-mono rounded"
-          >
-            <p>{s.name}</p>
-            <p>{s.score}</p>
-          </div>
+        {scores.map((s, i) => (
+          <ScoreDisplay key={s.user_id} rank={i + 1} className="font-mono">
+            <div className="flex flex-row justify-between w-full">
+              <p>{s.name}</p>
+              <p>{s.score}</p>
+            </div>
+          </ScoreDisplay>
         ))}
       </div>
     </div>

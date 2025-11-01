@@ -2,12 +2,13 @@
 
 import { getQuizInfoById } from "@/actions/quiz";
 import type { QuizAPIType } from "@/app/types/quiz";
+import Buttonx from "@/components/local/Buttonx";
 import { Badge } from "@/components/ui/badge";
 import useUser from "@/hooks/useUser";
 import { formatTime } from "@/lib/utils";
 import { Hexagon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -117,12 +118,9 @@ export default function QuizAttemptPage({
         </div>
         <div>
           {quizInfo.status === "ongoing" ? (
-            <Link
-              href={`/quiz/attempt/${quizID}`}
-              className="bg-accent-foreground rounded-sm text-sm p-2"
-            >
+            <Buttonx onClick={() => redirect(`/quiz/attempt/${quizID}`)}>
               Click to start
-            </Link>
+            </Buttonx>
           ) : (
             <Badge className="bg-[var(--highlight)] text-black">
               This quiz has not started yet. Please wait!

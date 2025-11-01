@@ -1,6 +1,7 @@
 "use client";
 import { saveQuizAttempt } from "@/actions/quiz";
 import { useQuizAttempt } from "@/app/stores/quizAttempt";
+import Buttonx from "@/components/local/Buttonx";
 import QuizOptionAttempt from "@/components/local/QuizOptionAttempt";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -172,7 +173,7 @@ export default function ClientQuizAttemptPage({
           <Button
             variant="outline"
             disabled={quizNo === 0}
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-foreground"
             onClick={() => handleNavigation("prev")}
           >
             Previous
@@ -180,14 +181,14 @@ export default function ClientQuizAttemptPage({
           <Button
             variant="outline"
             disabled={quizNo === quizData.length - 1}
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-foreground"
             onClick={() => handleNavigation("next")}
           >
             Next
           </Button>
         </div>
         <div className="w-full">
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Buttonx onClick={handleSubmit}>Submit</Buttonx>
         </div>
       </div>
     </div>

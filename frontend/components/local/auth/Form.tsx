@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { FieldError } from "@/components/ui/field";
+import Buttonx from "../Buttonx";
 
 export const SignUpForm = () => {
   const {
@@ -72,17 +73,16 @@ export const SignUpForm = () => {
       {errors.root && (
         <p className="text-red-700 text-sm">{errors.root.message}</p>
       )}
-      <Button
+      <Buttonx
         disabled={isSubmitting}
         className={`${
-          isSubmitting
-            ? "opacity-50 cursor-not-allowed bg-primary/60 border-0"
-            : "hover:bg-primary/80 bg-primary/60 border-b-1 hover:border-b-3"
+          isSubmitting &&
+          "opacity-50 cursor-not-allowed bg-primary/60 border-1 "
         } text-foreground transition-all duration-75`}
         type="submit"
       >
         Sign Up
-      </Button>
+      </Buttonx>
     </form>
     // </div>
   );
@@ -145,17 +145,15 @@ export const SignInForm = () => {
           {errors.root.message}
         </FieldError>
       )}
-      <Button
+      <Buttonx
         disabled={isSubmitting}
         className={`${
-          isSubmitting
-            ? "opacity-50 cursor-not-allowed bg-primary/60 border-0"
-            : "hover:bg-primary/80 bg-primary/60 border-b-1 hover:border-b-3"
+          isSubmitting && "opacity-50 cursor-not-allowed bg-primary/60 border-1"
         } text-foreground transition-all duration-75`}
         type="submit"
       >
         Sign in
-      </Button>
+      </Buttonx>
     </form>
   );
 };
