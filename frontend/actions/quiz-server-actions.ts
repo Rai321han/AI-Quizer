@@ -5,15 +5,12 @@ import { cookies } from "next/headers";
 export async function getQuizJoinData(quiz_id: string) {
   const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/join/${quiz_id}`;
   const cookieStore = await cookies();
-  const cookieHeader = cookieStore
-    .getAll()
-    .map((cookie) => `${cookie.name}=${cookie.value}`)
-    .join("; ");
+  const authCookie = cookieStore.get("better-auth.session_token");
 
   try {
     const res = await fetch(api, {
       headers: {
-        ...(cookieHeader && { Cookie: cookieHeader }),
+        Cookie: authCookie ? `${authCookie.name}=${authCookie.value}` : "",
         "Content-Type": "application/json",
       },
     });

@@ -14,15 +14,6 @@ export default async function QuizAttemptPage({
 }: {
   params: Promise<{ quizID: string }>;
 }) {
-  // CHECKS
-  // ------------------
-  // check status
-  // redirect to join page if status of the quiz is not 'ongoing'
-  // redirect if user is invalid - TODO
-  // get quiz data
-  // get time in the server
-  // if remaining is 0 or less render that user has submitted the quiz
-
   const { quizID } = await params;
 
   const res = await getQuizJoinData(quizID);
