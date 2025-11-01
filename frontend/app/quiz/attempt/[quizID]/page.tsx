@@ -1,5 +1,9 @@
+"use client";
+
 import { getQuizJoinData } from "@/actions/quiz-server-actions";
 import ClientQuizAttemptPage from "@/app/quiz/attempt/[quizID]/ClientQuizAttemptPage";
+import { Hexagon } from "lucide-react";
+import { use, useEffect, useState } from "react";
 
 type QuizDataReponse = {
   question_id: string;
@@ -9,16 +13,52 @@ type QuizDataReponse = {
   options: string[];
 };
 
-export default async function QuizAttemptPage({
+type apiResponse =
+  | {
+      success: boolean;
+      message: string;
+      errorCode: any;
+      data?: undefined;
+    }
+  | {
+      success: boolean;
+      message: string;
+      data: any;
+      errorCode?: undefined;
+    };
+
+export default function QuizAttemptPage({
   params,
 }: {
   params: Promise<{ quizID: string }>;
 }) {
-  const { quizID } = await params;
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<apiResponse>();
+  const { quizID } = use(params);
 
-  const res = await getQuizJoinData(quizID);
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const res: apiResponse = await getQuizJoinData(quizID);
+      setData(res);
+      setIsLoading(false);
+    };
 
-  if (res.errorCode === "UNAUTHORIZED") {
+    fetchData();
+  }, [quizID]);
+
+  if (isLoading || !data)
+    return (
+      <div className="w-full min-h-[95vh] flex items-center justify-center">
+        <Hexagon
+          className="animate-spin stroke-accent-foreground stroke-2"
+          height={70}
+          width={70}
+        />
+      </div>
+    );
+
+  if (data.errorCode === "UNAUTHORIZED") {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         Please sign in first.
@@ -26,15 +66,15 @@ export default async function QuizAttemptPage({
     );
   }
 
-  if (!res.success) {
+  if (!data.success) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        {res.message}
+        {data.message}
       </div>
     );
   }
 
-  const status = res.data.status;
+  const status = data.data.status;
 
   if (status !== "ongoing")
     return (
@@ -44,12 +84,12 @@ export default async function QuizAttemptPage({
     );
 
   // make data for quiz perform
-  const quizData: QuizDataReponse[] = res.data.data;
+  const quizData: QuizDataReponse[] = data.data.data;
   let remaining = true;
 
-  if (res.data.duration > 0) {
-    const diff = Date.now() - new Date(res.data.started_at).getTime();
-    remaining = diff < res.data.duration * 1000;
+  if (data.data.duration > 0) {
+    const diff = Date.now() - new Date(data.data.started_at).getTime();
+    remaining = diff < data.data.duration * 1000;
   }
 
   if (!remaining) {
@@ -68,8 +108,8 @@ export default async function QuizAttemptPage({
   return (
     <ClientQuizAttemptPage
       quizData={quizData}
-      duration={res.data.duration || -1}
-      startedAt={new Date(res.data.started_at).toISOString()}
+      duration={data.data.duration || -1}
+      startedAt={new Date(data.data.started_at).toISOString()}
       serverNow={new Date().toISOString()}
       quiz_id={quizID}
     />
