@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import useUser from "@/hooks/useUser";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "../ui/button";
@@ -32,7 +32,7 @@ export default function Nav() {
         >
           Generate Quiz
         </Link>
-        {data?.user && (
+        {data?.user ? (
           <>
             <Link
               href="/dashboard"
@@ -44,6 +44,10 @@ export default function Nav() {
               Logout
             </Button>
           </>
+        ) : (
+          <Button onClick={() => redirect("/auth")} className="text-foreground">
+            Login
+          </Button>
         )}
       </div>
     </nav>

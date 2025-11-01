@@ -27,6 +27,14 @@ export default async function QuizAttemptPage({
 
   const res = await getQuizJoinData(quizID);
 
+  if (res.errorCode === "UNAUTHORIZED") {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        Please sign in first.
+      </div>
+    );
+  }
+
   if (!res.success) {
     return (
       <div className="w-full h-screen flex items-center justify-center">

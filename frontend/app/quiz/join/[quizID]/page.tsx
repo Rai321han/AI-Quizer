@@ -3,11 +3,13 @@
 import { getQuizInfoById } from "@/actions/quiz";
 import type { QuizAPIType } from "@/app/types/quiz";
 import { Badge } from "@/components/ui/badge";
+import useUser from "@/hooks/useUser";
 import { formatTime } from "@/lib/utils";
 import { Hexagon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type QuizInfoType = {
   title: string;
@@ -33,6 +35,7 @@ export default function QuizAttemptPage({
   const [loading, setLoading] = useState(true); // Add loading state
   const [error, setError] = useState<string | null>(null); // Add error state
   const { quizID } = use(params);
+  const { data } = useUser();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: router.push is stable in Next.js
   useEffect(() => {
@@ -51,7 +54,8 @@ export default function QuizAttemptPage({
           });
         } else if (response.errorCode === "UNAUTHORIZED") {
           router.push("/auth");
-          setError(response.message);
+          setError("Please sign in first");
+          toast.warning("Please sign in first.");
         } else {
           setError(response.message);
         }

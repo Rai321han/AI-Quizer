@@ -75,8 +75,10 @@ export const SignUpForm = () => {
       <Button
         disabled={isSubmitting}
         className={`${
-          isSubmitting && "opacity-50 cursor-not-allowed"
-        } text-foreground`}
+          isSubmitting
+            ? "opacity-50 cursor-not-allowed bg-primary/60 border-0"
+            : "hover:bg-primary/80 bg-primary/60 border-b-1 hover:border-b-3"
+        } text-foreground transition-all duration-75`}
         type="submit"
       >
         Sign Up
@@ -146,8 +148,10 @@ export const SignInForm = () => {
       <Button
         disabled={isSubmitting}
         className={`${
-          isSubmitting && "opacity-50 cursor-not-allowed"
-        } text-foreground`}
+          isSubmitting
+            ? "opacity-50 cursor-not-allowed bg-primary/60 border-0"
+            : "hover:bg-primary/80 bg-primary/60 border-b-1 hover:border-b-3"
+        } text-foreground transition-all duration-75`}
         type="submit"
       >
         Sign in

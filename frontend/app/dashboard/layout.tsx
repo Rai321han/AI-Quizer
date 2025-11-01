@@ -1,9 +1,3 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-
 export default function Layout({
   content,
   children,
@@ -26,24 +20,24 @@ export default function Layout({
   );
 }
 
-function Navitem({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const active = pathname === href;
+// function Navitem({
+//   href,
+//   children,
+// }: {
+//   href: string;
+//   children: React.ReactNode;
+// }) {
+//   const pathname = usePathname();
+//   const active = pathname === href;
 
-  return (
-    <Link
-      href={href}
-      className={`text-foreground/70 hover:text-foreground ${
-        active && "border-b-1 border-border/50 text-foreground"
-      }`}
-    >
-      {children}
-    </Link>
-  );
-}
+//   return (
+//     <Link
+//       href={href}
+//       className={`text-foreground/70 hover:text-foreground ${
+//         active && "border-b-1 border-border/50 text-foreground"
+//       }`}
+//     >
+//       {children}
+//     </Link>
+//   );
+// }
