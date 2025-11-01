@@ -35,6 +35,8 @@ export default async function QuizAttemptPage({
     );
   }
 
+  console.log(res);
+
   if (!res.success) {
     return (
       <div className="w-full h-screen flex items-center justify-center">

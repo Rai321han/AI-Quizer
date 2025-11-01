@@ -12,8 +12,6 @@ export async function getQuizJoinData(quiz_id: string) {
     });
     const data = await res.json();
 
-    console.log(data);
-
     if (data.success === false) {
       return {
         success: false,
@@ -31,7 +29,7 @@ export async function getQuizJoinData(quiz_id: string) {
     return {
       success: false,
       message: "Something went wrong",
-      errorCode: "SOMETHIG_WENT_WRONG",
+      errorCode: "SOMETHING_WENT_WRONG",
     };
   }
 }
@@ -42,7 +40,9 @@ export async function getGeneratedQuizesData() {
   try {
     const res = await fetch(api, {
       credentials: "include",
-      headers: await headers(),
+      headers: {
+        Cookie: (await import("next/headers")).cookies().toString(),
+      },
     });
     const data = await res.json();
 
@@ -72,7 +72,9 @@ export async function getAttemptdQuizesData() {
   try {
     const res = await fetch(api, {
       credentials: "include",
-      headers: await headers(),
+      headers: {
+        Cookie: (await import("next/headers")).cookies().toString(),
+      },
     });
     const data = await res.json();
 
@@ -88,7 +90,6 @@ export async function getAttemptdQuizesData() {
       data: data.data,
     };
   } catch (error) {
-    // console.error(error);
     return {
       success: false,
       message: "Something went wrong",
