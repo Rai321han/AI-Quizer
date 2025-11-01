@@ -31,7 +31,7 @@ export const SignUpForm = () => {
       const res = await authClient.signUp.email(
         {
           ...data,
-          callbackURL: "/",
+          callbackURL: "/dashboard",
         },
         {
           onRequest: (ctx) => {},
@@ -105,7 +105,7 @@ export const SignInForm = () => {
       const res = await authClient.signIn.email(
         {
           ...data,
-          callbackURL: "/",
+          callbackURL: "/dashboard",
         },
         {
           onRequest: (ctx) => {},
