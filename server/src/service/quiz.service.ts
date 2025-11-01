@@ -277,4 +277,50 @@ export class QuizService {
       };
     } catch (error) {}
   }
+
+  static async allAttempted(user_id: string) {
+    try {
+      const query = `SELECT q.quiz_id, q.title, ROUND((a.score * 100.0 / q.total_marks), 1) AS performance, a.created_at
+      FROM quizes q
+      JOIN attempts a ON q.quiz_id = a.quiz_id
+      AND a.user_id = $1
+      ORDER BY a.created_at DESC;
+      `;
+
+      const results = await dbQuery(query, [user_id]);
+      return results.rows;
+    } catch (error) {
+      throw new Error("DB Error");
+    }
+  }
+
+  static async allGenerated(user_id: string) {
+    try {
+      const query = `SELECT quiz_id, title, created_at
+      FROM quizes
+      WHERE created_by = $1
+      ORDER BY created_at DESC;`;
+
+      const results = await dbQuery(query, [user_id]);
+      return results.rows;
+    } catch (error) {
+      throw new Error("DB Error");
+    }
+  }
+
+  static async getQuizPerformersData(quiz_id: string) {
+    try {
+      const query = `SELECT u.name, a.user_id, a.score, a.updated_at
+      FROM attempts a
+      JOIN "user" u 
+      ON u.id = a.user_id
+      WHERE a.quiz_id = $1
+      ORDER BY a.score DESC`;
+
+      const results = await dbQuery(query, [quiz_id]);
+      return results.rows;
+    } catch (error) {
+      throw new Error("DB Error");
+    }
+  }
 }
