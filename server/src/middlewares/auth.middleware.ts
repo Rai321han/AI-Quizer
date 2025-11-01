@@ -32,7 +32,7 @@ export async function authMiddleware(
     const session = await auth.api.getSession({
       headers: fromNodeHeaders(req.headers),
     });
-    console.log(req.headers);
+    console.log("inside middle ware ", session);
 
     if (!session) {
       return APIResponse.error(res, "unauthorized", 401, "UNAUTHORIZED");

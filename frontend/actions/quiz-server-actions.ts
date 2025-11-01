@@ -10,6 +10,8 @@ export async function getQuizJoinData(quiz_id: string) {
     .map((cookie) => `${cookie.name}=${cookie.value}`)
     .join("; ");
 
+  console.log(cookieHeader);
+
   try {
     const res = await fetch(api, {
       headers: {
