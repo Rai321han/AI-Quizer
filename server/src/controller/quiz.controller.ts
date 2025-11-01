@@ -94,6 +94,7 @@ export const getQuizDetailsById = async function (req: Request, res: Response) {
 
 export const quizJoinController = async function (req: Request, res: Response) {
   try {
+    console.log("inside join controller");
     const quiz_id = req.params.quizId;
     const user_id: string = req.user.id;
 
