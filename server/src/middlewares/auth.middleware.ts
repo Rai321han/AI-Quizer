@@ -29,10 +29,10 @@ export async function authMiddleware(
   next: NextFunction
 ) {
   try {
-    console.log("inside middleware");
     const session = await auth.api.getSession({
       headers: fromNodeHeaders(req.headers),
     });
+    console.log(session);
 
     if (!session) {
       return APIResponse.error(res, "unauthorized", 401, "UNAUTHORIZED");
