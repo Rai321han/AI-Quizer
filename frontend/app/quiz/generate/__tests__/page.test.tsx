@@ -29,7 +29,7 @@ describe("Quiz Generation Page render", () => {
     render(<QuizGenerate />);
     expect(screen.getByPlaceholderText("Title")).toBeInTheDocument();
     expect(
-      screen.getByPlaceholderText("Generate quiz on database.")
+      screen.getByPlaceholderText("Generate quiz on database."),
     ).toBeInTheDocument();
     expect(screen.getByText("Single Answer")).toBeInTheDocument();
     expect(screen.getByText("Generate Quiz")).toBeInTheDocument();
