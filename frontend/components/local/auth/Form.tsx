@@ -122,6 +122,10 @@ export const SignInForm = () => {
               setError("root", {
                 message: "Invalid credentials.",
               });
+            } else {
+              setError("root", {
+                message: "Invalid credentials",
+              });
             }
           },
         },
