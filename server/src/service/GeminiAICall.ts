@@ -11,8 +11,6 @@ import {
 dotenv.config();
 
 export const AIGenerator = async function (prompt: string) {
-  console.log(prompt);
-
   try {
     const model = new ChatGoogleGenerativeAI({
       model: "gemini-2.5-flash",
@@ -132,7 +130,7 @@ export const AIGenerator = async function (prompt: string) {
             {
               question: "Which of the following are valid CSS units?",
               options: ["px", "em", "rem", "pt"],
-              answers: [1,2,3,4],
+              answers: [1, 2, 3, 4],
             },
           ],
         },

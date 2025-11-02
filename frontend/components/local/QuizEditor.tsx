@@ -48,7 +48,7 @@ export default function QuizEditor({
   const [duration, setDuration] = useState<number>(0);
   const quizes = useQuiz((s) => s.quizes);
 
-  const link = `${process.env.NEXT_PUBLIC_URL}/quiz/join/${quiz_id}`;
+  const link = `${process.env.NEXT_PUBLIC_BASE_URL}/quiz/join/${quiz_id}`;
 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTime(e.target.value);
@@ -81,10 +81,6 @@ export default function QuizEditor({
 
     // save the quiz
     const result = await saveQuizToDB(quizData);
-
-    if (result && !result.error) {
-      console.log(result.data);
-    }
   }
 
   return (

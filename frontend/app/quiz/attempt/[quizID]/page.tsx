@@ -85,6 +85,7 @@ export default function QuizAttemptPage({
 
   // make data for quiz perform
   const quizData: QuizDataReponse[] = data.data.data;
+  const privacy: string = data.data.privacy;
   let remaining = true;
 
   if (data.data.duration > 0) {
@@ -92,7 +93,7 @@ export default function QuizAttemptPage({
     remaining = diff < data.data.duration * 1000;
   }
 
-  if (!remaining) {
+  if (!remaining || status === "submitted") {
     return (
       <div className="w-full h-screen flex items-center flex-col justify-center gap-2 ">
         <p>You've already participated in this quiz.</p>
@@ -105,8 +106,10 @@ export default function QuizAttemptPage({
       </div>
     );
   }
+
   return (
     <ClientQuizAttemptPage
+      privacy={privacy}
       quizData={quizData}
       duration={data.data.duration || -1}
       startedAt={new Date(data.data.started_at).toISOString()}

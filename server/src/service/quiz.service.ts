@@ -124,7 +124,7 @@ export class QuizService {
       await client.query("BEGIN");
 
       const quizInfoQuery = `
-      SELECT duration, status, title
+      SELECT duration, status, title, privacy
       FROM quizes
       WHERE quiz_id = $1
     `;
@@ -146,7 +146,7 @@ export class QuizService {
 
       // 2️⃣ Check if attempt exists
       const attemptCheckQuery = `
-      SELECT attempt_id, started_at 
+      SELECT attempt_id, started_at, attempt_status
       FROM attempts 
       WHERE user_id = $1 AND quiz_id = $2
     `;
@@ -157,11 +157,11 @@ export class QuizService {
 
       let attempt_id: string;
       let started_at: Date;
-      let attemptStatus: "existing" | "new";
+      let attemptStatus: "submitted" | "started";
 
       if (existingAttempt.rowCount && existingAttempt.rowCount > 0) {
         // Attempt exists
-        attemptStatus = "existing";
+        attemptStatus = existingAttempt.rows[0].attempt_status;
         attempt_id = existingAttempt.rows[0].attempt_id;
         started_at = existingAttempt.rows[0].started_at;
       } else {
@@ -182,7 +182,15 @@ export class QuizService {
           started_at,
         ]);
 
-        attemptStatus = "new";
+        attemptStatus = "started";
+      }
+
+      if (attemptStatus === "submitted") {
+        await client.query("ROLLBACK");
+        return {
+          status: attemptStatus,
+          message: `You have already submited your answers.`,
+        };
       }
 
       // 4️⃣ Get quiz questions (still inside transaction)
@@ -217,6 +225,7 @@ export class QuizService {
         attemptStatus,
         started_at,
         data: questions,
+        privacy: quizInfo.privacy,
       };
     } catch (error) {
       await client.query("ROLLBACK");
@@ -267,7 +276,7 @@ export class QuizService {
         }
       }
 
-      const scoreSaveQuery = `UPDATE attempts SET score=$1 WHERE quiz_id=$2 AND user_id=$3 RETURNING score`;
+      const scoreSaveQuery = `UPDATE attempts SET score=$1, attempt_status='submitted' WHERE quiz_id=$2 AND user_id=$3 RETURNING score`;
 
       const result = await dbQuery(scoreSaveQuery, [score, quiz_id, user_id]);
       // Return the score
@@ -317,6 +326,21 @@ export class QuizService {
       WHERE a.quiz_id = $1
       ORDER BY a.score DESC`;
 
+      const results = await dbQuery(query, [quiz_id]);
+      return results.rows;
+    } catch (error) {
+      throw new Error("DB Error");
+    }
+  }
+
+  static async getQuizAnswers(quiz_id: string) {
+    try {
+      const query = `SELECT qz.title, qs.question, qs.question_no, qs.options, qs.answers
+      FROM questions qs
+      JOIN quizes qz
+      ON qs.quiz_id = qz.quiz_id
+      WHERE qs.quiz_id=$1 AND qz.privacy='public'
+      ORDER BY qs.question_no ASC`;
       const results = await dbQuery(query, [quiz_id]);
       return results.rows;
     } catch (error) {

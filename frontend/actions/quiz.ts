@@ -138,3 +138,34 @@ export async function getAttemptdQuizesData() {
     };
   }
 }
+
+export async function getQuizAnswers(quizId: string) {
+  const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/answers/${quizId}`;
+
+  try {
+    const res = await fetch(api, {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+
+    if (data.success === false) {
+      return {
+        success: false,
+        message: "Something went wrong",
+      };
+    }
+    return {
+      success: true,
+      message: "Success",
+      data: data.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+    };
+  }
+}

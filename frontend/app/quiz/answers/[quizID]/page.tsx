@@ -1,102 +1,86 @@
 "use client";
 
-import { QuizType } from "@/app/types/quiz";
+import { getQuizAnswers } from "@/actions/quiz";
+import { Hexagon } from "lucide-react";
+import { use, useEffect, useState } from "react";
 
-const quizes: {
-  no: number;
+type QuizAnswerResponseType = {
+  title: string;
   question: string;
+  question_no: number;
   options: string[];
   answers: number[];
-}[] = [
-  {
-    no: 1,
-    question: "Which planet is known as the Red Planet?",
-    options: ["Earth", "Mars", "Venus", "Jupiter"],
-    answers: [1],
-  },
-  {
-    no: 2,
-    question: "Who developed the theory of relativity?",
-    options: [
-      "Isaac Newton",
-      "Albert Einstein",
-      "Niels Bohr",
-      "Galileo Galilei",
-    ],
-    answers: [1],
-  },
-  {
-    no: 3,
-    question: "What is the capital city of Japan?",
-    options: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
-    answers: [2],
-  },
-  {
-    no: 4,
-    question: "Which language is primarily used for Android app development?",
-    options: ["Swift", "Kotlin", "JavaScript", "PHP"],
-    answers: [1],
-  },
-  {
-    no: 5,
-    question: "What is the chemical symbol for Gold?",
-    options: ["Ag", "Gd", "Au", "Go"],
-    answers: [2],
-  },
-  {
-    no: 6,
-    question:
-      "Which data structure uses the principle of FIFO (First In First Out)?",
-    options: ["Stack", "Queue", "Tree", "Graph"],
-    answers: [1],
-  },
-  {
-    no: 7,
-    question: "What does HTTP stand for?",
-    options: [
-      "HyperText Transmission Protocol",
-      "HyperText Transfer Protocol",
-      "Hyperlink Transfer Protocol",
-      "HyperText Translation Protocol",
-    ],
-    answers: [1],
-  },
-  {
-    no: 8,
-    question: "Which of the following are JavaScript frameworks?",
-    options: ["React", "Angular", "Vue", "All of the above"],
-    answers: [3],
-  },
-  {
-    no: 9,
-    question: "Which ocean is the largest in the world?",
-    options: [
-      "Atlantic Ocean",
-      "Indian Ocean",
-      "Arctic Ocean",
-      "Pacific Ocean",
-    ],
-    answers: [3],
-  },
-  {
-    no: 10,
-    question: "Which of the following are prime numbers?",
-    options: ["4", "7", "9", "11"],
-    answers: [1, 3],
-  },
-];
+};
 
-export default function page() {
+export default function page({
+  params,
+}: {
+  params: Promise<{ quizID: string }>;
+}) {
+  const { quizID } = use(params);
+  const [data, setData] = useState<QuizAnswerResponseType[] | []>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setError(null);
+      setIsLoading(true);
+      const res = await getQuizAnswers(quizID);
+
+      if (!res.success) {
+        setError("Failed to load the answers. Try again!");
+      }
+
+      setData(res.data);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [quizID]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full min-h-[95vh] flex items-center justify-center">
+        <Hexagon
+          className="animate-spin stroke-accent-foreground stroke-2"
+          height={70}
+          width={70}
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full min-h-[95vh] flex items-center justify-center">
+        {error}
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="w-full  p-3 min-h-[95vh] flex items-center justify-center">
+        <div className="max-w-[300px] mx-auto">
+          <p>
+            This quiz is <span className="font-bold">private.</span>
+          </p>
+          <p>You don't have the permission to see answers of this quiz.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full min-h-[90vh]">
       <div className="mx-auto w-full max-w-[600px] p-4">
         <div className="border-1 border-border/20 rounded-lg p-3 sm:p-10 bg-card mx-auto flex flex-col gap-5">
-          <p className="text-xl font-bold ">Database</p>
+          <p className="text-xl font-bold "></p>
           <div className="w-full border-1 border-accent"></div>
           <div>
             <div className="flex flex-col gap-3">
-              {quizes.map((q, i) => {
-                return <Quiz key={q.no} data={q} />;
+              {data.map((q, i) => {
+                return <Quiz key={q.question_no} data={q} />;
               })}
             </div>
           </div>
@@ -106,16 +90,16 @@ export default function page() {
   );
 }
 
-function Quiz({ data }: { data: QuizType }) {
+function Quiz({ data }: { data: QuizAnswerResponseType }) {
   return (
     <div
-      key={data.no}
+      key={data.question_no}
       className="rounded-md bg-background
        p-5 flex flex-col gap-3"
     >
       <div className="flex flex-row justify-between gap-2">
         <div className="flex flex-row grow gap-2">
-          <p>{data.no}.</p>
+          <p>{data.question_no}.</p>
           <p className="font-bold  select-none block">{data.question}</p>
         </div>
         {/* <div
@@ -161,7 +145,7 @@ function Quiz({ data }: { data: QuizType }) {
         {data.options.map((option: string, i: number) => {
           return (
             <QuizOption
-              key={`${data.no}-${i}`}
+              key={`${data.question_no}-${i}`}
               no={i + 1}
               option={option}
               answers={data.answers}

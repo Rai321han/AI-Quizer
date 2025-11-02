@@ -10,9 +10,6 @@ export async function scheduledQuizJob(
   if (delay < 0) {
     throw error("Job queue need to be in future");
   }
-
-  console.log(delay / 1000);
-
   await quizQueue.add(
     name,
     { quizId },

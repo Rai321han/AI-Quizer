@@ -37,8 +37,6 @@ export default function page({
 
         const data = await res.json();
 
-        console.log(data);
-
         if (data.errorCode === "UNAUTHORIZED") {
           toast.warning("Please sign in first");
           setError("Please sign in first");
@@ -58,6 +56,7 @@ export default function page({
     fetchData();
   }, [quizID]);
 
+  const link = `${process.env.NEXT_PUBLIC_BASE_URL}/quiz/join/${quizID}`;
   if (isLoading) {
     return (
       <div className="w-full min-h-[95vh] flex items-center justify-center">
@@ -80,6 +79,28 @@ export default function page({
 
   return (
     <div className="w-full min-h-[90vh] bg-background p-4">
+      <div className="flex flex-row max-w-[500px] mx-auto justify-between rounded p-4 bg-card">
+        <p className="text-sm">{scores.length} participated</p>
+        <div
+          className="cursor-pointer "
+          onClick={() => navigator.clipboard.writeText(link)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="stroke-zinc-500 fill-none"
+          >
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+        </div>
+      </div>
       <div className="mx-auto max-w-[500px] flex flex-col gap-2">
         {scores.map((s, i) => (
           <ScoreDisplay key={s.user_id} rank={i + 1} className="font-mono">

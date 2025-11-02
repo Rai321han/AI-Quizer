@@ -8,6 +8,7 @@ import {
   quizJoinController,
   quizSaveController,
   getPerformersData,
+  getQuizAnswers,
 } from "../controller/quiz.controller";
 
 const quizRouter = Router();
@@ -18,6 +19,7 @@ quizRouter.get("/all-generated", getAllAGenerrated);
 quizRouter.get("/join/:quizId", quizJoinController);
 quizRouter.post("/save/:quizId", quizAttemptDataController);
 quizRouter.get("/scores/:quizId", getPerformersData);
+quizRouter.get("/answers/:quizId", getQuizAnswers);
 quizRouter.get("/deatils/:quizId", getQuizInfoController);
 quizRouter.get("/:quizId", getQuizInfoController);
 

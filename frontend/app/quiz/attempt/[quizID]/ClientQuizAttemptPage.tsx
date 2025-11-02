@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { useQuizTimer } from "@/hooks/useQuizTimer";
 import { formatTime } from "@/lib/utils";
 import { Check, Hexagon, Timer } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 type QuizDataReponse = {
@@ -20,6 +21,7 @@ type QuizDataReponse = {
 
 export default function ClientQuizAttemptPage({
   quizData,
+  privacy,
   duration,
   startedAt,
   serverNow,
@@ -27,6 +29,7 @@ export default function ClientQuizAttemptPage({
   quiz_id,
 }: {
   quizData: QuizDataReponse[];
+  privacy: string;
   duration: number;
   startedAt: string;
   serverNow: string;
@@ -108,7 +111,7 @@ export default function ClientQuizAttemptPage({
 
     return (
       <div className="w-full min-h-[95vh] flex items-center justify-center ">
-        <div className="bg-card rounded-md border-1 border-border/20 p-5 flex flex-col gap-3">
+        <div className="bg-card rounded-md p-5 flex flex-col gap-3">
           <p className="text-green-500 font-semibold">{text}</p>
           <div className="flex flex-col text-2xl">
             <p>Your score:</p>
@@ -116,6 +119,14 @@ export default function ClientQuizAttemptPage({
               <span className="font-bold">{score}</span>/
               <span className="font-bold">{quizData.length}</span>
             </p>
+            {privacy === "public" && (
+              <Buttonx
+                className="font-mono mt-5"
+                onClick={() => redirect(`/quiz/answers/${quiz_id}`)}
+              >
+                See answers
+              </Buttonx>
+            )}
           </div>
         </div>
       </div>

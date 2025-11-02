@@ -8,7 +8,6 @@ export const quizWorker = new Worker(
   "quizQueue",
   async (job: Job) => {
     try {
-      console.log(`Received job: ${job.name} for quiz: ${job.data.quizId}`);
       const name = job.name;
       const { quizId } = job.data;
 
@@ -34,7 +33,6 @@ export const quizWorker = new Worker(
 
 quizWorker.on("completed", (job: Job, returnvalue: any) => {
   const name = job.name;
-  console.log(`'${name}' job is completed`);
 });
 
 quizWorker.on("error", (err) => {

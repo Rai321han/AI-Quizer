@@ -34,7 +34,7 @@ export default function QuizGenerate() {
 
   function handleFormChange<T extends keyof QuizData>(
     name: T,
-    value: QuizData[T]
+    value: QuizData[T],
   ) {
     setFormData((prev) => ({
       ...prev,
@@ -125,8 +125,9 @@ export default function QuizGenerate() {
               />
 
               <Buttonx
+                isLoading={isLoading}
                 type="submit"
-                className="w-full max-w-[300px] border-border/30 border-b-4 hover:border-b-1 p-5 mx-auto sm:mx-0 rounded-full flex flex-row items-center gap-3 text-black font-mono"
+                className="w-full max-w-[300px]  font-mono"
               >
                 {isLoading ? (
                   <svg

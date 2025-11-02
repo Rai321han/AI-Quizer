@@ -94,7 +94,6 @@ export const getQuizDetailsById = async function (req: Request, res: Response) {
 
 export const quizJoinController = async function (req: Request, res: Response) {
   try {
-    console.log("inside join controller");
     const quiz_id = req.params.quizId;
     const user_id: string = req.user.id;
 
@@ -107,7 +106,7 @@ export const quizJoinController = async function (req: Request, res: Response) {
       );
 
     const data = await QuizService.quizJoin(quiz_id, user_id);
-    console.log(data);
+
     return APIResponse.success(res, "Quiz data fetched", data, 200);
   } catch (error) {
     return APIResponse.error(
@@ -199,6 +198,31 @@ export async function getPerformersData(req: Request, res: Response) {
     const data = await QuizService.getQuizPerformersData(quiz_id);
 
     return APIResponse.success(res, "Score fetched", data, 200);
+  } catch (error) {
+    return APIResponse.error(
+      res,
+      "Something went wrong",
+      401,
+      "SOMETHING_WENT_WRONG"
+    );
+  }
+}
+
+export async function getQuizAnswers(req: Request, res: Response) {
+  try {
+    const quiz_id = req.params.quizId;
+
+    if (!quiz_id)
+      return APIResponse.error(
+        res,
+        "quiz id not found",
+        401,
+        "QUIZ_ID_NOT_FOUND"
+      );
+
+    const data = await QuizService.getQuizAnswers(quiz_id);
+
+    return APIResponse.success(res, "Answers fetched", data, 200);
   } catch (error) {
     return APIResponse.error(
       res,

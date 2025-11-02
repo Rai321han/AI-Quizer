@@ -17,6 +17,7 @@ import { FieldError } from "@/components/ui/field";
 import Buttonx from "../Buttonx";
 
 export const SignUpForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -32,11 +33,13 @@ export const SignUpForm = () => {
       const res = await authClient.signUp.email(
         {
           ...data,
-          callbackURL: "/dashboard",
+          callbackURL: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
         },
         {
           onRequest: (ctx) => {},
-          onSuccess: (ctx) => {},
+          onSuccess: (ctx) => {
+            router.push(`/auth/verify?email=${data.email}`);
+          },
           onError: (ctx) => {
             if (ctx.error.code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") {
               setError("root", {
@@ -105,14 +108,16 @@ export const SignInForm = () => {
       const res = await authClient.signIn.email(
         {
           ...data,
-          callbackURL: "/dashboard",
+          callbackURL: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
         },
         {
-          onRequest: (ctx) => {},
           onSuccess: (ctx) => {
             router.push("/quiz/generate");
           },
           onError: (ctx) => {
+            if (ctx.error.status === 403) {
+              router.push(`/auth/verify?email=${data.email}`);
+            }
             if (ctx.error.code === "INVALID_EMAIL_OR_PASSWORD") {
               setError("root", {
                 message: "Invalid credentials.",
