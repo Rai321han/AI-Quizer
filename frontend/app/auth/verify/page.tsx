@@ -1,10 +1,25 @@
 "use client";
 import Buttonx from "@/components/local/Buttonx";
+import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 export default function page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full min-h-[90vh] p-4">
+          <Skeleton className="mx-auto max-w-[300px] w-full h-[300px] rounded bg-card"></Skeleton>
+        </div>
+      }
+    >
+      <ClientPage />
+    </Suspense>
+  );
+}
+
+function ClientPage() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
 
