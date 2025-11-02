@@ -112,7 +112,7 @@ export const SignInForm = () => {
         },
         {
           onSuccess: (ctx) => {
-            router.push("/quiz/generate");
+            router.push("/dashboard");
           },
           onError: (ctx) => {
             if (ctx.error.status === 403) {

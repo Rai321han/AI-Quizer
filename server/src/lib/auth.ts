@@ -1,5 +1,4 @@
 import { betterAuth } from "better-auth";
-import { emailOTP } from "better-auth/plugins";
 import pool from "../db";
 import Mailjet from "node-mailjet";
 
@@ -24,6 +23,8 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
+    sendOnSignIn: true,
+    sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
       await sendEmail({
