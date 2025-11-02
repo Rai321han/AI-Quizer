@@ -118,7 +118,11 @@ export default function QuizAttemptPage({
         </div>
         <div>
           {quizInfo.status === "ongoing" ? (
-            <Buttonx onClick={() => redirect(`/quiz/attempt/${quizID}`)}>
+            <Buttonx
+              onClick={() =>
+                redirect(`/quiz/attempt/${quizID}?title=${quizInfo.title}`)
+              }
+            >
               Click to start
             </Buttonx>
           ) : (

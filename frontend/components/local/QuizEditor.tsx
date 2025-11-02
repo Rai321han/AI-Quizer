@@ -30,6 +30,8 @@ import { saveQuizToDB } from "@/app/quiz/actions/generatequiz.action";
 import useUser from "@/hooks/useUser";
 import { useQuiz } from "@/app/stores/quiz";
 import DurationPicker from "./DurationPicker";
+import Buttonx from "./Buttonx";
+import { toast } from "sonner";
 
 // `jomkalo/api/sds`
 //`jomkalo/api/sds`
@@ -37,9 +39,11 @@ import DurationPicker from "./DurationPicker";
 export default function QuizEditor({
   title,
   quiz_id,
+  privacy,
 }: {
   title: string;
   quiz_id: string;
+  privacy: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -75,12 +79,21 @@ export default function QuizEditor({
       total_marks: null,
       meta: null,
       quiz_id,
+      privacy: privacy === true ? "public" : "private",
       // quize questions
       data: quizes,
     };
 
     // save the quiz
     const result = await saveQuizToDB(quizData);
+
+    if (!result.success) {
+      toast.error("Failed to save the quiz. Try again!");
+    }
+
+    if (result.success) {
+      toast.success("Success! Your quiz is saved.");
+    }
   }
 
   return (
@@ -88,7 +101,7 @@ export default function QuizEditor({
       <div className=" mb-3 flex flex-col gap-3">
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="rounded-full" variant={"outline"}>
+            <Button className="rounded-full" variant="outline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -106,13 +119,13 @@ export default function QuizEditor({
               <p>Save & Share</p>
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md bg-card">
-            <DialogHeader className="w-full">
+          <DialogContent className="bg-card">
+            <DialogHeader>
               <DialogTitle className="mb-3">Save and Share</DialogTitle>
-              <div className="flex flex-col gap-2 text-sm  bg-card p-3 rounded-md">
+              <div className="flex flex-col gap-2 text-sm  bg-card rounded-md">
                 <div className="font-semibold">Quiz: {title}</div>
                 <div className="border-t-1 border-zinc-300/50"></div>
-                <div className="flex flex-col">
+                <div className="flex flex-col text-sm">
                   <div className="flex flex-row gap-2 items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +173,7 @@ export default function QuizEditor({
                 Anyone with this link can perform this quiz.
               </DialogDescription>
               <div className="text-sm flex  flex-row justify-between items-stretch">
-                <div className="overflow-x-auto p-2  rounded-l-md bg-card  border-1 border-r-0 border-input ">
+                <div className="overflow-x-auto whitespace-nowrap p-2  rounded-l-md bg-card  border-1 border-r-0 border-input ">
                   <p>{link}</p>
                 </div>
                 <div className="rounded-r-md bg-card p-2 border-1 border-l-0 border-border/20 flex flex-col items-center justify-center">
@@ -186,12 +199,17 @@ export default function QuizEditor({
                 </div>
               </div>
             </DialogHeader>
-            <DialogFooter className="sm:justify-start">
-              <DialogClose asChild>
-                <Button type="button" onClick={saveQuiz}>
-                  Save
-                </Button>
-              </DialogClose>
+            <DialogFooter className="sm:justify-start mt-5 w-full">
+              <div className="flex flex-col gap-1 w-full">
+                <DialogClose className="w-full" asChild>
+                  <Buttonx type="button" className="w-full" onClick={saveQuiz}>
+                    Save
+                  </Buttonx>
+                </DialogClose>
+                <p className="text-sm italic text-foreground/70">
+                  note: you cannot make any changes after saving the quiz.
+                </p>
+              </div>
             </DialogFooter>
           </DialogContent>
         </Dialog>

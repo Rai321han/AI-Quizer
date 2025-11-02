@@ -12,6 +12,7 @@ export type QuizData = {
   duration: number;
   prompt: string;
   title: string;
+  answersPrivacy: boolean;
 };
 
 export type QuizAPIType = {
@@ -24,5 +25,6 @@ export type QuizAPIType = {
   total_marks: number | null;
   meta: JSON | null;
   quiz_id: string;
+  privacy: "private" | "public";
   data: QuizType[];
 };

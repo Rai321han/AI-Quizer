@@ -20,6 +20,7 @@ type QuizDetailsType = {
   status: "active" | "draft" | "completed" | "scheduled";
   title: string;
   total_marks: number;
+  privacy: "private" | "public";
   data: QuizType[];
   meta: JSON;
 };
@@ -31,9 +32,18 @@ export class QuizService {
         inputData;
 
       const inputPrompt = `${prompt}. Quiz Rules: ${noOfQuestions} questions with ${noOfOptions} options each, ${
-        enableMultiple ? "multiple answers allowed" : "single answer only"
+        enableMultiple
+          ? "single & multiple answers allowed"
+          : "single answer only"
       }`;
       const data = await AIGenerator(inputPrompt);
+
+      if (data?.error === true) {
+        return {
+          error: true,
+          message: data?.message,
+        };
+      }
 
       type QuizWithoutNo = Omit<Quiz, "no">;
 
@@ -61,8 +71,8 @@ export class QuizService {
       // insertion of quiz meta data to quizes table
       await client.query("BEGIN");
       const metaInsertQuery = `
-      INSERT INTO quizes (quiz_id, created_by, scheduled_at, no_of_questions, duration, status, title, total_marks, meta)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb) RETURNING *
+      INSERT INTO quizes (quiz_id, created_by, scheduled_at, no_of_questions, duration, status, title, total_marks, meta, privacy)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10) RETURNING *
       `;
       await client.query(metaInsertQuery, [
         quizBrief.quiz_id,
@@ -74,6 +84,7 @@ export class QuizService {
         quizBrief.title,
         quizBrief.total_marks || null,
         quizBrief.meta,
+        quizBrief.privacy,
       ]);
 
       // insertion of quiz data into questions table
@@ -98,11 +109,15 @@ export class QuizService {
 
       await client.query("COMMIT");
 
-      await scheduledQuizJob(
-        quizBrief.quiz_id,
-        quizBrief.scheduled_at,
-        "activate-quiz"
-      );
+      try {
+        await scheduledQuizJob(
+          quizBrief.quiz_id,
+          quizBrief.scheduled_at,
+          "activate-quiz"
+        );
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
     } catch (error) {
       await client.query("ROLLBACK");
       throw new Error("Failed to save");

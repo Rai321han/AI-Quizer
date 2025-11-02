@@ -1,4 +1,3 @@
-import { error } from "console";
 import { quizQueue } from "../config/bullMQconfig";
 
 export async function scheduledQuizJob(
@@ -7,9 +6,7 @@ export async function scheduledQuizJob(
   name: string
 ) {
   const delay: number = new Date(scheduledAt).getTime() - Date.now();
-  if (delay < 0) {
-    throw error("Job queue need to be in future");
-  }
+
   await quizQueue.add(
     name,
     { quizId },

@@ -28,14 +28,9 @@ export const quizSaveController = async function (req: Request, res: Response) {
   try {
     const data = await QuizService.saveQuiz(req.body);
     return APIResponse.success(res, "Quiz created successfully", data, 201);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error saving quiz", error);
-    return APIResponse.error(
-      res,
-      "Failed to create quiz",
-      401,
-      "QUIZ_CREATION_FAILED"
-    );
+    return APIResponse.error(res, error.message, 401, "QUIZ_CREATION_FAILED");
   }
 };
 

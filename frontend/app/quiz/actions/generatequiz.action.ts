@@ -15,20 +15,28 @@ export async function generateQuiz(quizData: QuizData) {
 
     if (res.status === 400 || res.status === 404) {
       return {
-        error: true,
+        success: false,
         message: "Cannot create quiz. Try again!",
       };
     }
 
     const data = await res.json();
-    // const quiz: QuizType[] = data.quiz;
-
+    if (data.data.error) {
+      return {
+        success: false,
+        message: "Cannot create quiz for this prompt.",
+      };
+    }
     return {
       success: true,
       quizData: data.data,
     };
   } catch (error) {
     console.error("Error generating quiz: ", error);
+    return {
+      success: false,
+      message: "Cannot create quiz. Try again!",
+    };
   }
 }
 
@@ -49,16 +57,20 @@ export const saveQuizToDB = async (quizData: QuizAPIType) => {
 
     if (!data.success) {
       return {
-        error: true,
+        success: false,
         message: data.message || "failed to save quiz",
       };
     }
 
     return {
-      error: false,
+      success: true,
       data: data.data,
     };
   } catch (error) {
     console.error("Error saving quiz: ", error);
+    return {
+      success: false,
+      message: "failed to save quiz",
+    };
   }
 };

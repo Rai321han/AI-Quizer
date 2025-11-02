@@ -6,9 +6,10 @@ import QuizOptionAttempt from "@/components/local/QuizOptionAttempt";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useQuizTimer } from "@/hooks/useQuizTimer";
+import useUser from "@/hooks/useUser";
 import { formatTime } from "@/lib/utils";
 import { Check, Hexagon, Timer } from "lucide-react";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 type QuizDataReponse = {
@@ -42,7 +43,10 @@ export default function ClientQuizAttemptPage({
   const setAnswered = useQuizAttempt((s) => s.setAnswers);
   const [quiz, setQuiz] = useState(quizData[0]);
   const [isLoading, setIsloading] = useState(false);
+  const searchParams = useSearchParams();
+  const title = searchParams.get("title");
   const [score, setScore] = useState<null | number>(null);
+  const { data: session } = useUser();
 
   // Optional: auto-submit when time ends
   const remaining = useQuizTimer(startedAt, duration, serverNow);
@@ -138,8 +142,10 @@ export default function ClientQuizAttemptPage({
       <div className="flex flex-col gap-5 w-full max-w-[1000px] h-[85vh] ">
         <div className="bg-sidebar flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between p-3 sm:p-4 rounded w-full items-center">
           <div className="flex flex-col items-center sm:items-start">
-            <p className="font-semibold">Operating System Quiz</p>
-            <p className="text-muted-foreground text-sm">Raihan Uddin</p>
+            <p className="font-semibold">{title}</p>
+            <p className="text-muted-foreground text-sm">
+              {session?.user.name}
+            </p>
           </div>
           <div className="flex flex-col relative">
             <Progress

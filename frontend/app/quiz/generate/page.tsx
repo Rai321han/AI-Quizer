@@ -14,6 +14,7 @@ import { useQuiz } from "@/app/stores/quiz";
 import useUser from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import Buttonx from "@/components/local/Buttonx";
+import { toast } from "sonner";
 
 export default function QuizGenerate() {
   const setQuizes = useQuiz((state) => state.setQuizes);
@@ -30,6 +31,7 @@ export default function QuizGenerate() {
     duration: -1,
     prompt: "",
     title: "",
+    answersPrivacy: false,
   });
 
   function handleFormChange<T extends keyof QuizData>(
@@ -52,12 +54,11 @@ export default function QuizGenerate() {
 
     const data = await generateQuiz(formData);
 
-    if (data?.error) {
-      console.error(data.message);
-      return;
+    if (!data.success) {
+      toast.error(data.message);
     }
 
-    if (data?.success) {
+    if (data.success) {
       setQuizes(data.quizData.quiz);
       setQuizId(data.quizData.quiz_id);
     }
@@ -68,7 +69,7 @@ export default function QuizGenerate() {
   return (
     <main className="min-h-screen w-full  bg-background p-2 sm:p-5">
       <div className="flex flex-col items-center justify-center w-full">
-        <div className="pb-5 text-center  w-full max-w-[800px] p-2 md:p-5">
+        <div className="pb-5  w-full max-w-[800px] p-2 md:p-5">
           <div className="w-full  mx-auto border-1 p-4 sm:p-6 md:p-10 border-border/20 bg-card rounded-md">
             <form
               className="flex flex-col items-start gap-4 w-full mx-auto max-w-[500px]"
@@ -94,7 +95,7 @@ export default function QuizGenerate() {
                 />
                 <Label>
                   {formData.enableMultiple
-                    ? "Multiple Answers"
+                    ? "Single & Multiple"
                     : "Single Answer"}
                 </Label>
               </div>
@@ -116,12 +117,27 @@ export default function QuizGenerate() {
                 value={formData.noOfOptions}
               />
 
+              <div className="flex flex-row items-center gap-3">
+                <Switch
+                  checked={formData.answersPrivacy}
+                  onCheckedChange={() =>
+                    handleFormChange("answersPrivacy", !formData.answersPrivacy)
+                  }
+                  id="multiple-mode"
+                />
+                <Label>
+                  {formData.answersPrivacy
+                    ? "Show answers after submission"
+                    : "Don't show answers after submission"}
+                </Label>
+              </div>
+
               <Textarea
                 required
                 onChange={(e) => handleFormChange("prompt", e.target.value)}
                 value={formData.prompt}
                 placeholder="Generate quiz on database."
-                className="mt-4 max-h-[200px]"
+                className="mt-4 max-h-[200px] placeholder:text-foreground/50"
               />
 
               <Buttonx
@@ -168,7 +184,11 @@ export default function QuizGenerate() {
         </div>
         <div className="w-full flex-col max-w-[800px] p-2 sm:p-5">
           {quizes.length > 0 && (
-            <QuizEditor title={formData.title} quiz_id={quizId || ""} />
+            <QuizEditor
+              title={formData.title}
+              privacy={formData.answersPrivacy}
+              quiz_id={quizId || ""}
+            />
           )}
         </div>
       </div>

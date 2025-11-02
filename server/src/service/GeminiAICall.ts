@@ -41,7 +41,7 @@ export const AIGenerator = async function (prompt: string) {
               ]
             }}
         
-            If user asked for anything other than quiz generation, respond with a json:
+            If user asked for anything other than quiz generation with specific topic, respond with a json:
             - "error": true
             - "message": "cannot provide help for this input"
             `);
@@ -50,7 +50,7 @@ export const AIGenerator = async function (prompt: string) {
     const examples = [
       {
         input:
-          "Generate quiz about JavaScript basics. Quiz Rules: 2 questions with 4 options each, single answer only. ",
+          "Generate quiz about JavaScript basics. Quiz Rules: 2 questions with 4 options each, single answers only. ",
         output: {
           quiz: [
             {
@@ -73,7 +73,7 @@ export const AIGenerator = async function (prompt: string) {
       },
       {
         input:
-          "Generate quiz about Python loops. Quiz Rules: 2 questions with 3 options each, single answer only. ",
+          "Generate quiz about Python loops. Quiz Rules: 2 questions with 3 options each, single answers only. ",
         output: {
           quiz: [
             {
@@ -94,14 +94,14 @@ export const AIGenerator = async function (prompt: string) {
 
       {
         input:
-          "Generate quiz about HTML basics. Quiz Rules: 2 questions with 4 options each, multiple answers allowed.",
+          "Generate quiz about HTML basics. Quiz Rules: 2 questions with 4 options each, single & multiple answers allowed.",
         output: {
           quiz: [
             {
               question:
                 "Which of the following are valid HTML5 semantic elements?",
-              options: ["<section>", "<div>", "<article>", "<footer>"],
-              answers: [1, 3, 4],
+              options: ["<section>", "<div>", "<p>", "<h1>"],
+              answers: [1],
             },
             {
               question: "Which tags are used for creating lists in HTML?",
@@ -113,7 +113,7 @@ export const AIGenerator = async function (prompt: string) {
       },
       {
         input:
-          "Generate quiz about CSS fundamentals. Quiz Rules: 2 questions with 4 options each, multiple answers allowed.",
+          "Generate quiz about CSS fundamentals. Quiz Rules: 2 questions with 4 options each, single & multiple answers allowed.",
         output: {
           quiz: [
             {
@@ -133,6 +133,34 @@ export const AIGenerator = async function (prompt: string) {
               answers: [1, 2, 3, 4],
             },
           ],
+        },
+      },
+      {
+        input: "Tell me a joke about JavaScript.",
+        output: {
+          error: true,
+          message: "cannot provide help for this input",
+        },
+      },
+      {
+        input: "Write a short story about AI in education.",
+        output: {
+          error: true,
+          message: "cannot provide help for this input",
+        },
+      },
+      {
+        input: "How this quiz works?",
+        output: {
+          error: true,
+          message: "cannot provide help for this input",
+        },
+      },
+      {
+        input: "Give me a summary of CSS Grid layout.",
+        output: {
+          error: true,
+          message: "cannot provide help for this input",
         },
       },
     ];
