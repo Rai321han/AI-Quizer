@@ -36,7 +36,7 @@ export default function QuizGenerate() {
 
   function handleFormChange<T extends keyof QuizData>(
     name: T,
-    value: QuizData[T],
+    value: QuizData[T]
   ) {
     setFormData((prev) => ({
       ...prev,
@@ -103,7 +103,7 @@ export default function QuizGenerate() {
               <Label>No of questions (max: 100)</Label>
               <Counter
                 min={1}
-                max={100}
+                max={30}
                 onChange={(number: number) =>
                   handleFormChange("noOfQuestions", number)
                 }
@@ -112,7 +112,7 @@ export default function QuizGenerate() {
               <Label>No of Options (max: 5)</Label>
               <Counter
                 min={2}
-                max={5}
+                max={4}
                 onChange={(number) => handleFormChange("noOfOptions", number)}
                 value={formData.noOfOptions}
               />

@@ -212,7 +212,7 @@ export class QuizService {
       const questionQuery = `
       SELECT question_id, question_no, question, options, answers
       FROM questions
-      WHERE quiz_id = $1
+      WHERE quiz_id = $1::uuid
       ORDER BY question_no ASC
     `;
       const questionResult = await client.query(questionQuery, [quiz_id]);
@@ -260,7 +260,7 @@ export class QuizService {
       const questionQuery = `
       SELECT question_no AS no, answers
       FROM questions
-      WHERE quiz_id = $1
+      WHERE quiz_id = $1:uuid
       ORDER BY question_no ASC
     `;
 
