@@ -10,12 +10,17 @@ interface QuizState {
   addQuiz: (quiz: QuizType) => void;
   updateQuiz: (id: number, updatedQuiz: Partial<QuizType>) => void;
   deleteQuiz: (id: number) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  quizes: [],
+  onEditId: -1,
+};
 
 export const useQuiz = create<QuizState>()(
   immer((set) => ({
-    quizes: [],
-    onEditId: -1,
+    ...initialState,
     setEditId: (id) =>
       set((state) => {
         // Only allow one edit at a time:
@@ -39,5 +44,6 @@ export const useQuiz = create<QuizState>()(
       set((state) => {
         state.quizes = state.quizes.filter((q: QuizType) => q.no !== id);
       }),
+    reset: () => set(() => initialState),
   })),
 );

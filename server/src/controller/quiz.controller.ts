@@ -135,6 +135,7 @@ export const quizAttemptDataController = async function (
       user_id,
       quizAttemptData
     );
+
     return APIResponse.success(res, "Quiz attempt answers saved", data, 200);
   } catch (error) {
     return APIResponse.error(
@@ -218,6 +219,31 @@ export async function getQuizAnswers(req: Request, res: Response) {
     const data = await QuizService.getQuizAnswers(quiz_id);
 
     return APIResponse.success(res, "Answers fetched", data, 200);
+  } catch (error) {
+    return APIResponse.error(
+      res,
+      "Something went wrong",
+      401,
+      "SOMETHING_WENT_WRONG"
+    );
+  }
+}
+
+export async function getQuizInforAndScores(req: Request, res: Response) {
+  try {
+    const quiz_id = req.params.quizId;
+
+    if (!quiz_id)
+      return APIResponse.error(
+        res,
+        "quiz id not found",
+        401,
+        "QUIZ_ID_NOT_FOUND"
+      );
+
+    const data = await QuizService.getQuizParticipantScore(quiz_id);
+
+    return APIResponse.success(res, "Info fetched", data, 200);
   } catch (error) {
     return APIResponse.error(
       res,

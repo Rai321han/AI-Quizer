@@ -25,7 +25,7 @@ export default function Counter({
   return (
     <div className="flex flex-row items-stretch">
       <div
-        className="rounded-l-full p-2 border-1 border-border/20 select-none hover:bg-accent-foreground cursor-pointer"
+        className="rounded-l p-2 border-1 border-border/20 select-none hover:bg-accent-foreground cursor-pointer"
         onClick={() => handeChange(value - 1)}
       >
         <svg
@@ -52,7 +52,7 @@ export default function Counter({
         />
       </div>
       <div
-        className="rounded-r-full p-2 border-1 border-border/20 select-none hover:bg-accent-foreground cursor-pointer"
+        className="rounded-r p-2 border-1 border-border/20 select-none hover:bg-accent-foreground cursor-pointer"
         onClick={() => handeChange(value + 1)}
       >
         <svg

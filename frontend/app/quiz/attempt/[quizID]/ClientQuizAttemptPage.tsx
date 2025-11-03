@@ -115,7 +115,7 @@ export default function ClientQuizAttemptPage({
 
     return (
       <div className="w-full min-h-[95vh] flex items-center justify-center ">
-        <div className="bg-card rounded-md p-5 flex flex-col gap-3">
+        <div className="bg-card rounded p-5 flex flex-col gap-3">
           <p className="text-green-500 font-semibold">{text}</p>
           <div className="flex flex-col text-2xl">
             <p>Your score:</p>
@@ -152,7 +152,7 @@ export default function ClientQuizAttemptPage({
               value={(answered * 100) / quizData.length}
               className="min-w-[250px] max-w-[400px]"
             />
-            <div className="absolute top-1/2 left-1/2 bg-accent/90 p-2 rounded-full -translate-x-1/2 -translate-y-1/2 text-xs">
+            <div className="absolute top-1/2 left-1/2 bg-accent/90 p-2 rounded -translate-x-1/2 -translate-y-1/2 text-xs">
               {answered === quizData.length ? (
                 <Check className="stroke-green-500 stroke-3" />
               ) : (

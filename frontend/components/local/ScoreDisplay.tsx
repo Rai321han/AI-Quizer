@@ -15,7 +15,7 @@ export default function ScoreDisplay({
     <div
       {...rest}
       className={cn(
-        "px-3 py-1 bg-primary/40 rounded border-border/30 border-b-2 flex flex-row w-full gap-2",
+        "px-3 py-1 border-primary/40 border-b-3 flex flex-row w-full gap-2",
         className,
       )}
     >

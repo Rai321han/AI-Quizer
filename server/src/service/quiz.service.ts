@@ -127,7 +127,8 @@ export class QuizService {
   }
 
   static async getQuizInfoById(quiz_id: string) {
-    const query = `SELECT * FROM quizes WHERE quiz_id=$1`;
+    const query = `SELECT quizes.title, quizes.duration, quizes.total_marks, quizes.privacy, quizes.created_at
+    FROM quizes WHERE quiz_id=$1`;
     const result = await dbQuery(query, [quiz_id]);
     return result.rows[0];
   }
@@ -260,7 +261,7 @@ export class QuizService {
       const questionQuery = `
       SELECT question_no AS no, answers
       FROM questions
-      WHERE quiz_id = $1:uuid
+      WHERE quiz_id = $1::uuid
       ORDER BY question_no ASC
     `;
 
@@ -357,6 +358,26 @@ export class QuizService {
       WHERE qs.quiz_id=$1 AND qz.privacy='public'
       ORDER BY qs.question_no ASC`;
       const results = await dbQuery(query, [quiz_id]);
+      return results.rows;
+    } catch (error) {
+      throw new Error("DB Error");
+    }
+  }
+
+  static async getQuizParticipantScore(quiz_id: string) {
+    try {
+      const query = `SELECT u.id as user_id, u.name as username, u.email, r.attempt_id, r.score, r.rank, r.started_at
+      FROM
+      (SELECT a.quiz_id, a.attempt_id, a.user_id, a.score, RANK() OVER (PARTITION BY a.quiz_id ORDER BY a.score ASC) AS rank, a.started_at
+      FROM attempts a
+      WHERE a.quiz_id = $1::UUID) AS r
+      JOIN "user" u
+      ON r.user_id = u.id
+      ORDER BY r.rank ASC
+`;
+
+      const results = await dbQuery(query, [quiz_id]);
+
       return results.rows;
     } catch (error) {
       throw new Error("DB Error");

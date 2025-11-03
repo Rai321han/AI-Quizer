@@ -51,6 +51,7 @@ export default function QuizEditor({
   const { data: session } = useUser();
   const [duration, setDuration] = useState<number>(0);
   const quizes = useQuiz((s) => s.quizes);
+  const reset = useQuiz((s) => s.reset);
 
   const link = `${process.env.NEXT_PUBLIC_BASE_URL}/quiz/join/${quiz_id}`;
 
@@ -93,6 +94,7 @@ export default function QuizEditor({
 
     if (result.success) {
       toast.success("Success! Your quiz is saved.");
+      reset();
     }
   }
 

@@ -140,7 +140,7 @@ function GeneratedQuizes({
         {data ? (
           data.map((q) => (
             <Link
-              href={`/quiz/scores/${q.quiz_id}`}
+              href={`/quiz/overview/${q.quiz_id}`}
               key={q.quiz_id}
               className="p-3 bg-primary/30 hover:bg-primary/40 hover:border-b-3 transition-all duration-75 border-b-1 border-border/20 rounded  flex flex-col  "
             >

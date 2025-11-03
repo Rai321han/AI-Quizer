@@ -74,7 +74,7 @@ export default function page({
   return (
     <div className="w-full min-h-[90vh]">
       <div className="mx-auto w-full max-w-[600px] p-4">
-        <div className="border-1 border-border/20 rounded-lg p-3 sm:p-10 bg-card mx-auto flex flex-col gap-5">
+        <div className="border-1 border-border/20 rounded p-3 sm:p-10 bg-card mx-auto flex flex-col gap-5">
           <p className="text-xl font-bold "></p>
           <div className="w-full border-1 border-accent"></div>
           <div>
@@ -94,7 +94,7 @@ function Quiz({ data }: { data: QuizAnswerResponseType }) {
   return (
     <div
       key={data.question_no}
-      className="rounded-md bg-background
+      className="rounded bg-background
        p-5 flex flex-col gap-3"
     >
       <div className="flex flex-row justify-between gap-2">
@@ -169,14 +169,14 @@ function QuizOption({
   const isThisCorrect = answers.includes(no);
   return (
     <div
-      className={`p-3 rounded-sm flex flex-row justify-between gap-2   ${
+      className={`p-3 rounded flex flex-row justify-between gap-2   ${
         isThisCorrect
           ? "border-3 border-primary/40 bg-primary/10"
           : "border-1 border-border/20 bg-card "
       }`}
     >
       <div className="flex flex-row grow gap-2">
-        <div className="rounded-full w-[30px] h-[30px] bg-input p-2 flex flex-row items-center justify-center">
+        <div className="rounded w-[30px] h-[30px] bg-input p-2 flex flex-row items-center justify-center">
           <p>{no}</p>
         </div>
         <div className="select-none">{option}</div>
