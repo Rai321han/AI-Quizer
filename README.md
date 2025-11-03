@@ -55,7 +55,6 @@ MJ_APIKEY_PUBLIC=mailjet_api_key
 MJ_APIKEY_PRIVATE=mailjet_secret_key
 ```
 
-🚀 Getting Started
 Running the Frontend
 
 ```sh
@@ -78,7 +77,7 @@ cd server
 npm run worker
 ```
 
-Running the backend
+Running the backend server
 
 ```sh
 cd server
@@ -99,8 +98,8 @@ npm run dev
 │ ├── controllers/
 │ ├── routes/
 │ ├── services/
-│ ├── db/
-│ ├──migrations/        # Database migrations
+│ └── db/
+│     └── migrations/        # Database migrations
 │
 └── workers             # Background worker
 ```
