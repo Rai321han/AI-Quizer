@@ -43,16 +43,16 @@ NEXT_PUBLIC_BASE_URL=your_frontend_url
 Create a .env file in the server directory and fill this variables:
 
 ```sh
-GEMINI_API_KEY=
-BETTER_AUTH_SECRET=
-DATABASE_URL=
-BETTER_AUTH_URL=
-REDIS_ENDPOINT=
-REDIS_PASSWORD=
-REDIS_PORT=
-FRONTEND_URL=
-MJ_APIKEY_PUBLIC=
-MJ_APIKEY_PRIVATE=
+GEMINI_API_KEY=gemini_api_key
+BETTER_AUTH_SECRET=better_auth_api_key
+DATABASE_URL=db_url
+BETTER_AUTH_URL=your_backend_url
+REDIS_ENDPOINT=redis_endpoint
+REDIS_PASSWORD=redis_password
+REDIS_PORT=redis_running_port
+FRONTEND_URL=your_frontend_url
+MJ_APIKEY_PUBLIC=mailjet_api_key
+MJ_APIKEY_PRIVATE=mailjet_secret_key
 ```
 
 🚀 Getting Started
@@ -87,21 +87,23 @@ npm run dev
 
 ## 📦 Project Structure
 
-├── frontend/ # Next.js frontend application
-│ ├── app/ # App router pages
-│ ├── components/ # React components
-│ ├── actions/ # Server actions
-│ └── lib/ # Utilities and helpers
+```sh
+├── frontend/           # Next.js frontend application
+│ ├── app/              # App router pages
+│ ├── components/       # React components
+│ ├── actions/          # Server actions
+│ └── lib/              # Utilities and helpers
 │
-└── server/ # Express backend application
+└── server/             # Express backend application
 ├── src/
 │ ├── controllers/
 │ ├── routes/
 │ ├── services/
 │ ├── db/
-│ ├──migrations/ # Database migrations
+│ ├──migrations/        # Database migrations
 │
-└── workers # Background worker
+└── workers             # Background worker
+```
 
 ## 🛠 Tech Stack
 
