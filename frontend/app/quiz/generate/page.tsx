@@ -100,7 +100,7 @@ export default function QuizGenerate() {
                 </Label>
               </div>
 
-              <Label>No of questions (max: 100)</Label>
+              <Label>No of questions (max: 35)</Label>
               <Counter
                 min={1}
                 max={30}
@@ -109,7 +109,7 @@ export default function QuizGenerate() {
                 }
                 value={formData.noOfQuestions}
               />
-              <Label>No of Options (max: 5)</Label>
+              <Label>No of Options (max: 4)</Label>
               <Counter
                 min={2}
                 max={4}
