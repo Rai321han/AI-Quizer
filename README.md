@@ -1,39 +1,115 @@
-### AI Quizer is an intelligent quiz platform where users can generate quizzes via AI prompts, schedule or share them, and compete with others. The platform tracks scores, maintains leaderboards, and provides detailed user dashboards.
+# AI Quizer
+
+AI Quizer is an intelligent quiz platform that lets users generate quizzes using AI prompts, schedule or share them, and compete with others. The platform tracks scores, maintains leaderboards, and provides detailed user dashboards.
 
 ## 🌟 Features
 
-**User Management**
+### Quiz Generation
 
-- Register, login, and manage profiles.
-- View personal dashboard with quiz history and statistics.
+- AI-powered quiz generation from user prompts
+- Customizable number of questions and options
+- Generated Quiz can be edited.
+- Support for both single and multiple-choice answers
+- Save and share quizzes with others
+- Quiz answers privacy.
+- Schedule quizzes for future participation
 
-**Quiz Generation**
+### User Management
 
-- Uses AI to generate high-quality quiz questions from prompts with proper settings.
-- Save, share, or schedule quizzes for future participation. _(ongoing)_
+- Secure authentication with email verification
+- Personal dashboard showing quiz history
+- Track generated and attempted quizzes
 
-## Upcoming
+### Quiz Participation
 
-**Participation**
+- Join quizzes through unique links
+- Quiz attempt tracking
+- Automatic scoring system
+- View answers after submission (configurable)
 
-- Users can join quizzes created by others.
-- Submit answers and have scores calculated automatically.
+## 📝 Environment Setup
 
-**Leaderboard**
+### Frontend Configuration
 
-- Each quiz has a real-time leaderboard showing top participants.
-- Leaderboards update automatically after each quiz attempt.
+Create a `.env` file in the frontend directory:
 
-**History & Analytics**
+```sh
+NEXT_PUBLIC_BASE_API=your_api_url
+NEXT_PUBLIC_BASE_URL=your_frontend_url
+```
 
-- Users can view past quizzes, scores, and performance trends.
+### Backend Configuration
+
+Create a .env file in the server directory and fill this variables:
+
+```sh
+GEMINI_API_KEY=
+BETTER_AUTH_SECRET=
+DATABASE_URL=
+BETTER_AUTH_URL=
+REDIS_ENDPOINT=
+REDIS_PASSWORD=
+REDIS_PORT=
+FRONTEND_URL=
+MJ_APIKEY_PUBLIC=
+MJ_APIKEY_PRIVATE=
+```
+
+🚀 Getting Started
+Running the Frontend
+
+```sh
+cd frontend
+npm install
+npm run dev
+```
+
+Backend Package installation
+
+```sh
+cd server
+npm install
+```
+
+Running the background job queue
+
+```sh
+cd server
+npm run worker
+```
+
+Running the backend
+
+```sh
+cd server
+npm run dev
+```
+
+## 📦 Project Structure
+
+├── frontend/ # Next.js frontend application
+│ ├── app/ # App router pages
+│ ├── components/ # React components
+│ ├── actions/ # Server actions
+│ └── lib/ # Utilities and helpers
+│
+└── server/ # Express backend application
+├── src/
+│ ├── controllers/
+│ ├── routes/
+│ ├── services/
+│ ├── db/
+│ ├──migrations/ # Database migrations
+│
+└── workers # Background worker
 
 ## 🛠 Tech Stack
 
-| Layers         | Techs                                        |
-| -------------- | -------------------------------------------- |
-| Frontend       | NextJS, Tailwind CSS, Zustand                |
-| Backend        | Node.js (Express), TypeScript, Langchain.js  |
-| Database       | PostgreSQL                                   |
-| AI Model       | Google Gemini 2.5 Flash for quiz generation. |
-| Authentication | Better-auth                                  |
+| Layers            | Techs                                        |
+| ----------------- | -------------------------------------------- |
+| Frontend          | NextJS, TypeScript, Tailwind CSS, Zustand    |
+| Backend           | Node.js (Express), Langchain.js              |
+| Database          | PostgreSQL                                   |
+| AI Model          | Google Gemini 2.5 Flash for quiz generation. |
+| Authentication    | Better-auth                                  |
+| Background worker | BullMQ + Redis                               |
