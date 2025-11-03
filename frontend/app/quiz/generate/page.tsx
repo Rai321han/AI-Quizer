@@ -36,7 +36,7 @@ export default function QuizGenerate() {
 
   function handleFormChange<T extends keyof QuizData>(
     name: T,
-    value: QuizData[T]
+    value: QuizData[T],
   ) {
     setFormData((prev) => ({
       ...prev,
