@@ -72,7 +72,7 @@ export default function QuizAttemptPage({
 
   if (loading) {
     return (
-      <div className="w-full min-h-[95vh] flex items-center justify-center">
+      <div className="w-full min-h-[90vh] flex items-center justify-center">
         <Hexagon
           className="animate-spin stroke-accent-foreground stroke-2"
           height={70}
@@ -84,14 +84,14 @@ export default function QuizAttemptPage({
 
   if (error) {
     return (
-      <div className="w-full min-h-[95vh] flex items-center justify-center">
+      <div className="w-full min-h-[90vh] flex items-center justify-center">
         {error}
       </div>
     );
   }
 
   return (
-    <div className="w-full p-2 sm:p-4 min-h-screen flex items-center justify-center bg-background">
+    <div className="w-full p-2 sm:p-4 min-h-[90vh] flex items-center justify-center bg-background">
       <div className="bg-card p-4 rounded border-1 border-border/20 flex flex-col w-full max-w-[600px] gap-4">
         <div className="flex flex-col gap-3">
           {/* <div>

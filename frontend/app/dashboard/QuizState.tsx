@@ -136,7 +136,7 @@ function GeneratedQuizes({
   return (
     <div className="w-full font-mono flex flex-col gap-3 ">
       <p className="text-foreground/60 uppercase">Generated Quizes</p>
-      <div className="flex flex-col gap-1 max-h-[40vh] overflow-y-auto ">
+      <div className="flex flex-col gap-1 max-h-[40vh] overflow-y-auto scrollbar-custom">
         {data ? (
           data.map((q) => (
             <Link
@@ -176,7 +176,7 @@ function AttemptedQuizes({
   return (
     <div className="w-full font-mono flex flex-col gap-3 ">
       <p className="text-foreground/60 uppercase">Attempted Quizes</p>
-      <div className="flex flex-col gap-1 max-h-[40vh] overflow-y-auto ">
+      <div className="flex flex-col gap-1 max-h-[40vh] overflow-y-auto scrollbar-custom">
         {data ? (
           data.map((q) => (
             <div

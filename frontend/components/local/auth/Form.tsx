@@ -57,14 +57,14 @@ export const SignUpForm = () => {
   return (
     // <div className="w-full h-screen flex items-center justify-center">
     <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-      <Input type="text" {...register("name")} placeholder="ex: Raihan Uddin" />
+      <Input type="text" {...register("name")} placeholder="ex: John Doe" />
       {errors.name && (
         <p className="text-red-700 text-sm">{errors.name.message}</p>
       )}
       <Input
         type="email"
         {...register("email")}
-        placeholder="ex: raihan@gmail.com"
+        placeholder="ex: john.doe@gmail.com"
       />
       {errors.email && (
         <p className="text-red-700 text-sm">{errors.email.message}</p>
@@ -140,7 +140,7 @@ export const SignInForm = () => {
       <Input
         type="email"
         {...register("email")}
-        placeholder="ex: raihan@gmail.com"
+        placeholder="ex: john.doe@gmail.com"
       />
       {errors.email && (
         <p className="text-red-700 text-sm">{errors.email.message}</p>

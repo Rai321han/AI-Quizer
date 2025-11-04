@@ -21,7 +21,14 @@ export const quizGenerateController = async function (
       success: true,
       data: data,
     });
-  } catch (error) {}
+  } catch (error) {
+    return APIResponse.error(
+      res,
+      "Something went wrong",
+      401,
+      "SOMETHING_WENT_WRONG"
+    );
+  }
 };
 
 export const quizSaveController = async function (req: Request, res: Response) {

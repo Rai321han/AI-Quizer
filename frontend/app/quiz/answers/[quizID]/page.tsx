@@ -40,7 +40,7 @@ export default function page({
 
   if (isLoading) {
     return (
-      <div className="w-full min-h-[95vh] flex items-center justify-center">
+      <div className="w-full min-h-[90vh] flex items-center justify-center">
         <Hexagon
           className="animate-spin stroke-accent-foreground stroke-2"
           height={70}
@@ -52,7 +52,7 @@ export default function page({
 
   if (error) {
     return (
-      <div className="w-full min-h-[95vh] flex items-center justify-center">
+      <div className="w-full min-h-[90vh] flex items-center justify-center">
         {error}
       </div>
     );
@@ -60,7 +60,7 @@ export default function page({
 
   if (data.length === 0) {
     return (
-      <div className="w-full  p-3 min-h-[95vh] flex items-center justify-center">
+      <div className="w-full  p-3 min-h-[90vh] flex items-center justify-center">
         <div className="max-w-[300px] mx-auto">
           <p>
             This quiz is <span className="font-bold">private.</span>

@@ -377,17 +377,14 @@ function ParticipantsData({
           <Input
             value={searchText}
             onChange={onChangeSerach}
-            placeholder="search by name"
+            placeholder="search by name or email"
             type="text"
             className="rounded placeholder:text-foreground/70"
           />
         </div>
         <div
           className="overflow-y-auto h-[70vh] p-2 [&::-webkit-scrollbar]:w-1
-  [&::-webkit-scrollbar-track]:rounded-full
-  [&::-webkit-scrollbar-track]:bg-gray-100
-  [&::-webkit-scrollbar-thumb]:rounded-full
-  [&::-webkit-scrollbar-thumb]:bg-gray-300
+ scrollbar-custom
  "
         >
           {data &&

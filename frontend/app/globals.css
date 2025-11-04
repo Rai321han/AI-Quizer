@@ -39,7 +39,7 @@
   --font-sans: Open Sans, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: JetBrains Mono, Menlo, monospace;
-  --radius: 1.3rem;
+  --radius: 0.4rem;
   --shadow-x: 0px;
   --shadow-y: 2px;
   --shadow-blur: 0px;
@@ -197,6 +197,21 @@
 @layer utilities {
   .font-anton {
     font-family: var(--font-anton);
+  }
+  .scrollbar-custom {
+    &::-webkit-scrollbar {
+      width: 0.25rem; /* w-1 */
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: 20px; /* rounded-full */
+      background-color: theme("colors.gray.100");
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 20px; /* rounded-full */
+      background-color: theme("colors.gray.300");
+    }
   }
 
   .text-highlight {

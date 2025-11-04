@@ -24,6 +24,6 @@ quizRouter.post("/save/:quizId", quizAttemptDataController);
 quizRouter.get("/answers/:quizId", getQuizAnswers);
 quizRouter.get("/deatils/:quizId", checkQuizAccess, getQuizInfoController);
 quizRouter.get("/performance/:quizId", checkQuizAccess, getQuizInforAndScores);
-quizRouter.get("/:quizId", checkQuizAccess, getQuizInfoController);
+quizRouter.get("/:quizId", getQuizInfoController);
 
 export default quizRouter;

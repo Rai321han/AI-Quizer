@@ -46,6 +46,7 @@ export default function QuizGenerate() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
     if (!session?.user) {
       router.push("/auth");
       return;
@@ -70,7 +71,7 @@ export default function QuizGenerate() {
     <main className="min-h-screen w-full  bg-background p-2 sm:p-5">
       <div className="flex flex-col items-center justify-center w-full">
         <div className="pb-5  w-full max-w-[800px] p-2 md:p-5">
-          <div className="w-full  mx-auto border-1 p-4 sm:p-6 md:p-10 border-border/20 bg-card rounded">
+          <div className="w-full  mx-auto border-1 p-4 sm:p-6 md:p-10 border-border/20 bg-card rounded-md">
             <form
               className="flex flex-col items-start gap-4 w-full mx-auto max-w-[500px]"
               onSubmit={handleSubmit}
@@ -134,6 +135,7 @@ export default function QuizGenerate() {
 
               <Textarea
                 required
+                maxLength={100}
                 onChange={(e) => handleFormChange("prompt", e.target.value)}
                 value={formData.prompt}
                 placeholder="Generate quiz on database."

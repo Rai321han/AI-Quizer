@@ -175,7 +175,7 @@ export default function QuizEditor({
                 Anyone with this link can perform this quiz.
               </DialogDescription>
               <div className="text-sm flex  flex-row justify-between items-stretch">
-                <div className="overflow-x-auto whitespace-nowrap p-2  rounded-l-md bg-card  border-1 border-r-0 border-input ">
+                <div className="overflow-x-auto scrollbar-custom whitespace-nowrap p-2  rounded-l-md bg-card  border-1 border-r-0 border-input ">
                   <p>{link}</p>
                 </div>
                 <div className="rounded-r-md bg-card p-2 border-1 border-l-0 border-border/20 flex flex-col items-center justify-center">

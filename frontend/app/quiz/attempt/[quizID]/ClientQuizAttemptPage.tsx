@@ -91,7 +91,7 @@ export default function ClientQuizAttemptPage({
 
   if (isLoading) {
     return (
-      <div className="w-full min-h-[95vh] flex items-center justify-center">
+      <div className="w-full min-h-[90vh] flex items-center justify-center">
         <Hexagon
           className="animate-spin stroke-accent-foreground stroke-2"
           height={70}

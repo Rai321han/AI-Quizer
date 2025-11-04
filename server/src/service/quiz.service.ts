@@ -3,6 +3,7 @@ import { Quiz, QuizAttemptDataType, QuizData } from "../types/quiz";
 import { AIGenerator } from "./GeminiAICall";
 import pool, { dbQuery } from "../db";
 import { scheduledQuizJob } from "../lib/schdeduledQuizJob";
+import { APIResponse } from "../lib/AppError";
 
 export type QuizType = {
   no: number;
@@ -30,6 +31,9 @@ export class QuizService {
     try {
       const { enableMultiple, noOfQuestions, noOfOptions, prompt, title } =
         inputData;
+
+      if (prompt.length > 120)
+        throw new Error("Prompt's character size exceeded.");
 
       const inputPrompt = `${prompt}. Quiz Rules: ${noOfQuestions} questions with ${noOfOptions} options each, ${
         enableMultiple
@@ -127,7 +131,7 @@ export class QuizService {
   }
 
   static async getQuizInfoById(quiz_id: string) {
-    const query = `SELECT quizes.title, quizes.duration, quizes.total_marks, quizes.privacy, quizes.created_at
+    const query = `SELECT quizes.title, quizes.status, quizes.scheduled_at, quizes.duration, quizes.total_marks, quizes.privacy, quizes.created_at
     FROM quizes WHERE quiz_id=$1`;
     const result = await dbQuery(query, [quiz_id]);
     return result.rows[0];
