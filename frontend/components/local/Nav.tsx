@@ -92,15 +92,15 @@ export default function Nav() {
         </Buttonx>
         <div
           ref={navOverlayRef}
-          className={`${
+          className={` ${
             active
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
+              ? "block opacity-100 pointer-events-auto"
+              : "hidden opacity-0 pointer-events-none"
           } w-full h-screen absolute top-0 transition-all duration-100 left-0 bg-foreground/50`}
         ></div>
         <div
           className={`${
-            active ? "animate-slide-in-right" : "animate-slide-out-right"
+            active ? "block" : "hidden"
           } min-h-screen sm:hidden p-3 z-10 flex flex-col gap-4 pb-10 rounded-l-md min-w-[300px] translate-x-0 top-0 absolute right-0 bg-card border-l-1`}
         >
           <Buttonx

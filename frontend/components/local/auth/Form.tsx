@@ -56,25 +56,43 @@ export const SignUpForm = () => {
 
   return (
     // <div className="w-full h-screen flex items-center justify-center">
-    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-      <Input type="text" {...register("name")} placeholder="ex: John Doe" />
+    <form
+      className="flex flex-col text-xs sm:text-sm gap-2 "
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Input
+        type="text"
+        {...register("name")}
+        placeholder="ex: John Doe"
+        className="placeholder:text-foreground/50"
+      />
       {errors.name && (
-        <p className="text-red-700 text-sm">{errors.name.message}</p>
+        <p className="text-red-700 text-xs sm:text-sm">{errors.name.message}</p>
       )}
       <Input
         type="email"
         {...register("email")}
         placeholder="ex: john.doe@gmail.com"
+        className="placeholder:text-foreground/50"
       />
       {errors.email && (
-        <p className="text-red-700 text-sm">{errors.email.message}</p>
+        <p className="text-red-700 text-xs sm:text-sm">
+          {errors.email.message}
+        </p>
       )}
-      <Input type="password" {...register("password")} placeholder="********" />
+      <Input
+        type="password"
+        {...register("password")}
+        placeholder="********"
+        className="placeholder:text-foreground/50"
+      />
       {errors.password && (
-        <p className="text-red-700 text-sm">{errors.password.message}</p>
+        <p className="text-red-700 text-xs sm:text-sm">
+          {errors.password.message}
+        </p>
       )}
       {errors.root && (
-        <p className="text-red-700 text-sm">{errors.root.message}</p>
+        <p className="text-red-700 text-xs sm:text-sm">{errors.root.message}</p>
       )}
       <Buttonx
         disabled={isSubmitting}
@@ -136,21 +154,34 @@ export const SignInForm = () => {
   };
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex text-xs sm:text-md flex-col gap-2"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Input
         type="email"
         {...register("email")}
         placeholder="ex: john.doe@gmail.com"
+        className="placeholder:text-foreground/50"
       />
       {errors.email && (
-        <p className="text-red-700 text-sm">{errors.email.message}</p>
+        <p className="text-red-700 text-xs sm:text-sm">
+          {errors.email.message}
+        </p>
       )}
-      <Input type="password" {...register("password")} placeholder="********" />
+      <Input
+        type="password"
+        {...register("password")}
+        placeholder="********"
+        className="placeholder:text-foreground/50"
+      />
       {errors.password && (
-        <p className="text-red-700 text-sm">{errors.password.message}</p>
+        <p className="text-red-700 text-xs sm:text-sm">
+          {errors.password.message}
+        </p>
       )}
       {errors.root && (
-        <FieldError className="text-red-700 text-sm">
+        <FieldError className="text-red-700 text-xs sm:text-sm">
           {errors.root.message}
         </FieldError>
       )}
