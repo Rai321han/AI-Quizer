@@ -78,24 +78,41 @@ export default function page({
 
         const data = await res.json();
 
-        // if (data.errorCode === "UNAUTHORIZED") {
-        //   toast.warning("Please sign in first");
-        //   setParticipantsData((prev) => ({
-        //     ...prev,
-        //     isLoading: false,
-        //     error: true,
-        //   }));
-
-        //   return;
-        // }
-
         if (!data.success) {
-          setParticipantsData((prev) => ({
-            ...prev,
-            isLoading: false,
-            error: true,
-          }));
-          return;
+          if (data.errorCode === "QUIZ_ID_NOT_FOUND") {
+            toast.error("Quiz not found!");
+            setParticipantsData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
+
+            return;
+          } else if (data.errorCode === "NOT_AUTHENTICATED") {
+            toast.error("Sign in first.");
+            setParticipantsData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
+            return;
+          } else if (data.errorCode === "ACCESS_DENIED") {
+            toast.error("access denied.");
+            setParticipantsData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
+            return;
+          } else {
+            toast.error("Something went wrong.");
+            setParticipantsData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
+            return;
+          }
         }
 
         setParticipantsData((prev) => ({
@@ -128,26 +145,42 @@ export default function page({
 
         const data = await res.json();
 
-        // if (data.errorCode === "UNAUTHORIZED") {
-        //   toast.warning("Please sign in first");
-        //   setOverviewData((prev) => ({
-        //     ...prev,
-        //     isLoading: true,
-        //     error: true,
-        //   }));
-
-        //   return;
-        // }
-
         if (!data.success) {
-          setOverviewData((prev) => ({
-            ...prev,
-            isLoading: false,
-            error: true,
-          }));
-          return;
-        }
+          if (data.errorCode === "QUIZ_ID_NOT_FOUND") {
+            toast.error("Quiz not found!");
+            setOverviewData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
 
+            return;
+          } else if (data.errorCode === "NOT_AUTHENTICATED") {
+            toast.error("Sign in first.");
+            setOverviewData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
+            return;
+          } else if (data.errorCode === "ACCESS_DENIED") {
+            toast.error("access denied.");
+            setOverviewData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
+            return;
+          } else {
+            toast.error("Something went wrong.");
+            setOverviewData((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: true,
+            }));
+            return;
+          }
+        }
         setOverviewData((prev) => ({
           ...prev,
           isLoading: false,
@@ -305,19 +338,13 @@ function ParticipantsData({
       </div>
     );
 
-  if (error)
-    return (
-      <div className="flex flex-col gap-2 w-full max-w-[500px] ">
-        Failed to fetch data.
-      </div>
-    );
-
-  if (!participantsData)
+  if (error || !participantsData)
     return (
       <div className="flex flex-col gap-2 w-full max-w-[500px] ">
         No data to show.
       </div>
     );
+
   return (
     <div className="flex flex-col gap-2 w-full max-w-[500px] ">
       <div className="px-5 py-3 flex flex-row justify-between text-sm bg-card rounded border-1 border-border/10">
