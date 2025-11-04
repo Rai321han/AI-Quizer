@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${anton.variable} antialiased bg-background`}
+        className={`${inter.variable} ${anton.variable} antialiased bg-background overflow-x-hidden`}
       >
         <Nav />
         {children}

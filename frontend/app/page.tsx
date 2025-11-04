@@ -10,7 +10,7 @@ export default function Home() {
             AI QUIZER
           </h1>
           <p className="text-center  text-[22px] leading-7 max-w-[700px] font-mono">
-            Create AI-powered quizzes in seconds. <br /> Challenge. Compete.
+            Create AI-powered quizes in seconds. <br /> Challenge. Compete.
             Conquer.
           </p>
 
