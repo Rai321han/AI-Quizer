@@ -1,22 +1,24 @@
 "use client";
+import { getQuizDetails, getQuizPerformance } from "@/actions/quiz";
 import Buttonx from "@/components/local/Buttonx";
 import ScoreDisplay from "@/components/local/ScoreDisplay";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { downloadCsv, formatTime, jsonToCsv } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowDownCircleIcon,
-  Hexagon,
   LockKeyholeIcon,
   LockKeyholeOpen,
   UsersRoundIcon,
 } from "lucide-react";
 import { use, useEffect, useState } from "react";
-import { toast } from "sonner";
 
 type QuizOverviewType = {
   created_at: Date | string;
@@ -41,176 +43,42 @@ export default function page({
 }: {
   params: Promise<{ quizID: string }>;
 }) {
-  const [participantsData, setParticipantsData] = useState<{
-    isLoading: boolean;
-    error: boolean;
-    data: ParticipantsDataType[] | null;
-  }>({
-    isLoading: false,
-    error: false,
-    data: null,
-  });
-  const [overviewData, setOverviewData] = useState<{
-    isLoading: boolean;
-    error: boolean;
-    data: QuizOverviewType | null;
-  }>({
-    isLoading: false,
-    error: false,
-    data: null,
-  });
   const { quizID } = use(params);
 
-  useEffect(() => {
-    const fetchParticipantsData = async () => {
-      setParticipantsData((prev) => ({
-        ...prev,
-        isLoading: true,
-        error: false,
-      }));
+  const {
+    isLoading: isLoadingQuizInfo,
+    isError: isQuizInfoError,
+    error: quizInfoError,
+    data: quizInfo,
+  } = useQuery({
+    queryKey: ["quiz_info", quizID],
+    queryFn: () => getQuizDetails(quizID),
+  });
 
-      const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/performance/${quizID}`;
-      try {
-        const res = await fetch(api, {
-          method: "GET",
-          credentials: "include",
-        });
-
-        const data = await res.json();
-
-        if (!data.success) {
-          if (data.errorCode === "QUIZ_ID_NOT_FOUND") {
-            toast.error("Quiz not found!");
-            setParticipantsData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-
-            return;
-          } else if (data.errorCode === "NOT_AUTHENTICATED") {
-            toast.error("Sign in first.");
-            setParticipantsData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-            return;
-          } else if (data.errorCode === "ACCESS_DENIED") {
-            toast.error("access denied.");
-            setParticipantsData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-            return;
-          } else {
-            toast.error("Something went wrong.");
-            setParticipantsData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-            return;
-          }
-        }
-
-        setParticipantsData((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: false,
-          data: data.data,
-        }));
-      } catch (error) {
-        setParticipantsData((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: true,
-        }));
-      }
-    };
-
-    const fetchQuizOverview = async () => {
-      setOverviewData((prev) => ({
-        ...prev,
-        isLoading: true,
-        error: false,
-      }));
-      const api = `${process.env.NEXT_PUBLIC_BASE_API}/api/quiz/${quizID}`;
-      try {
-        const res = await fetch(api, {
-          method: "GET",
-          credentials: "include",
-        });
-
-        const data = await res.json();
-
-        if (!data.success) {
-          if (data.errorCode === "QUIZ_ID_NOT_FOUND") {
-            toast.error("Quiz not found!");
-            setOverviewData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-
-            return;
-          } else if (data.errorCode === "NOT_AUTHENTICATED") {
-            toast.error("Sign in first.");
-            setOverviewData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-            return;
-          } else if (data.errorCode === "ACCESS_DENIED") {
-            toast.error("access denied.");
-            setOverviewData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-            return;
-          } else {
-            toast.error("Something went wrong.");
-            setOverviewData((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: true,
-            }));
-            return;
-          }
-        }
-        setOverviewData((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: false,
-          data: data.data,
-        }));
-      } catch (error) {
-        setOverviewData((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: true,
-        }));
-      }
-    };
-    fetchParticipantsData();
-    fetchQuizOverview();
-  }, [quizID]);
+  const {
+    isLoading: isLoadingQuizperformance,
+    isError: isQuizPerformanceError,
+    error: quizPerformanceError,
+    data: quizPerformance,
+  } = useQuery({
+    queryKey: ["quiz_performance", quizID],
+    queryFn: () => getQuizPerformance(quizID),
+  });
 
   return (
     <div className="w-full font-mono min-h-[90vh] bg-background p-4   flex flex-col items-center sm:items-start sm:flex-row gap-3 justify-center">
       <Overview
-        isLoading={overviewData.isLoading}
-        error={overviewData.error}
-        overview={overviewData.data}
+        isLoading={isLoadingQuizInfo}
+        isError={isQuizInfoError}
+        error={quizInfoError?.message}
+        overview={quizInfo}
         quiz_id={quizID}
       />
       <ParticipantsData
-        isLoading={participantsData.isLoading}
-        error={participantsData.error}
-        participantsData={participantsData.data}
+        isLoading={isLoadingQuizperformance}
+        isError={isQuizPerformanceError}
+        error={quizPerformanceError?.message}
+        participantsData={quizPerformance}
         quiz_id={quizID}
       />
     </div>
@@ -219,33 +87,25 @@ export default function page({
 
 function Overview({
   isLoading,
+  isError,
   error,
   overview,
   quiz_id,
 }: {
   quiz_id: string;
+  isError: boolean;
   isLoading: boolean;
-  error: boolean;
+  error: string | undefined;
   overview: QuizOverviewType | null;
 }) {
   const link = `${process.env.NEXT_PUBLIC_BASE_URL}/quiz/join/${quiz_id}`;
 
   if (isLoading)
-    return (
-      <div className="flex flex-col gap-2 w-full max-w-[500px] ">
-        <Hexagon
-          className="animate-spin stroke-accent-foreground stroke-2"
-          height={70}
-          width={70}
-        />
-      </div>
-    );
+    return <Skeleton className="w-full max-w-[500px] h-[400px]"></Skeleton>;
 
   if (error || !overview)
     return (
-      <div className="flex flex-col gap-2 w-full max-w-[500px] ">
-        No data to show
-      </div>
+      <div className="flex flex-col gap-2 w-full max-w-[500px] ">{error}</div>
     );
 
   return (
@@ -263,14 +123,18 @@ function Overview({
             {overview.privacy === "private" ? (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <LockKeyholeIcon className="stroke-foreground/70" />
+                  <Badge variant="outline" className="text-foreground/60">
+                    private
+                  </Badge>
                 </TooltipTrigger>
                 <TooltipContent className="rounded">
                   <p className="font-mono">Answer is locked</p>
                 </TooltipContent>
               </Tooltip>
             ) : (
-              <LockKeyholeOpen />
+              <Badge variant="outline" className="text-foreground/60">
+                public
+              </Badge>
             )}
           </div>
         </div>
@@ -294,12 +158,14 @@ function Overview({
 
 function ParticipantsData({
   isLoading,
+  isError,
   error,
   participantsData,
   quiz_id,
 }: {
   isLoading: boolean;
-  error: boolean;
+  isError: boolean;
+  error: string | undefined;
   participantsData: ParticipantsDataType[] | null;
   quiz_id: string;
 }) {
@@ -328,21 +194,11 @@ function ParticipantsData({
   }
 
   if (isLoading)
-    return (
-      <div className="flex flex-col gap-2 w-full max-w-[500px]">
-        <Hexagon
-          className="animate-spin stroke-accent-foreground stroke-2"
-          height={70}
-          width={70}
-        />
-      </div>
-    );
+    return <Skeleton className="w-full max-w-[500px] h-[70vh]"></Skeleton>;
 
   if (error || !participantsData)
     return (
-      <div className="flex flex-col gap-2 w-full max-w-[500px] ">
-        No data to show.
-      </div>
+      <div className="flex flex-col gap-2 w-full max-w-[500px] ">{error}</div>
     );
 
   return (
@@ -387,7 +243,7 @@ function ParticipantsData({
  scrollbar-custom
  "
         >
-          {data &&
+          {data && data.length > 0 ? (
             data.map((attempt, i) => (
               <ScoreDisplay
                 key={attempt.user_id}
@@ -399,7 +255,10 @@ function ParticipantsData({
                   <p>{attempt.score}</p>
                 </div>
               </ScoreDisplay>
-            ))}
+            ))
+          ) : (
+            <div>No participants</div>
+          )}
         </div>
       </div>
     </div>

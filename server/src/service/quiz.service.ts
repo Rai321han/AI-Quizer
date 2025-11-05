@@ -309,7 +309,7 @@ export class QuizService {
 
   static async allAttempted(user_id: string) {
     try {
-      const query = `SELECT q.quiz_id, q.title, ROUND((a.score * 100.0 / q.total_marks), 1) AS performance, a.created_at
+      const query = `SELECT q.quiz_id, q.title, q.privacy, ROUND((a.score * 100.0 / q.total_marks), 1) AS performance, a.created_at
       FROM quizes q
       JOIN attempts a ON q.quiz_id = a.quiz_id
       AND a.user_id = $1
@@ -325,7 +325,7 @@ export class QuizService {
 
   static async allGenerated(user_id: string) {
     try {
-      const query = `SELECT quiz_id, title, created_at
+      const query = `SELECT quiz_id, privacy, title, created_at
       FROM quizes
       WHERE created_by = $1
       ORDER BY created_at DESC;`;

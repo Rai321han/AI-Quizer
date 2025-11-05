@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
+import FeatureDisplay from "@/components/local/FeatureDisplay";
 
 export default function Home() {
   return (
@@ -83,6 +87,17 @@ export default function Home() {
               Never stop quizzing!
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="w-full bg-foreground py-20 items-center flex flex-col gap-5">
+        <div className="max-w-[500px] mx-auto">
+          <h1 className="text-6xl font-anton text-background text-center">
+            EVERYTHING YOU NEED TO TEST YOURSELF
+          </h1>
+        </div>
+        <div className="w-full max-w-[1400px] p-2 mx-auto">
+          <FeatureDisplay />
         </div>
       </section>
     </main>

@@ -1,14 +1,16 @@
 "use client";
 
 import { getAttemptdQuizesData, getGeneratedQuizesData } from "@/actions/quiz";
+import QuizBrief from "@/components/local/QuizBrief";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type attemptedDataType = {
   quiz_id: string;
   title: string;
   performance: number;
+  privacy: "public" | "private";
   created_at: Date | string;
 };
 
@@ -16,66 +18,53 @@ type generatedDataType = {
   quiz_id: string;
   title: string;
   created_at: Date | string;
-};
-
-type Errors = {
-  attempted: string | null;
-  generated: string | null;
-};
-
-type QuizDashboardData = {
-  attempted: attemptedDataType[] | null;
-  generated: generatedDataType[] | null;
+  privacy: "public" | "private";
 };
 
 export function QuizState() {
-  const [data, setData] = useState<QuizDashboardData>({
-    attempted: [],
-    generated: [],
+  const {
+    data: generatedResult,
+    isError: generatedQuizesError,
+    isLoading: isGeneratedLoading,
+  } = useQuery({
+    queryKey: ["generated_quizes"],
+    queryFn: getGeneratedQuizesData,
   });
-  const [error, setError] = useState<Errors>({
-    attempted: null,
-    generated: null,
+
+  const {
+    data: attemptedResult,
+    isError: attemptedQuizesError,
+    isLoading: isAttemptedLoading,
+  } = useQuery({
+    queryKey: ["attempted_quizes"],
+    queryFn: getAttemptdQuizesData,
   });
-
-  useEffect(() => {
-    setError({
-      attempted: null,
-      generated: null,
-    });
-
-    const fetchData = async (callback: any, key: "attempted" | "generated") => {
-      const result = await callback();
-
-      if (!result.success) {
-        setError((prev) => ({
-          ...prev,
-          [key]: result.message || "Something went wrong",
-        }));
-        return;
-      }
-
-      // Update data correctly using functional state update
-      setData((prev) => ({
-        ...prev,
-        [key]: result.data,
-      }));
-    };
-
-    // Fetch generated and attempted data
-    fetchData(getGeneratedQuizesData, "generated");
-    fetchData(getAttemptdQuizesData, "attempted");
-  }, []);
 
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col sm:flex-row gap-2 p-5  bg-green-400/30">
-        <GeneratedStat error={error.generated} data={data.generated} />
-        <AtemptedStat error={error.attempted} data={data.attempted} />
+        <GeneratedStat
+          error={generatedQuizesError}
+          isLoading={isGeneratedLoading}
+          data={generatedResult}
+        />
+        <AtemptedStat
+          error={attemptedQuizesError}
+          isLoading={isAttemptedLoading}
+          data={attemptedResult}
+        />
       </div>
       <div className="flex flex-col sm:flex-row gap-4">
-        <GeneratedQuizes error={error.generated} data={data.generated} />
-        <AttemptedQuizes error={error.attempted} data={data.attempted} />
+        <GeneratedQuizes
+          error={generatedQuizesError}
+          isLoading={isGeneratedLoading}
+          data={generatedResult}
+        />
+        <AttemptedQuizes
+          error={attemptedQuizesError}
+          isLoading={isAttemptedLoading}
+          data={attemptedResult}
+        />
       </div>
     </div>
   );
@@ -83,12 +72,22 @@ export function QuizState() {
 
 function GeneratedStat({
   error,
+  isLoading,
   data,
 }: {
-  error: string | null;
+  error: boolean;
+  isLoading: boolean;
   data: generatedDataType[] | null;
 }) {
-  if (error) return <div>Something went wrong</div>;
+  if (isLoading || error)
+    return <Skeleton className="w-[200px] h-[200px] p-5 rounded" />;
+  if (!data)
+    return (
+      <div className="bg-card rounded font-mono p-4 max-w-[200px] flex-1 cursor-pointer">
+        <p className="text-foreground/40 uppercase">Generated</p>
+        <p className="text-green-800 text-2xl">0</p>
+      </div>
+    );
   return (
     <div className="flex flex-col gap-5  rounded text-sm sm:text-base">
       {data ? (
@@ -104,13 +103,24 @@ function GeneratedStat({
 }
 
 function AtemptedStat({
-  error,
+  error = false,
+  isLoading,
   data,
 }: {
-  error: string | null;
+  isLoading: boolean;
+  error: boolean;
   data: attemptedDataType[] | null;
 }) {
-  if (error) return <div>Something went wrong</div>;
+  if (isLoading || error)
+    return <Skeleton className="w-[200px] h-[200px] p-5 rounded" />;
+
+  if (!data)
+    return (
+      <div className="bg-card rounded font-mono p-4 max-w-[200px] flex-1 cursor-pointer">
+        <p className="text-foreground/40 uppercase">Attempted</p>
+        <p className="text-green-800 text-2xl">0</p>
+      </div>
+    );
   return (
     <div className="flex flex-col gap-5 rounded text-sm sm:text-base">
       {data ? (
@@ -126,39 +136,34 @@ function AtemptedStat({
 }
 
 function GeneratedQuizes({
-  error,
+  error = false,
+  isLoading,
   data,
 }: {
-  error: string | null;
+  isLoading: boolean;
+  error: boolean;
   data: generatedDataType[] | null;
 }) {
-  if (error) return <div>Something went wrong</div>;
+  if (isLoading || error)
+    return <Skeleton className="w-full h-[200px] p-5 rounded" />;
+
   return (
     <div className="w-full font-mono flex flex-col gap-3 ">
       <p className="text-foreground/60 uppercase">Generated Quizes</p>
       <div className="flex flex-col gap-1 max-h-[40vh] overflow-y-auto scrollbar-custom">
-        {data ? (
+        {data && data.length > 0 ? (
           data.map((q) => (
-            <Link
-              href={`/quiz/overview/${q.quiz_id}`}
+            <QuizBrief
               key={q.quiz_id}
-              className="p-3 bg-primary/30 hover:bg-primary/40 hover:border-b-3 transition-all duration-75 border-b-1 border-border/20 rounded  flex flex-col  "
-            >
-              <p className="text-foreground/50">{q.title}</p>
-              <div className="w-full flex flex-row gap-2">
-                <p className="text-foreground/50 text-sm">
-                  {new Date(q.created_at).toLocaleString()}
-                </p>
-                {/* <p className="text-foreground/50 text-sm">12:30 PM</p> */}
-              </div>
-            </Link>
+              quiz={q}
+              href={`/quiz/overview/${q.quiz_id}`}
+            />
           ))
         ) : (
-          <>
-            <Skeleton className="w-full h-[60px] p-5 rounded"></Skeleton>
-            <Skeleton className="w-full h-[60px] p-5 rounded"></Skeleton>
-            <Skeleton className="w-full h-[60px] p-5 rounded"></Skeleton>
-          </>
+          <div className="text-foreground/40 italic w-full bg-foreground/5 rounded flex flex-row items-center justify-center p-3 h-[200px]">
+            Generated quizzes will be shown here.
+            <p></p>
+          </div>
         )}
       </div>
     </div>
@@ -166,37 +171,34 @@ function GeneratedQuizes({
 }
 
 function AttemptedQuizes({
-  error,
+  error = false,
+  isLoading,
   data,
 }: {
-  error: string | null;
+  isLoading: boolean;
+  error: boolean;
   data: attemptedDataType[] | null;
 }) {
-  if (error) return <div>Something went wrong</div>;
+  if (isLoading || error)
+    return <Skeleton className="w-full h-[200px] p-5 rounded" />;
+
   return (
     <div className="w-full font-mono flex flex-col gap-3 ">
       <p className="text-foreground/60 uppercase">Attempted Quizes</p>
       <div className="flex flex-col gap-1 max-h-[40vh] overflow-y-auto scrollbar-custom">
-        {data ? (
+        {data && data.length > 0 ? (
           data.map((q) => (
-            <div
+            <QuizBrief
               key={q.quiz_id}
-              className="p-3 bg-primary/30 hover:bg-primary/40 hover:border-b-3 transition-all duration-75 border-b-1 border-border/20 rounded  flex flex-col  "
-            >
-              <p className="text-foreground/50">{q.title}</p>
-              <div className="w-full flex flex-row gap-2">
-                <p className="text-foreground/50 text-sm">
-                  {new Date(q.created_at).toLocaleString()}
-                </p>
-              </div>
-            </div>
+              quiz={q}
+              href={q.privacy === "public" ? `/quiz/answers/${q.quiz_id}` : "#"}
+            />
           ))
         ) : (
-          <>
-            <Skeleton className="w-full h-[60px] p-5 rounded"></Skeleton>
-            <Skeleton className="w-full h-[60px] p-5 rounded"></Skeleton>
-            <Skeleton className="w-full h-[60px] p-5 rounded"></Skeleton>
-          </>
+          <div className="text-foreground/40 italic w-full bg-foreground/5 rounded flex flex-row items-center justify-center p-3 h-[200px]">
+            Attempted quizzes will be shown here.
+            <p></p>
+          </div>
         )}
       </div>
     </div>

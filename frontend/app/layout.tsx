@@ -3,6 +3,7 @@ import { Inter_Tight, Anton } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/local/Nav";
 import { Toaster } from "@/components/ui/sonner";
+import QueryProvider from "@/providers/QueryClient";
 
 const inter = Inter_Tight({
   variable: "--font-inter",
@@ -30,7 +31,7 @@ export default function RootLayout({
         className={`${inter.variable} ${anton.variable} antialiased bg-background overflow-x-hidden`}
       >
         <Nav />
-        {children}
+        <QueryProvider>{children}</QueryProvider>
         <Toaster />
       </body>
     </html>

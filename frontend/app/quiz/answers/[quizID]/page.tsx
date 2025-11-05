@@ -1,6 +1,7 @@
 "use client";
 
 import { getQuizAnswers } from "@/actions/quiz";
+import { useQuery } from "@tanstack/react-query";
 import { Hexagon } from "lucide-react";
 import { use, useEffect, useState } from "react";
 
@@ -18,25 +19,13 @@ export default function page({
   params: Promise<{ quizID: string }>;
 }) {
   const { quizID } = use(params);
-  const [data, setData] = useState<QuizAnswerResponseType[] | []>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setError(null);
-      setIsLoading(true);
-      const res = await getQuizAnswers(quizID);
-
-      if (!res.success) {
-        setError("Failed to load the answers. Try again!");
-      }
-
-      setData(res.data);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [quizID]);
+  const { isError, error, isLoading, data } = useQuery<
+    QuizAnswerResponseType[]
+  >({
+    queryKey: ["quiz_answer", quizID],
+    queryFn: () => getQuizAnswers(quizID),
+  });
 
   if (isLoading) {
     return (
@@ -50,23 +39,10 @@ export default function page({
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="w-full min-h-[90vh] flex items-center justify-center">
-        {error}
-      </div>
-    );
-  }
-
-  if (data.length === 0) {
-    return (
-      <div className="w-full  p-3 min-h-[90vh] flex items-center justify-center">
-        <div className="max-w-[300px] mx-auto">
-          <p>
-            This quiz is <span className="font-bold">private.</span>
-          </p>
-          <p>You don't have the permission to see answers of this quiz.</p>
-        </div>
+        {error.message}
       </div>
     );
   }
@@ -75,13 +51,17 @@ export default function page({
     <div className="w-full min-h-[90vh]">
       <div className="mx-auto w-full max-w-[600px] p-4">
         <div className="border-1 border-border/20 rounded p-3 sm:p-10 bg-card mx-auto flex flex-col gap-5">
-          <p className="text-xl font-bold "></p>
+          <p className="text-xl font-bold ">
+            {data && data.length > 0 && data[0].title}
+          </p>
           <div className="w-full border-1 border-accent"></div>
           <div>
             <div className="flex flex-col gap-3">
-              {data.map((q, i) => {
-                return <Quiz key={q.question_no} data={q} />;
-              })}
+              {data &&
+                data.length > 0 &&
+                data.map((q, i) => {
+                  return <Quiz key={q.question_no} data={q} />;
+                })}
             </div>
           </div>
         </div>
@@ -102,44 +82,6 @@ function Quiz({ data }: { data: QuizAnswerResponseType }) {
           <p>{data.question_no}.</p>
           <p className="font-bold  select-none block">{data.question}</p>
         </div>
-        {/* <div
-          onClick={handleEditToggle}
-          className={`rounded-full w-[40px] h-[40px] aspect-square ${
-            isEditing ? "bg-sidebar-foreground animate-pulse" : "bg-accent"
-          }  flex flex-row items-center justify-center cursor-pointer`}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            className={`${
-              isEditing ? "hidden" : "block"
-            }   stroke-gray-600 fill-gray-600`}
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-            <path d="m15 5 4 4" />
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            className={`${
-              isEditing ? "block" : "hidden"
-            }   stroke-accent fill-none`}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M18 6 7 17l-5-5" />
-            <path d="m22 10-7.5 7.5L13 16" />
-          </svg>
-        </div> */}
       </div>
       <div className="flex flex-col gap-2">
         {data.options.map((option: string, i: number) => {
