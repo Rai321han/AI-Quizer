@@ -93,7 +93,7 @@ export default function Home() {
       <section className="w-full bg-foreground py-20 items-center flex flex-col gap-5">
         <div className="max-w-[500px] mx-auto">
           <h1 className="text-6xl font-anton text-background text-center">
-            EVERYTHING YOU NEED TO TEST YOURSELF
+            EVERYTHING YOU NEED TO TEST
           </h1>
         </div>
         <div className="p-2 mx-auto ">

@@ -42,7 +42,8 @@ function ClientPage() {
     <div className="w-full min-h-[90vh] p-4">
       <div className="w-full mx-auto max-w-[500px] bg-card p-4 font-mono rounded flex flex-col gap-3">
         <p>
-          A verification email has been sent to your account.
+          A verification email has been sent to your account. Check Spam folder
+          also.
           <br />
           <span className="font-semibold ">
             Please verify your email to continue.
