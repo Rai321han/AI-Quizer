@@ -96,7 +96,7 @@ export default function Home() {
             EVERYTHING YOU NEED TO TEST YOURSELF
           </h1>
         </div>
-        <div className="w-full max-w-[1400px] p-2 mx-auto">
+        <div className="p-2 mx-auto ">
           <FeatureDisplay />
         </div>
       </section>

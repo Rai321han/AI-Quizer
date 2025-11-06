@@ -17,7 +17,7 @@ const data = [
     value: "host",
     title: "Host Live Quizzes Effortlessly",
     description:
-      "Launch your quiz for participants in one click. Share links publicly or privately, and watch responses update live — no setup, no hassle.",
+      "Launch your quiz for participants in one click. Share links publicly or privately, and watch responses update live. No setup, No hassle.",
     src: "/images/host.webp",
   },
   {
@@ -57,7 +57,7 @@ export default function FeatureDisplay() {
             onClick={() => setActive(i)}
             className={`font-mono font-semibold ${
               active === i ? "bg-primary/40" : "bg-background"
-            } hover:bg-foreground/20 text-lg text-foreground/70 p-2 rounded uppercase`}
+            } hover:bg-foreground/20 text-md sm:text-lg text-foreground/70 p-2 rounded uppercase`}
           >
             {d.heading}
           </div>
@@ -71,13 +71,13 @@ export default function FeatureDisplay() {
           </p>
         </div>
         <div>
-          <Image
+          {/* <Image
             className="rounded w-full"
             src={data[active].src}
             alt={data[active].value}
             height={500}
             width={500}
-          />
+          /> */}
         </div>
       </div>
       ;
