@@ -12,12 +12,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { type QuizAPIType, QuizType } from "@/app/types/quiz";
+import { type QuizAPIType } from "@/app/types/quiz";
 
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 
-import { ChevronDownIcon, Plus } from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -25,14 +25,12 @@ import {
 } from "@/components/ui/popover";
 import { Quiz } from "./Quiz";
 import { set } from "date-fns";
-import { UUID } from "crypto";
 import { saveQuizToDB } from "@/app/quiz/actions/generatequiz.action";
 import useUser from "@/hooks/useUser";
 import { useQuiz } from "@/app/stores/quiz";
 import DurationPicker from "./DurationPicker";
 import Buttonx from "./Buttonx";
 import { toast } from "sonner";
-import { NewQuiz } from "./NewQuiz";
 import AddQuizButton from "./AddQuizButton";
 import Copy from "./Copy";
 
