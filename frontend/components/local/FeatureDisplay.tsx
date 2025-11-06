@@ -21,29 +21,13 @@ const data = [
     src: "/images/host.webp",
   },
   {
-    heading: "REAL-TIME ATTEMPTS",
+    heading: "Track ATTEMPTS",
     value: "attempts",
     title: "Track Every Attempt in Real Time",
     description:
       "Monitor who’s taking your quiz and how they perform. Get instant scores, analytics, and insights to see top performers and participation trends.",
     src: "/images/attempts.webp",
   },
-  //   {
-  //     heading: "SECURE & FAIR",
-  //     value: "security",
-  //     title: "Keep Quizzes Private and Protected",
-  //     description:
-  //       "Only you can access results for your quizzes. Participants can view only their own attempts — ensuring privacy and fairness for everyone.",
-  //     src: "/images/security.webp",
-  //   },
-  //   {
-  //     heading: "ANALYTICS & PERFORMANCE",
-  //     value: "analytics",
-  //     title: "Visualize Results with Smart Analytics",
-  //     description:
-  //       "Get a clear picture of overall performance through automatic ranking, scoring breakdowns, and participant comparisons — all in one dashboard.",
-  //     src: "/images/analytics.webp",
-  //   },
 ];
 
 export default function FeatureDisplay() {
@@ -57,7 +41,7 @@ export default function FeatureDisplay() {
             onClick={() => setActive(i)}
             className={`font-mono font-semibold ${
               active === i ? "bg-primary/40" : "bg-background"
-            } hover:bg-foreground/20 text-md sm:text-lg text-foreground/70 p-2 rounded uppercase`}
+            } hover:bg-foreground/20 text-xs sm:text-lg text-foreground/70 p-2 rounded uppercase`}
           >
             {d.heading}
           </div>

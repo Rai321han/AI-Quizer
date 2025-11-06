@@ -1,7 +1,11 @@
+import { X } from "lucide-react";
 import { memo, useState } from "react";
 
 type OptionProps = {
   no: number;
+  onSelect: (no: number) => void;
+  onDelete: (no: number) => void;
+  isDeletable: boolean;
   option: string;
   answers: number[];
   editMode: boolean;
@@ -9,9 +13,26 @@ type OptionProps = {
 };
 
 export const QuizOption = memo(
-  ({ no, option, answers, editMode, editOption }: OptionProps) => {
+  ({
+    no,
+    option,
+    onSelect,
+    isDeletable,
+    onDelete,
+    answers,
+    editMode,
+    editOption,
+  }: OptionProps) => {
     return (
-      <div className="p-3 bg-card rounded-sm flex flex-row justify-between gap-2 border-1 border-border/20">
+      <div className="p-3 bg-card rounded-sm  flex flex-row justify-between gap-2 border-1 border-border/20">
+        {editMode && isDeletable && (
+          <div
+            className="bg-background p-1 cursor-pointer"
+            onClick={() => onDelete(no - 1)}
+          >
+            <X className="stroke-red-300" />
+          </div>
+        )}
         <div className="flex flex-row grow gap-2">
           <div className="rounded-full w-[30px] h-[30px] bg-input p-2 flex flex-row items-center justify-center">
             <p>{no}</p>
@@ -28,7 +49,7 @@ export const QuizOption = memo(
             onChange={(e) => editOption(e.target.value)}
           />
         </div>
-        <div>
+        <div onClick={() => onSelect(no)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

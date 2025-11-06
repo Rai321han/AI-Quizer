@@ -43,8 +43,8 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-        <div className="rounded-lg mt-5 flex flex-row gap-3 flex-wrap sm:flex-nowrap justify-center sm:justify-start">
-          <div className="w-[150px] -rotate-12 shadow-md translate-x-5 flex flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
+        <div className="mt-5 items-stretch flex flex-row  gap-3 flex-wrap sm:flex-nowrap justify-center sm:justify-start">
+          <div className="w-[150px] z-[5]  shadow-md translate-x-5 flex flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
             <div>
               <p className="font-semibold text-sm text-gray-400 tracking-wider font-mono">
                 SCORE
@@ -59,7 +59,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[150px] flex sm:-mt-5 rotate-12 sm:rotate-none shadow-md flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
+          <div className="w-[150px] flex z-[6]  sm:rotate-none shadow-md flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
             <div>
               <p className="font-semibold text-sm text-gray-400 tracking-wider font-mono">
                 ATTENDED
@@ -74,7 +74,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[150px] sm:rotate-12 sm:-translate-x-5 -translate-y-5 sm:translate-y-0 shadow-md flex flex-col gap-4 bg-card border-1 border-border/30 p-2  h-full rounded-[15px]">
+          <div className="w-[150px] -translate-x-5 [@media(max-width:470px)]:-translate-x-0 z-[7] [@media(max-width:470px)]:-translate-y-5  shadow-md flex flex-col gap-4 bg-card border-1 border-border/30 p-2   rounded-[15px]">
             <div>
               <p className="font-semibold text-sm text-gray-400 tracking-wider font-mono">
                 GENERATED

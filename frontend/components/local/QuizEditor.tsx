@@ -17,7 +17,7 @@ import { type QuizAPIType, QuizType } from "@/app/types/quiz";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, Plus } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -32,6 +32,8 @@ import { useQuiz } from "@/app/stores/quiz";
 import DurationPicker from "./DurationPicker";
 import Buttonx from "./Buttonx";
 import { toast } from "sonner";
+import { NewQuiz } from "./NewQuiz";
+import AddQuizButton from "./AddQuizButton";
 
 // `jomkalo/api/sds`
 //`jomkalo/api/sds`
@@ -50,10 +52,27 @@ export default function QuizEditor({
   const [time, setTime] = useState<string>("10:30:00");
   const { data: session } = useUser();
   const [duration, setDuration] = useState<number>(0);
+  const [addActive, setAddActive] = useState(false);
   const quizes = useQuiz((s) => s.quizes);
+  const updateQuiz = useQuiz((s) => s.updateQuiz);
   const reset = useQuiz((s) => s.reset);
+  const deleteQuiz = useQuiz((s) => s.deleteQuiz);
 
   const link = `${process.env.NEXT_PUBLIC_BASE_URL}/quiz/join/${quiz_id}`;
+
+  function addNewQuiz() {
+    const quizNo = quizes.length + 1;
+    updateQuiz(quizNo, {
+      no: quizNo,
+      question: "write down the question here.",
+      options: ["option 1", "option 2"],
+      answers: [1],
+    });
+  }
+
+  function handleDeleteQuiz(no: number) {
+    deleteQuiz(no);
+  }
 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTime(e.target.value);
@@ -86,6 +105,7 @@ export default function QuizEditor({
     };
 
     // save the quiz
+    console.log(quizData);
     const result = await saveQuizToDB(quizData);
 
     if (!result.success) {
@@ -274,10 +294,18 @@ export default function QuizEditor({
         <div>
           <div className="flex flex-col gap-3">
             {quizes.map((q, i) => {
-              return <Quiz key={q.no} id={i} />;
+              return (
+                <Quiz
+                  isDeletable={quizes.length > 1}
+                  key={q.no}
+                  id={i}
+                  onDelete={() => handleDeleteQuiz(q.no)}
+                />
+              );
             })}
           </div>
         </div>
+        <AddQuizButton onClick={addNewQuiz} />
       </div>
     </>
   );

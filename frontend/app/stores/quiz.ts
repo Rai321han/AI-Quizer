@@ -8,7 +8,7 @@ interface QuizState {
   setEditId: (id: number) => void;
   setQuizes: (quizes: QuizType[]) => void;
   addQuiz: (quiz: QuizType) => void;
-  updateQuiz: (id: number, updatedQuiz: Partial<QuizType>) => void;
+  updateQuiz: (id: number, updatedQuiz: QuizType) => void;
   deleteQuiz: (id: number) => void;
   reset: () => void;
 }
@@ -34,11 +34,16 @@ export const useQuiz = create<QuizState>()(
     addQuiz: (quiz) =>
       set((state) => {
         state.quizes.push(quiz);
+        state.onEditId = quiz.no;
       }),
     updateQuiz: (id, updatedQuiz) =>
       set((state) => {
         const target = state.quizes.find((q: QuizType) => q.no === id);
         if (target) Object.assign(target, updatedQuiz);
+        else {
+          state.quizes.push(updatedQuiz);
+          state.onEditId = updatedQuiz.no - 1;
+        }
       }),
     deleteQuiz: (id) =>
       set((state) => {
