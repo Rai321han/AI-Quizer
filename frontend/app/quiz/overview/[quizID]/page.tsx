@@ -1,6 +1,7 @@
 "use client";
 import { getQuizDetails, getQuizPerformance } from "@/actions/quiz";
 import Buttonx from "@/components/local/Buttonx";
+import Copy from "@/components/local/Copy";
 import ScoreDisplay from "@/components/local/ScoreDisplay";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -12,12 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import { downloadCsv, formatTime, jsonToCsv } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import {
-  ArrowDownCircleIcon,
-  LockKeyholeIcon,
-  LockKeyholeOpen,
-  UsersRoundIcon,
-} from "lucide-react";
+import { ArrowDownCircleIcon, UsersRoundIcon } from "lucide-react";
 import { use, useEffect, useState } from "react";
 
 type QuizOverviewType = {
@@ -113,12 +109,7 @@ function Overview({
       <div className="flex flex-col gap-3">
         <p className="font-bold text-xl">{overview.title}</p>
         <div className="flex flex-row gap-3 justify-between items-center">
-          <div
-            onClick={() => navigator.clipboard.writeText(link)}
-            className="bg-card min-w-fit p-2 self-start border-1 border-border/20 rounded text-xs cursor-pointer hover:bg-background"
-          >
-            copy link
-          </div>
+          <Copy text={link} label="Copy Link" />
           <div>
             {overview.privacy === "private" ? (
               <Tooltip>

@@ -372,7 +372,7 @@ export class QuizService {
     try {
       const query = `SELECT u.id as user_id, u.name as username, u.email, r.attempt_id, r.score, r.rank, r.started_at
       FROM
-      (SELECT a.quiz_id, a.attempt_id, a.user_id, a.score, RANK() OVER (PARTITION BY a.quiz_id ORDER BY a.score ASC) AS rank, a.started_at
+      (SELECT a.quiz_id, a.attempt_id, a.user_id, a.score, RANK() OVER (PARTITION BY a.quiz_id ORDER BY a.score DESC) AS rank, a.started_at
       FROM attempts a
       WHERE a.quiz_id = $1::UUID) AS r
       JOIN "user" u

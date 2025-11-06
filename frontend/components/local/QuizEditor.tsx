@@ -34,6 +34,7 @@ import Buttonx from "./Buttonx";
 import { toast } from "sonner";
 import { NewQuiz } from "./NewQuiz";
 import AddQuizButton from "./AddQuizButton";
+import Copy from "./Copy";
 
 // `jomkalo/api/sds`
 //`jomkalo/api/sds`
@@ -96,7 +97,7 @@ export default function QuizEditor({
       duration: duration === 0 ? null : duration,
       status: "scheduled",
       title: title,
-      total_marks: null,
+      total_marks: quizes.length,
       meta: null,
       quiz_id,
       privacy: privacy === true ? "public" : "private",
@@ -199,25 +200,7 @@ export default function QuizEditor({
                   <p>{link}</p>
                 </div>
                 <div className="rounded-r-md bg-card p-2 border-1 border-l-0 border-border/20 flex flex-col items-center justify-center">
-                  <div
-                    className="cursor-pointer "
-                    onClick={() => navigator.clipboard.writeText(link)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="stroke-zinc-500 fill-none"
-                    >
-                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                    </svg>
-                  </div>
+                  <Copy text={link} label="Copy" />
                 </div>
               </div>
             </DialogHeader>
