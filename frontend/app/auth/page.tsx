@@ -6,11 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function page() {
   return (
-    <div className="w-full h-screen p-5 flex flex-row justify-center">
+    <div className="w-full h-screen p-5 flex flex-col items-center">
       <Tabs defaultValue="signup" className="p-4  w-full max-w-[500px]">
         <TabsList className="w-full">
           <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -39,6 +40,14 @@ export default function page() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <div className="w-full p-3 rounded-md max-w-[500px] text-xs  border-1 border-yellow-700 bg-yellow-700/5 text-yellow-950">
+        <p className="italic">
+          Note: This demo is hosted on a free-tier service, so the backend may
+          take a few seconds to wake up after being idle. Thanks for your
+          patience!
+        </p>
+      </div>
     </div>
   );
 }
