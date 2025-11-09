@@ -22,6 +22,15 @@ export const auth = betterAuth({
       secure: true,
     },
   },
+
+  socialProviders: {
+    google: {
+      prompt: "select_account",
+      clientId: process.env.CLIENT_ID as string,
+      clientSecret: process.env.CLIENT_SECRET,
+    },
+  },
+
   emailVerification: {
     sendOnSignIn: true,
     sendOnSignUp: true,

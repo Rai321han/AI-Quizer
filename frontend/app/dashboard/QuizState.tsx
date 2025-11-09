@@ -4,7 +4,6 @@ import { getAttemptdQuizesData, getGeneratedQuizesData } from "@/actions/quiz";
 import QuizBrief from "@/components/local/QuizBrief";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 
 type attemptedDataType = {
   quiz_id: string;
