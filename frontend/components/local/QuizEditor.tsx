@@ -34,9 +34,6 @@ import { toast } from "sonner";
 import AddQuizButton from "./AddQuizButton";
 import Copy from "./Copy";
 
-// `jomkalo/api/sds`
-//`jomkalo/api/sds`
-
 export default function QuizEditor({
   title,
   quiz_id,
@@ -103,8 +100,6 @@ export default function QuizEditor({
       data: quizes,
     };
 
-    // save the quiz
-    console.log(quizData);
     const result = await saveQuizToDB(quizData);
 
     if (!result.success) {

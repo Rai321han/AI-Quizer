@@ -42,8 +42,8 @@ export default function page() {
 
       <div className="w-full p-3 rounded-md max-w-[500px] text-xs  border-1 border-yellow-700 bg-yellow-700/5 text-yellow-950">
         <p className="italic">
-          Note: This demo is hosted on a free-tier service, so the backend may
-          take a few seconds to wake up after being idle. Thanks for your
+          Note: This demo is deployed on a free-tier service, so the backend may
+          take a 30-50 seconds to wake up after being idle. Thanks for your
           patience!
         </p>
       </div>

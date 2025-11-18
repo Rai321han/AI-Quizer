@@ -47,8 +47,21 @@ export const useQuiz = create<QuizState>()(
       }),
     deleteQuiz: (id) =>
       set((state) => {
+        // Remove the quiz
         state.quizes = state.quizes.filter((q: QuizType) => q.no !== id);
+
+        // Reassign correct incremental numbers starting from 1
+        state.quizes = state.quizes.map((q, index) => ({
+          ...q,
+          no: index + 1,
+        }));
+
+        // If deleted quiz was currently being edited, reset editId
+        if (state.onEditId === id) {
+          state.onEditId = -1;
+        }
       }),
+
     reset: () => set(() => initialState),
   })),
 );
